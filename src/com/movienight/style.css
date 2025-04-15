@@ -1,0 +1,64 @@
+/* Base styles */
+.root {
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: #f5f5f7;
+}
+
+/* Title styles */
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.header-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Button styles */
+.button {
+    -fx-background-color: #3672b7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 4px;
+}
+
+.button:hover {
+    -fx-background-color: #2a5c96;
+}
+
+.role-button {
+    -fx-min-width: 200px;
+    -fx-min-height: 50px;
+    -fx-font-size: 16px;
+}
+
+/* Status label */
+.status-label {
+    -fx-text-fill: #666;
+    -fx-font-style: italic;
+}
+
+/* Slider customization */
+.slider .track {
+    -fx-background-color: #ccc;
+    -fx-background-radius: 2px;
+}
+
+.slider .thumb {
+    -fx-background-color: #3672b7;
+    -fx-background-radius: 10px;
+}
+
+.slider:hover .thumb {
+    -fx-background-color: #2a5c96;
+}
+
+/* Progress indicator */
+.progress-indicator {
+    -fx-progress-color: #3672b7;
+}
