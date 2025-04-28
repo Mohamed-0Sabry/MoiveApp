@@ -1,0 +1,50 @@
+.root {
+    -fx-background-color: #f0f0f0;
+}
+
+.title {
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 20 0;
+}
+
+.action-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.action-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.control-button {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.control-button:hover {
+    -fx-background-color: #27ae60;
+}
+
+.chat-button {
+    -fx-background-color: #9b59b6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.chat-button:hover {
+    -fx-background-color: #8e44ad;
+}
+
+.status-label {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-style: italic;
+}
+
+#previewImage {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+} 

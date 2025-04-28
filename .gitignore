@@ -56,5 +56,9 @@ run.bat
 
 # run.sh
 run.sh
+setup.bat
 
 test/
+
+.hintrc
+.fake
