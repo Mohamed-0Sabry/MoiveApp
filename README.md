@@ -4,7 +4,7 @@
 	- [ ] Upload movie/video file
 	- [ ] Share screen (maybe via screen capture frames)
 	- [ ] Open camera and broadcast
-	- [ ] Start movie playback (control "play", "pause", "stop" for all viewers)
+	- [ ] Start movie playback (control "play", "pause", "stop" for all viewers) (*Sabry, Still Working, 20%*)
 	- [ ] Allow downloads for viewers
 - [ ] **Viewer Functionality**
 	- [ ] Connect to host on same WLAN
