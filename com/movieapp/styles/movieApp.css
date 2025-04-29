@@ -1,0 +1,10 @@
+/* Title Styling for MovieApp */
+.title {
+    -fx-font-family: "Roboto", Arial, sans-serif;  /* Modern sans-serif font */
+    -fx-font-size: 50px;  /* Adjust the font size */
+    -fx-font-weight: bold;  /* Make the font bold */
+    -fx-text-fill: #FFFFFF;  /* White color */
+    -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 2);  /* Subtle drop shadow for depth */
+    -fx-font-style: normal;  /* Ensure the font is not italicized */
+    -fx-text-alignment: center;  /* Align the text centrally */
+}
