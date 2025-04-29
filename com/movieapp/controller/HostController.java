@@ -59,7 +59,7 @@ public class HostController {
     private void onStartScreenShareClicked() {
         if (!streamSession.isScreenSharing()) {
             streamSession.startScreenShare();
-            ScreenCaptureUtils.startScreenCapture(this::handleScreenFrame, 15);
+            ScreenCaptureUtils.startScreenCapture(this::handleScreenFrame, 60);
             updateConnectionStatus("Screen sharing started");
         } else {
             streamSession.stopScreenShare();

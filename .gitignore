@@ -52,7 +52,7 @@ nbdist/
 .nb-gradle/
 
 # run.bat
-run.bat
+# run.bat
 
 # run.sh
 run.sh
