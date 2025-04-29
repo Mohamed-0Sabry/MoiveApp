@@ -1,4 +1,4 @@
-package com.movieapp.controller;
+package comm.demo.controller;
 
 import com.movieapp.network.Client;
 import com.movieapp.network.Server;

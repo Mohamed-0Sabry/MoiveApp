@@ -1,4 +1,4 @@
-package com.movieapp.utils;
+package comm.demo.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;

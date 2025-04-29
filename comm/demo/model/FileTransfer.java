@@ -1,4 +1,4 @@
-package com.movieapp.model;
+package comm.demo.model;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.movieapp.controller;
+package comm.demo.controller;
 import com.movieapp.Main;
 import com.movieapp.model.StreamSession;
 import com.movieapp.network.Server;

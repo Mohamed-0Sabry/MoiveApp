@@ -1,4 +1,4 @@
-package com.movieapp.utils;
+package comm.demo.utils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

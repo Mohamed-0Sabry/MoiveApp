@@ -1,4 +1,4 @@
-package com.movieapp.model;
+package comm.demo.model;
 
 import java.net.Socket;
 

@@ -1,4 +1,4 @@
-package com.movieapp.network;
+package comm.demo.network;
 
 import com.movieapp.model.FileTransfer;
 import java.io.*;

@@ -1,4 +1,4 @@
-package com.movieapp.model;
+package comm.demo.model;
 
 public class StreamSession {
     private boolean isScreenSharing;
