@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.movieapp.controller.HostController" spacing="20" alignment="CENTER">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Movie Night - Host" styleClass="title" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Upload Movie" onAction="#onUploadFileClicked" styleClass="action-button">
+            <minWidth>150</minWidth>
+            <minHeight>40</minHeight>
+        </Button>
+        <Button text="Share Screen" onAction="#onStartScreenShareClicked" styleClass="action-button">
+            <minWidth>150</minWidth>
+            <minHeight>40</minHeight>
+        </Button>
+        <Button text="Start Camera" onAction="#onStartCameraShareClicked" styleClass="action-button">
+            <minWidth>150</minWidth>
+            <minHeight>40</minHeight>
+        </Button>
+    </HBox>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Play" onAction="#onPlayClicked" styleClass="control-button">
+            <minWidth>100</minWidth>
+            <minHeight>40</minHeight>
+        </Button>
+        <Button text="Pause" onAction="#onPauseClicked" styleClass="control-button">
+            <minWidth>100</minWidth>
+            <minHeight>40</minHeight>
+        </Button>
+        <Button text="Stop" onAction="#onStopClicked" styleClass="control-button">
+            <minWidth>100</minWidth>
+            <minHeight>40</minHeight>
+        </Button>
+    </HBox>
+
+    <ImageView fx:id="previewImage" fitWidth="640" fitHeight="360" preserveRatio="true">
+        <VBox.margin>
+            <Insets top="20"/>
+        </VBox.margin>
+    </ImageView>
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Open Chat" onAction="#onOpenChatClicked" styleClass="chat-button">
+            <minWidth>150</minWidth>
+            <minHeight>40</minHeight>
+        </Button>
+        <Label fx:id="connectionStatus" text="Waiting for connections..." styleClass="status-label"/>
+    </HBox>
+</VBox>

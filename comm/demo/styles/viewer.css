@@ -1,0 +1,62 @@
+.root {
+    -fx-background-color: #f0f0f0;
+}
+
+.title {
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 20 0;
+}
+
+.text-field {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+}
+
+.text-field:focused {
+    -fx-border-color: #3498db;
+}
+
+.connect-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.connect-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.action-button {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.action-button:hover {
+    -fx-background-color: #27ae60;
+}
+
+.chat-button {
+    -fx-background-color: #9b59b6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.chat-button:hover {
+    -fx-background-color: #8e44ad;
+}
+
+.status-label {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-style: italic;
+}
+
+#streamImage {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+} 
