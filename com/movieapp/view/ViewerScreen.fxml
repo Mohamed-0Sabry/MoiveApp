@@ -1,59 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.movieapp.controller.HostController" spacing="20" alignment="CENTER">
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-
-    <Label text="Movie Night - Host" styleClass="title" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="Upload Movie" onAction="#onUploadFileClicked" styleClass="action-button">
-            <minWidth>150</minWidth>
-            <minHeight>40</minHeight>
-        </Button>
-        <Button text="Share Screen" onAction="#onStartScreenShareClicked" styleClass="action-button">
-            <minWidth>150</minWidth>
-            <minHeight>40</minHeight>
-        </Button>
-        <Button text="Start Camera" onAction="#onStartCameraShareClicked" styleClass="action-button">
-            <minWidth>150</minWidth>
-            <minHeight>40</minHeight>
-        </Button>
-    </HBox>
-
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="Play" onAction="#onPlayClicked" styleClass="control-button">
-            <minWidth>100</minWidth>
-            <minHeight>40</minHeight>
-        </Button>
-        <Button text="Pause" onAction="#onPauseClicked" styleClass="control-button">
-            <minWidth>100</minWidth>
-            <minHeight>40</minHeight>
-        </Button>
-        <Button text="Stop" onAction="#onStopClicked" styleClass="control-button">
-            <minWidth>100</minWidth>
-            <minHeight>40</minHeight>
-        </Button>
-    </HBox>
-
-    <ImageView fx:id="previewImage" fitWidth="640" fitHeight="360" preserveRatio="true">
-        <VBox.margin>
-            <Insets top="20"/>
-        </VBox.margin>
-    </ImageView>
-
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="Open Chat" onAction="#onOpenChatClicked" styleClass="chat-button">
-            <minWidth>150</minWidth>
-            <minHeight>40</minHeight>
-        </Button>
-        <Label fx:id="connectionStatus" text="Waiting for connections..." styleClass="status-label"/>
-    </HBox>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/viewer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER_LEFT" layoutX="39.0" layoutY="18.0" prefHeight="45.0" prefWidth="165.0">
+         <children>
+            <ImageView fitHeight="34.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@image/viewer .png" />
+               </image>
+            </ImageView>
+            <Label prefHeight="17.0" prefWidth="67.0" style="-fx-font-weight: bold; -fx-font-weight: bold;" styleClass="title" text="Viewer">
+               <font>
+                  <Font name="Arial Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="39.0" layoutY="67.0" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#313436" height="245.0" stroke="BLACK" strokeType="INSIDE" width="507.0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutX="35.0" layoutY="329.0" prefHeight="61.0" prefWidth="522.0">
+         <children>
+            <Button accessibleRole="IMAGE_VIEW" mnemonicParsing="false" prefHeight="38.0" prefWidth="49.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/connection.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Region prefHeight="41.0" prefWidth="15.0" />
+            <Button layoutX="213.0" layoutY="19.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/online-streaming.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Region layoutX="123.0" layoutY="10.0" prefHeight="41.0" prefWidth="15.0" />
+            <Button layoutX="213.0" layoutY="19.0" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/chat.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Region layoutX="179.0" layoutY="17.0" prefHeight="41.0" prefWidth="15.0" />
+            <Button mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/fullscreen.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Region layoutX="59.0" layoutY="10.0" prefHeight="41.0" prefWidth="15.0" />
+            <Button mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/downloads.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Region layoutX="186.0" layoutY="10.0" prefHeight="47.0" prefWidth="167.0" />
+            <Button mnemonicParsing="false">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/heart.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
