@@ -1,7 +1,4 @@
 package com.movieapp;
-
-import com.movieapp.controller.HostController;
-import com.movieapp.controller.ViewerController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -11,8 +8,6 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private static Stage primaryStage;
-    private static HostController hostController;
-    private static ViewerController viewerController;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -30,13 +25,9 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Movie Night - Host");
         primaryStage.setOnCloseRequest(event -> {
-            if (hostController != null) {
-                hostController.stop();
-            }
             Platform.exit();
             System.exit(0);
         });
-        hostController = loader.getController();
         primaryStage.show();
     }
 
@@ -48,12 +39,8 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Movie Night - Viewer");
-        viewerController = loader.getController();
 
         primaryStage.setOnCloseRequest(event -> {
-            if (viewerController != null) {
-                viewerController.stop();
-            }
             Platform.exit();
             System.exit(0);
         });
