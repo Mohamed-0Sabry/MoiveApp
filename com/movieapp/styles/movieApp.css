@@ -1,5 +1,4 @@
 
-
 /* Title Styling for MovieApp */
 .title {
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0.0, 0, 3);  /* Subtle drop shadow for depth */
@@ -13,14 +12,19 @@
 }
 /* Apply background gradient to AnchorPane */
 AnchorPane {
-    -fx-background: linear-gradient(to bottom, #82c7ff, #d3f2ff); /* Soft blue gradient */
+    -fx-background-color: #82c7ff, rgba(0, 0, 0, 0.3);
+    -fx-background-image: url("../view/image/Background.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+
     -fx-pref-width: 600;
     -fx-pref-height: 400;
 }
 Button {
     -fx-background-color: #70a9ff; /* Lighter blue color */
     -fx-text-fill: #ffffff;
-    -fx-font-size: 15px;
+    -fx-font-size: 25px;
     -fx-padding: 12px 35px; /* Adjust padding for more oval shape */
     -fx-border-radius: 20px; /* Slightly sharper radius */
     -fx-border: 2px solid #70a9ff; /* Subtle border to define button shape */
@@ -42,11 +46,10 @@ Button:pressed {
     -fx-background-color: #3871c4; /* Even darker blue when pressed */
     -fx-border-color: #3871c4;
     -fx-text-fill: #ffffff;
-    -fx-transform: scale(1.4); /* Slightly bigger size when clicked */
+    -fx-transform: scale(1.7); /* Slightly bigger size when clicked */
     -fx-transition: all 0.6s ease-in-out; /* Smoother transition when clicked */
 }
 
 .Region {
     -fx-pref-width: 45;
 }
-
