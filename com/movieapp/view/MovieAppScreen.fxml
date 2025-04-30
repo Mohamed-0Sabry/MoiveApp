@@ -14,9 +14,9 @@
    <children>
       <HBox alignment="CENTER" layoutX="148.0" layoutY="7.0" prefHeight="89.0" prefWidth="305.0">
          <children>
-            <Label prefHeight="39.0" prefWidth="161.0" style="-fx-font-weight: bold;" styleClass="title" stylesheets="@../styles/movieApp.css" text="MovieApp" textAlignment="CENTER" textFill="#fdfdfd">
+            <Label prefHeight="39.0" prefWidth="148.0" style="-fx-font-weight: bold;" styleClass="title" stylesheets="@../styles/movieApp.css" text="MovieApp" textAlignment="CENTER" textFill="#fdfdfd">
                <font>
-                  <Font name="Script MT Bold" size="33.0" />
+                  <Font name="Tahoma" size="30.0" />
                </font>
             </Label>
          </children>
@@ -39,18 +39,18 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="160.0" layoutY="279.0" prefHeight="63.0" prefWidth="279.0">
+      <HBox alignment="CENTER" layoutX="103.0" layoutY="270.0" prefHeight="63.0" prefWidth="396.0">
          <children>
             <Button mnemonicParsing="false" text="Host">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <font>
-                  <Font name="Tahoma Bold" size="19.0" />
+                  <Font name="Impact" size="19.0" />
                </font>
             </Button>
             <Region prefHeight="63.0" prefWidth="45.0" />
-            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="34.0" prefWidth="114.0" text="Viewer">
+            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="119.0" text="Viewer">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
