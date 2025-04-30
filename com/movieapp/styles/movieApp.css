@@ -1,10 +1,57 @@
+
+
 /* Title Styling for MovieApp */
 .title {
-    -fx-font-family: "Roboto", Arial, sans-serif;  /* Modern sans-serif font */
-    -fx-font-size: 50px;  /* Adjust the font size */
-    -fx-font-weight: bold;  /* Make the font bold */
-    -fx-text-fill: #FFFFFF;  /* White color */
-    -fx-effect: dropshadow(gaussian, #000000, 5, 0.3, 0, 2);  /* Subtle drop shadow for depth */
-    -fx-font-style: normal;  /* Ensure the font is not italicized */
-    -fx-text-alignment: center;  /* Align the text centrally */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0.0, 0, 3);  /* Subtle drop shadow for depth */
+
 }
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Apply background gradient to AnchorPane */
+AnchorPane {
+    -fx-background: linear-gradient(to bottom, #82c7ff, #d3f2ff); /* Soft blue gradient */
+    -fx-pref-width: 600;
+    -fx-pref-height: 400;
+}
+Button {
+     -fx-background-color: #70a9ff; /* Lighter blue color */
+     -fx-text-fill: #ffffff;
+     -fx-font-size: 16px;
+     -fx-padding: 12px 30px;
+     -fx-border-radius: 25px; /* Fixed radius */
+     -fx-border: 2px solid #70a9ff; /* Subtle border to define button shape */
+     -fx-cursor: hand;
+     -fx-font-weight: bold;
+     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0.0, 0, 3); /* Subtle shadow effect */
+     -fx-transition: all 0.5s ease; /* Smooth transition for hover effect */
+ }
+
+ Button:hover {
+     -fx-background-color: #4997f4; /* Slightly darker blue on hover */
+     -fx-border-color: #4997f4; /* Darker border on hover */
+     -fx-text-fill: #ffffff;
+     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0.0, 0, 3); /* Darker shadow on hover */
+     -fx-transform: scale(1.1); /* Slight grow effect on hover */
+ }
+
+ Button:pressed {
+     -fx-background-color: #3871c4; /* Even darker blue when pressed */
+     -fx-border-color: #3871c4;
+     -fx-text-fill: #ffffff;
+     -fx-transform: scale(1); /* Reset scale to normal size when pressed */
+ }
+
+
+Button:hover {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+}
+
+.Region {
+    -fx-pref-width: 45;
+}
+
