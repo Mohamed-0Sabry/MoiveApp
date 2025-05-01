@@ -14,7 +14,7 @@ Button {
     -fx-background-color: #707cff; /* Lighter blue color */
     -fx-text-fill: #ffffff;
     -fx-font-size: 25px;
-    -fx-padding: 15px 35px; /* Adjust padding for more oval shape */
+    -fx-padding: 10px 25px; /* Adjust padding for more oval shape */
     -fx-background-radius: 95px;
     -fx-border-radius: 95px;/* Slightly sharper radius */
     -fx-border: 2px solid #7c70ff; /* Subtle border to define button shape */

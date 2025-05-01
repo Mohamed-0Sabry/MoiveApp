@@ -49,25 +49,32 @@
                <children>
                   <Label alignment="CENTER" lineSpacing="9.0" prefHeight="43.0" prefWidth="607.0" text="The Ultimate Movie Night Experince " textAlignment="CENTER" textFill="#4f4e63">
                      <font>
-                        <Font name="Antipasto Pro Light" size="30.0" />
+                        <Font name="Poppins Regular" size="30.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <Label prefHeight="23.0" prefWidth="537.0" text="                                                                                                                                                                   " underline="true" />
+            <Label prefHeight="41.0" prefWidth="537.0" text="                                                                                                                                                                   " underline="true" />
             <VBox alignment="CENTER" prefHeight="107.0" prefWidth="642.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="86.0" prefWidth="635.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="65.0" prefWidth="135.0" text="Host">
+                        <Button mnemonicParsing="false" prefHeight="65.0" prefWidth="163.0" text="Host">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <font>
                               <Font name="Impact" size="48.0" />
                            </font>
+                              <graphic>
+                                 <ImageView fitHeight="32.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../../../../../Downloads/icons8-movie-50.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
                         </Button>
-                        <Region prefHeight="86.0" prefWidth="24.0" />
+                        <Region prefHeight="86.0" prefWidth="47.0" />
                         <Button alignment="CENTER" mnemonicParsing="false" prefHeight="65.0" prefWidth="163.0" text="Viewer">
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -75,12 +82,19 @@
                            <font>
                               <Font name="Nunito Regular" size="24.0" />
                            </font>
+                              <graphic>
+                                 <ImageView fitHeight="27.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../../../../../Downloads/icons8-watch-movie-68.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
                         </Button>
                      </children>
                   </HBox>
                </children>
             </VBox>
-               <HBox alignment="CENTER" prefHeight="55.0" prefWidth="1082.0">
+               <HBox alignment="CENTER" prefHeight="77.0" prefWidth="1082.0">
                   <children>
                      <Button alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="154.0" style="-fx-background-radius: 15px; -fx-border-radius: 15px; -fx-font-size: 15 px; -fx-background-color: #838dff;" text="Learn More">
                         <cursor>
@@ -90,10 +104,9 @@
                            <Font name="Nunito ExtraBold" size="18.0" />
                         </font>
                      </Button>
-                     <Region prefHeight="55.0" prefWidth="29.0" />
                   </children>
                </HBox>
-               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <HBox alignment="CENTER" prefHeight="41.0" prefWidth="1082.0">
                   <children>
                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="96.0">
                         <children>

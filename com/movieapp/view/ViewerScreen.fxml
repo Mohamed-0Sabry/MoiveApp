@@ -17,7 +17,7 @@
 
 <StackPane prefHeight="397.0" prefWidth="643.0" stylesheets="@../styles/viewer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
          <children>
-            <AnchorPane prefHeight="379.0" prefWidth="600.0">
+            <AnchorPane prefHeight="379.0" prefWidth="600.0" style="-fx-background-color: grey;">
                <children>
                   <VBox layoutY="-46.666666666666664" prefHeight="397.0" prefWidth="692.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
@@ -42,12 +42,29 @@
                         </HBox>
                   
                         <!-- Video or Stream Window (Centered) -->
-                        <VBox alignment="CENTER" prefHeight="267.0" prefWidth="643.0">
+                        <VBox alignment="CENTER" prefHeight="282.0" prefWidth="643.0">
                            <children>
-                        <MediaView fitHeight="200.0" fitWidth="200.0" styleClass="mediaView" />
+                        <HBox alignment="CENTER" prefHeight="287.0" prefWidth="643.0">
+                           <children>
+                              <HBox prefHeight="227.0" prefWidth="518.0" style="-fx-background-color: black;">
+                                 <children>
+                                    <MediaView fitHeight="200.0" fitWidth="200.0" styleClass="mediaView" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="15.0" prefWidth="643.0">
+                           <children>
+                              <Label style="-fx-font-weight: bold;" text="00/00" textFill="WHITE">
+                                 <font>
+                                    <Font name="Nunito Regular" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                            </children>
                         </VBox>
-                  <VBox prefHeight="44.0" prefWidth="643.0">
+                  <VBox prefHeight="0.0" prefWidth="643.0">
                      <children>
                         
                               <!-- Button Bar at the Bottom -->
@@ -56,18 +73,18 @@
                               <Region prefHeight="45.0" prefWidth="48.0" />
                               <HBox alignment="CENTER_LEFT" prefHeight="74.0" prefWidth="349.0">
                                  <children>
-                                          <Button alignment="TOP_CENTER" graphicTextGap="7.0" prefHeight="33.0" prefWidth="28.0" styleClass="custom-button">
-                                             <graphic>
-                                                <ImageView fitHeight="18.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@image/social-network.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
+                                    <Button alignment="CENTER" graphicTextGap="7.0" styleClass="custom-button">
+                                       <graphic>
+                                          <ImageView fitHeight="18.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@image/social-network.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
                                        <tooltip>
                                           <Tooltip text="Click to Chat" />
                                        </tooltip>
-                                          </Button>
+                                    </Button>
                                     <Region prefHeight="74.0" prefWidth="13.0" />
                                           <Button alignment="CENTER" graphicTextGap="7.0" styleClass="custom-button">
                                              <graphic>
@@ -123,8 +140,12 @@
                                     <Region prefHeight="74.0" prefWidth="12.0" />
                                     <StackPane prefHeight="49.0" prefWidth="112.0">
                                        <children>
-                                          <ProgressBar prefHeight="23.0" prefWidth="119.0" progress="0.0" styleClass="downloadProgress" />
-                                          <Label prefHeight="23.0" prefWidth="83.0" styleClass="progressLabel" text="Downloading... 0%" />
+                                          <ProgressBar prefHeight="13.0" prefWidth="112.0" progress="0.0" styleClass="downloadProgress" />
+                                          <Label opacity="0.45" prefHeight="23.0" prefWidth="64.0" styleClass="progressLabel" text="Downloading...">
+                                             <font>
+                                                <Font name="Nunito Regular" size="7.0" />
+                                             </font>
+                                          </Label>
                                        </children>
                                     </StackPane>
                                  </children>

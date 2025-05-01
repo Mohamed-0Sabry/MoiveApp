@@ -4,7 +4,7 @@
     -fx-background-radius: 30%;
     -fx-cursor: hand;
     -fx-font-weight: bold;
-    -fx-padding: 10px;
+    -fx-padding: 5px;
     -fx-alignment: CENTER;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0.0, 0, 3);
 }
@@ -15,12 +15,6 @@
     -fx-font-weight: bold;
     -fx-text-fill: #333333;
 }
-
-/* Style for Icons */
-.custom-button .graphic {
-    -fx-padding: 0;
-}
-
 /* Hover Effect for Buttons */
 .custom-button:hover {
     -fx-background-color: #5e56d4;
@@ -32,10 +26,6 @@
 .custom-button:pressed {
     -fx-background-color: #786fff;
     -fx-transform: scale(0.95);
-}
-
-.heart-button:hover {
-    -fx-background-color: #FF4D40;
 }
 .mediaView {
 -fx-border-color: #999999; /* Light gray border color */
@@ -52,7 +42,6 @@
 .progressLabel {
     -fx-text-fill: black; /* White text color */
     -fx-font-size: 8px;  /* Font size */
-    -fx-font-weight: bold; /* Make the text bold */
     -fx-padding: 5px; /* Padding around the text */
 }
 
