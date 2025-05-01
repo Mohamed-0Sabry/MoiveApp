@@ -8,66 +8,86 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/movieApp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="stackPane" prefHeight="548.0" prefWidth="1152.0" styleClass="stack-pane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <VBox alignment="CENTER_LEFT" prefHeight="431.0" prefWidth="831.0">
+      <children>
+         <ImageView fitHeight="431.0" fitWidth="585.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@image/movieApp%20(2).png" />
+            </image>
+         </ImageView>
+      </children>
+   </VBox>
+<AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/movieApp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER" layoutX="148.0" layoutY="7.0" prefHeight="89.0" prefWidth="305.0">
+      <VBox alignment="BOTTOM_LEFT" prefHeight="625.0" prefWidth="1171.0" style="-fx-background-color: light red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label prefHeight="39.0" prefWidth="148.0" style="-fx-font-weight: bold;" styleClass="title" stylesheets="@../styles/movieApp.css" text="MovieApp" textAlignment="CENTER" textFill="#fdfdfd">
+            <Label prefHeight="21.0" prefWidth="337.0" style="-fx-font-weight: bold;" text="Designed by @Mobarmigen | Movie Night App 2025" wrapText="true">
                <font>
-                  <Font name="Tahoma" size="30.0" />
+                  <Font name="Yu Gothic Light" size="15.0" />
                </font>
             </Label>
          </children>
-      </HBox>
-      <HBox layoutX="224.0" layoutY="65.0" prefHeight="150.0" prefWidth="154.0">
+      </VBox>
+      <VBox alignment="CENTER" layoutX="302.0" prefHeight="431.0" prefWidth="761.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="302.0" AnchorPane.rightAnchor="-232.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="181.0" fitWidth="153.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@image/Picture2.png" />
-               </image>
-            </ImageView>
+            <HBox alignment="CENTER" opacity="0.0" prefHeight="55.0" prefWidth="1028.0">
+               <children>
+                  <ImageView fitHeight="81.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="151.0" prefWidth="1028.0">
+               <children>
+                  <Label prefHeight="83.0" prefWidth="272.0" style="-fx-font-weight: bold;" styleClass="title" stylesheets="@../styles/movieApp.css" text="Movie Night" textAlignment="CENTER" textFill="#46455b" wrapText="true">
+                     <font>
+                        <Font name="Anton" size="55.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="1028.0">
+               <children>
+                  <Label alignment="CENTER" lineSpacing="9.0" prefHeight="51.0" prefWidth="627.0" text="The Ultimate Movie Night Experince " textAlignment="CENTER" textFill="#4f4e63">
+                     <font>
+                        <Font name="Nirmala UI" size="35.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label prefHeight="23.0" prefWidth="619.0" text=".                                                                                                                                                                                      ." underline="true" />
+            <VBox alignment="CENTER" prefHeight="107.0" prefWidth="642.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="86.0" prefWidth="635.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="65.0" prefWidth="135.0" text="Host">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font name="Impact" size="48.0" />
+                           </font>
+                        </Button>
+                        <Region prefHeight="63.0" prefWidth="45.0" />
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="65.0" prefWidth="163.0" text="Viewer">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font name="Tahoma Bold" size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
          </children>
-      </HBox>
-      <HBox alignment="CENTER" layoutX="117.0" layoutY="215.0" prefHeight="55.0" prefWidth="367.0">
-         <children>
-            <Label text="The Ultimate Movie Night Experince " textAlignment="CENTER">
-               <font>
-                  <Font name="Nirmala UI" size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" layoutX="103.0" layoutY="270.0" prefHeight="63.0" prefWidth="396.0">
-         <children>
-            <Button mnemonicParsing="false" text="Host">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <font>
-                  <Font name="Impact" size="19.0" />
-               </font>
-            </Button>
-            <Region prefHeight="63.0" prefWidth="45.0" />
-            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="119.0" text="Viewer">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <font>
-                  <Font name="Tahoma Bold" size="24.0" />
-               </font>
-            </Button>
-         </children>
-      </HBox>
-      <HBox alignment="BOTTOM_LEFT" layoutX="4.0" layoutY="375.0" prefHeight="21.0" prefWidth="593.0">
-         <children>
-            <Label prefHeight="21.0" prefWidth="306.0" style="-fx-font-weight: bold;" text="Designed by @Mobarmigen | Movie Night App 2025">
-               <font>
-                  <Font name="Yu Gothic Light" size="10.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
+      </VBox>
    </children>
 </AnchorPane>
+</StackPane>
