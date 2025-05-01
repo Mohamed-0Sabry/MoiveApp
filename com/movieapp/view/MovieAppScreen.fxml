@@ -12,19 +12,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackPane" styleClass="stack-pane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="stackPane" prefHeight="548.0" prefWidth="1152.0" styleClass="stack-pane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <VBox alignment="CENTER_LEFT" prefHeight="431.0" prefWidth="831.0">
+      <children>
+         <ImageView fitHeight="431.0" fitWidth="585.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@image/movieApp%20(2).png" />
+            </image>
+         </ImageView>
+      </children>
+   </VBox>
 <AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/movieApp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="BOTTOM_RIGHT" opacity="0.71" prefHeight="427.0" prefWidth="637.0" AnchorPane.bottomAnchor="-27.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-37.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fitHeight="204.0" fitWidth="219.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@image/ticket.png" />
-               </image>
-            </ImageView>
-         </children>
-      </HBox>
-      <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="BOTTOM_LEFT" prefHeight="625.0" prefWidth="1171.0" style="-fx-background-color: light red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label prefHeight="21.0" prefWidth="337.0" style="-fx-font-weight: bold;" text="Designed by @Mobarmigen | Movie Night App 2025" wrapText="true">
                <font>
@@ -33,36 +33,34 @@
             </Label>
          </children>
       </VBox>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="302.0" prefHeight="431.0" prefWidth="761.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="302.0" AnchorPane.rightAnchor="-232.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="198.0" prefWidth="600.0">
+            <HBox alignment="CENTER" opacity="0.0" prefHeight="55.0" prefWidth="1028.0">
                <children>
-                  <ImageView fitHeight="309.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@image/Picture2.png" />
-                     </image>
+                  <ImageView fitHeight="81.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+
                   </ImageView>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="73.0" prefWidth="654.0">
+            <HBox alignment="CENTER" prefHeight="151.0" prefWidth="1028.0">
                <children>
-                  <Label prefHeight="67.0" prefWidth="217.0" style="-fx-font-weight: bold;" styleClass="title" stylesheets="@../styles/movieApp.css" text="Movie Night" textAlignment="CENTER" textFill="#fdfdfd" wrapText="true">
+                  <Label prefHeight="83.0" prefWidth="272.0" style="-fx-font-weight: bold;" styleClass="title" stylesheets="@../styles/movieApp.css" text="Movie Night" textAlignment="CENTER" textFill="#46455b" wrapText="true">
                      <font>
-                        <Font name="Anton" size="45.0" />
+                        <Font name="Anton" size="55.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="600.0">
+            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="1028.0">
                <children>
-                  <Label alignment="CENTER" lineSpacing="9.0" prefHeight="68.0" prefWidth="454.0" text="The Ultimate Movie Night Experince " textAlignment="CENTER">
+                  <Label alignment="CENTER" lineSpacing="9.0" prefHeight="51.0" prefWidth="627.0" text="The Ultimate Movie Night Experince " textAlignment="CENTER" textFill="#4f4e63">
                      <font>
-                        <Font name="Nirmala UI" size="28.0" />
+                        <Font name="Nirmala UI" size="35.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <Label prefHeight="31.0" prefWidth="503.0" text=".                                                                                                                                                      ." underline="true" />
+            <Label prefHeight="23.0" prefWidth="619.0" text=".                                                                                                                                                                                      ." underline="true" />
             <VBox alignment="CENTER" prefHeight="107.0" prefWidth="642.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="86.0" prefWidth="635.0">
@@ -90,15 +88,6 @@
             </VBox>
          </children>
       </VBox>
-      <HBox opacity="0.37" prefHeight="417.0" prefWidth="1117.0">
-         <children>
-            <ImageView fitHeight="195.0" fitWidth="182.0" pickOnBounds="true" preserveRatio="true" rotate="16.7">
-               <image>
-                  <Image url="@image/movie.png" />
-               </image>
-            </ImageView>
-         </children>
-      </HBox>
    </children>
 </AnchorPane>
 </StackPane>

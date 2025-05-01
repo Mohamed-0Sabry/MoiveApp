@@ -10,46 +10,32 @@
     padding: 0;
     box-sizing: border-box;
 }
-/* Apply background gradient to AnchorPane */
-AnchorPane {
-    -fx-background-color: #82c7ff, rgba(0, 0, 0, 0.3);
-    -fx-background-image: url("../view/image/Background.jpg");
-    -fx-background-repeat: no-repeat;
-    -fx-background-size: cover;
-    -fx-background-position: center;
-
-    -fx-pref-width: 600;
-    -fx-pref-height: 400;
-}
 Button {
-    -fx-background-color: #70a9ff; /* Lighter blue color */
+    -fx-background-color: #707cff; /* Lighter blue color */
     -fx-text-fill: #ffffff;
     -fx-font-size: 25px;
     -fx-padding: 12px 35px; /* Adjust padding for more oval shape */
     -fx-border-radius: 20px; /* Slightly sharper radius */
-    -fx-border: 2px solid #70a9ff; /* Subtle border to define button shape */
+    -fx-border: 2px solid #7c70ff; /* Subtle border to define button shape */
     -fx-cursor: hand;
     -fx-font-weight: bold;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0.0, 0, 3); /* Subtle shadow effect */
     -fx-transition: all 0.3s ease; /* Smooth transition for hover effect */
 }
-
 Button:hover {
-    -fx-background-color: #4997f4; /* Slightly darker blue on hover */
-    -fx-border-color: #4997f4; /* Darker border on hover */
+    -fx-background-color: #5449f4; /* Slightly darker blue on hover */
+    -fx-border-color: #5a49f4; /* Darker border on hover */
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0.0, 0, 3); /* Darker shadow on hover */
     -fx-transform: scale(1.05); /* Subtle grow effect on hover */
 }
-
 Button:pressed {
-    -fx-background-color: #3871c4; /* Even darker blue when pressed */
-    -fx-border-color: #3871c4;
+    -fx-background-color: #384fc4; /* Even darker blue when pressed */
+    -fx-border-color: #3848c4;
     -fx-text-fill: #ffffff;
     -fx-transform: scale(1.7); /* Slightly bigger size when clicked */
     -fx-transition: all 0.6s ease-in-out; /* Smoother transition when clicked */
 }
-
 .Region {
     -fx-pref-width: 45;
 }
