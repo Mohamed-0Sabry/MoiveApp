@@ -1,0 +1,183 @@
+/* Main application styling */
+
+.root{
+    -fx-background-color: #F8F7EE ;
+    -fx-background-radius: 10;
+}
+/* Main anchor pane */
+#mainAP {
+    -fx-background-color:white ;
+    -fx-background-radius: 10;
+}
+
+/* Window control styling */
+.window-buttons-container {
+    -fx-padding: 10 0 0 10;
+    -fx-spacing: 8;
+    -fx-alignment: center-left;
+}
+
+/* Header styling */
+.header {
+    -fx-background-color: transparent;
+    -fx-padding: 5 0 0 0;
+}
+.window-button {
+    -fx-cursor: hand;
+}
+
+.window-button-close:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(255,0,0,0.3), 3, 0, 0, 0);
+}
+
+.window-button-minimize:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(255,255,0,0.3), 3, 0, 0, 0);
+}
+
+.window-button-maximize:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,255,0,0.3), 3, 0, 0, 0);
+}
+
+/* Scroll pane customization */
+.scroll-pane {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-background-radius: 10;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 8;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255, 122, 122, 0.6);
+    -fx-background-radius: 4;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(255, 122, 122, 0.8);
+}
+
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:vertical .increment-button,
+.scroll-pane .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane .corner {
+    -fx-background-color: transparent;
+}
+
+/* Message box container */
+#messagesBox {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+}
+
+/* Styling for incoming message bubbles */
+.message-bubble-left {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-padding: 10 15 10 15;
+    -fx-max-width: 280;
+    -fx-wrap-text: true;
+    -fx-font-size: 14;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 0);
+}
+
+/* Styling for outgoing message bubbles */
+.message-bubble-right {
+    -fx-background-color: #FF9E9E;
+    -fx-background-radius: 15;
+    -fx-padding: 10 15 10 15;
+    -fx-max-width: 280;
+    -fx-wrap-text: true;
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 0);
+}
+
+/* Input field styling */
+.text-field {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 8 15 8 15;
+    -fx-font-size: 14;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 0);
+}
+
+.text-field:focused {
+    -fx-background-color: white;
+    -fx-border-color: #FF9E9E;
+    -fx-border-radius: 20;
+    -fx-border-width: 1;
+}
+
+/* Send button styling */
+.send-button, #sendButton {
+    -fx-background-color: white;
+    -fx-background-radius: 50%;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16;
+    -fx-min-width: 35;
+    -fx-min-height: 35;
+    -fx-max-width: 35;
+    -fx-max-height: 35;
+    -fx-padding: 0;
+    -fx-content-display: center;
+    -fx-alignment: center;
+    -fx-graphic: url('../images/send-icon.png');
+}
+
+.send-button:hover, #sendButton:hover {
+    -fx-background-color: white;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);
+}
+
+.send-button:pressed, #sendButton:pressed {
+    -fx-background-color: white;
+}
+
+/* Emoji and image button styling */
+#emojiButton, #imageButton, .button {
+    -fx-background-color: white;
+    -fx-background-radius: 50%;
+    -fx-min-width: 30;
+    -fx-min-height: 30;
+    -fx-max-width: 30;
+    -fx-max-height: 30;
+    -fx-padding: 0;
+    -fx-content-display: center;
+    -fx-alignment: center;
+    -fx-border-color: white;
+    -fx-border-radius: 50%;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 0);
+}
+#emojiButton:hover, #imageButton:hover, .button:hover {
+    -fx-background-color: #FFF5F5;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 3, 0, 0, 0);
+}
+
+#emojiButton:pressed, #imageButton:pressed, .button:pressed {
+    -fx-background-color: #FFEAEA;
+}
+
+/* Emoji container in messages */
+.emoji-container {
+    -fx-alignment: center;
+    -fx-padding: 5;
+}

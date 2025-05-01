@@ -2,7 +2,8 @@ package comm.demo.controller;
 import com.movieapp.Main;
 import com.movieapp.model.StreamSession;
 import com.movieapp.network.Server;
-import com.movieapp.utils.ScreenCaptureUtils;
+
+import comm.demo.utils.ScreenCaptureUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

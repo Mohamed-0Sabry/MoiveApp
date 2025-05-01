@@ -1,7 +1,7 @@
 package comm.demo;
 
-import com.movieapp.controller.HostController;
-import com.movieapp.controller.ViewerController;
+import comm.demo.controller.HostController;
+import comm.demo.controller.ViewerController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

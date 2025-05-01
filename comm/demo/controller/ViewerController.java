@@ -3,7 +3,6 @@ package comm.demo.controller;
 import com.movieapp.Main;
 import com.movieapp.model.FileTransfer;
 import com.movieapp.network.Client;
-import com.movieapp.utils.FileUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
