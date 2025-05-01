@@ -15,7 +15,8 @@ Button {
     -fx-text-fill: #ffffff;
     -fx-font-size: 25px;
     -fx-padding: 12px 35px; /* Adjust padding for more oval shape */
-    -fx-border-radius: 20px; /* Slightly sharper radius */
+    -fx-background-radius: 95px;
+    -fx-border-radius: 95px;/* Slightly sharper radius */
     -fx-border: 2px solid #7c70ff; /* Subtle border to define button shape */
     -fx-cursor: hand;
     -fx-font-weight: bold;
