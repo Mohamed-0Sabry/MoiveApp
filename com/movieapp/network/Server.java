@@ -2,6 +2,9 @@ package com.movieapp.network;
 
 import com.movieapp.model.FileTransfer;
 import com.movieapp.model.User;
+
+import com.movieapp.utils.FileUtils;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -98,25 +101,23 @@ public class Server {
             }
         }
     }    
+public void sendFileToAll(File file) {
+    try {
+        byte[] fileData = FileUtils.readFileToBytes(file.getAbsolutePath());
+        FileTransfer fileTransfer = new FileTransfer(file.getName(), file.length(), fileData);
 
-    public void sendFileToAll(File file) {
-        try {
-            byte[] fileData = FileTransfer.readFile(file.getAbsolutePath());
-            FileTransfer fileTransfer = new FileTransfer(file.getName(), file.length(), fileData);
-            
-            for (User client : connectedClients) {
-                try {
-                    ObjectOutputStream out = new ObjectOutputStream(client.getSocket().getOutputStream());
-                    out.writeObject(fileTransfer);
-                } catch (IOException e) {
-                    System.err.println("Error sending file to " + client.getUsername() + ": " + e.getMessage());
-                }
+        for (User client : connectedClients) {
+            try {
+                ObjectOutputStream out = new ObjectOutputStream(client.getSocket().getOutputStream());
+                out.writeObject(fileTransfer);
+            } catch (IOException e) {
+                System.err.println("Error sending file to " + client.getUsername() + ": " + e.getMessage());
             }
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
         }
+    } catch (IOException e) {
+        System.err.println("Error reading file: " + e.getMessage());
     }
-
+}
     private void disconnectClient(User user) {
         connectedClients.remove(user);
         try {

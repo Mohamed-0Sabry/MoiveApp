@@ -1,6 +1,9 @@
 package com.movieapp.network;
 
 import com.movieapp.model.FileTransfer;
+
+import comm.demo.utils.ScreenCaptureUtils;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -40,6 +43,19 @@ public class Client {
         this.executorService = Executors.newSingleThreadExecutor();
         this.isConnected = false;
     }
+
+
+    public void startScreenSharing(int fps) {
+    ScreenCaptureUtils.startScreenCapture(frame -> {
+        String base64 = Base64.getEncoder().encodeToString(frame);
+        sendMessage("FRAME:" + base64);
+    }, fps);
+}
+
+public void stopScreenSharing() {
+    ScreenCaptureUtils.stopScreenCapture();
+}
+
 
     public void connectToHost(String ip, int port) throws IOException {
         socket = new Socket(ip, port);
