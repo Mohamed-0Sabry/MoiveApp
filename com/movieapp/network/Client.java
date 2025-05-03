@@ -6,6 +6,20 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import org.opencv.core.*;
+import org.opencv.videoio.VideoCapture;
+import org.opencv.imgcodecs.Imgcodecs;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.util.Base64;
+
+
 public class Client {
     private Socket socket;
     private BufferedReader in;
@@ -13,6 +27,7 @@ public class Client {
     private ExecutorService executorService;
     private MessageListener messageListener;
     public boolean isConnected;
+    private ImageView imageView; 
 
     public interface MessageListener {
         void onMessageReceived(String message);
@@ -31,11 +46,33 @@ public class Client {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
         isConnected = true;
-
-        // Start listening for messages
         startListening();
     }
 
+    public void startCameraStreaming() {
+        new Thread(() -> {
+            VideoCapture camera = new VideoCapture(0);
+            Mat frame = new Mat();
+    
+            while (isConnected && camera.isOpened()) {
+                if (camera.read(frame)) {
+                    MatOfByte buffer = new MatOfByte();
+                    Imgcodecs.imencode(".jpg", frame, buffer);
+                    byte[] imageBytes = buffer.toArray();
+                    String base64 = Base64.getEncoder().encodeToString(imageBytes);
+                    sendMessage("FRAME:" + base64);
+                }
+    
+                try {
+                    Thread.sleep(100); // approx 10 fps
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+            camera.release();
+        }).start();
+    }
+    
     private void startListening() {
         executorService.submit(() -> {
             try {
@@ -47,9 +84,19 @@ public class Client {
                     
                     if (message.startsWith("FILE:")) {
                         handleFileTransfer();
+                    } else if (message.startsWith("FRAME:")) {
+                        String base64 = message.substring(6);
+                        byte[] data = Base64.getDecoder().decode(base64);
+                        ByteArrayInputStream bis = new ByteArrayInputStream(data);
+                        BufferedImage img = ImageIO.read(bis);
+                        Image fxImage = SwingFXUtils.toFXImage(img, null);
+                    
+                        if (imageView != null) {
+                            Platform.runLater(() -> imageView.setImage(fxImage));
+                        }
                     } else {
                         messageListener.onMessageReceived(message);
-                    }
+                    }                    
                 }
             } catch (IOException e) {
                 System.err.println("Error reading from server: " + e.getMessage());

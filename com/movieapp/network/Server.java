@@ -16,6 +16,7 @@ public class Server {
     private ExecutorService executorService;
     private boolean isRunning;
 
+
     public Server() {
         this.connectedClients = new ArrayList<>();
         this.executorService = Executors.newCachedThreadPool();
@@ -69,7 +70,9 @@ public class Server {
         if (message.startsWith("CHAT:")) {
             broadcastMessage("CHAT:" + sender.getUsername() + ": " + message.substring(5));
         }
-        // Add more message handling here
+        if (message.startsWith("FRAME:")) {
+            broadcastFrame(sender, message);
+        }        
     }
 
     public void broadcastMessage(String message) {
@@ -82,6 +85,19 @@ public class Server {
             }
         }
     }
+
+    private void broadcastFrame(User sender, String frameMessage) {
+        for (User client : connectedClients) {
+            if (!client.equals(sender)) {
+                try {
+                    PrintWriter out = new PrintWriter(client.getSocket().getOutputStream(), true);
+                    out.println(frameMessage);
+                } catch (IOException e) {
+                    System.err.println("Error sending frame to " + client.getUsername() + ": " + e.getMessage());
+                }
+            }
+        }
+    }    
 
     public void sendFileToAll(File file) {
         try {

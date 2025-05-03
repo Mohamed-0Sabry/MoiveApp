@@ -1,4 +1,6 @@
 package com.movieapp;
+import org.opencv.core.Core;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        System.out.println("OpenCV library loaded successfully!");
         primaryStage = stage;
         showHostOrViewerChoice();
     }
