@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
 
 public class ViewerScreenController {
     @FXML private MediaView mediaView;
@@ -27,7 +28,13 @@ public class ViewerScreenController {
     private void initialize() {
         this.controlsManager = new ControlsManager(controlsPane);
         rootPane.setOnMouseMoved(controlsManager::handleMouseMovement);
-        primaryStage = (Stage) rootPane.getScene().getWindow();
+        
+        // Wait for the scene to be set up
+        rootPane.sceneProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                primaryStage = (Stage) newValue.getWindow();
+            }
+        });
     }
 
     @FXML
@@ -40,6 +47,9 @@ public class ViewerScreenController {
     }
 
     private void enterVideoFullscreen() {
+        if (primaryStage == null) {
+            primaryStage = (Stage) rootPane.getScene().getWindow();
+        }
         isFullscreen = true;
         topBar.setVisible(false);
         fullscreenManager.enterFullscreen(mediaView, controlsPane, primaryStage);
