@@ -2,6 +2,9 @@ package com.movieapp.network;
 
 import com.movieapp.model.FileTransfer;
 import com.movieapp.model.User;
+
+import com.movieapp.utils.FileUtils;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,6 +18,7 @@ public class Server {
     private List<User> connectedClients;
     private ExecutorService executorService;
     private boolean isRunning;
+
 
     public Server() {
         this.connectedClients = new ArrayList<>();
@@ -69,7 +73,9 @@ public class Server {
         if (message.startsWith("CHAT:")) {
             broadcastMessage("CHAT:" + sender.getUsername() + ": " + message.substring(5));
         }
-        // Add more message handling here
+        if (message.startsWith("FRAME:")) {
+            broadcastFrame(sender, message);
+        }        
     }
 
     public void broadcastMessage(String message) {
@@ -83,24 +89,35 @@ public class Server {
         }
     }
 
-    public void sendFileToAll(File file) {
-        try {
-            byte[] fileData = FileTransfer.readFile(file.getAbsolutePath());
-            FileTransfer fileTransfer = new FileTransfer(file.getName(), file.length(), fileData);
-            
-            for (User client : connectedClients) {
+    private void broadcastFrame(User sender, String frameMessage) {
+        for (User client : connectedClients) {
+            if (!client.equals(sender)) {
                 try {
-                    ObjectOutputStream out = new ObjectOutputStream(client.getSocket().getOutputStream());
-                    out.writeObject(fileTransfer);
+                    PrintWriter out = new PrintWriter(client.getSocket().getOutputStream(), true);
+                    out.println(frameMessage);
                 } catch (IOException e) {
-                    System.err.println("Error sending file to " + client.getUsername() + ": " + e.getMessage());
+                    System.err.println("Error sending frame to " + client.getUsername() + ": " + e.getMessage());
                 }
             }
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
         }
-    }
+    }    
+public void sendFileToAll(File file) {
+    try {
+        byte[] fileData = FileUtils.readFileToBytes(file.getAbsolutePath());
+        FileTransfer fileTransfer = new FileTransfer(file.getName(), file.length(), fileData);
 
+        for (User client : connectedClients) {
+            try {
+                ObjectOutputStream out = new ObjectOutputStream(client.getSocket().getOutputStream());
+                out.writeObject(fileTransfer);
+            } catch (IOException e) {
+                System.err.println("Error sending file to " + client.getUsername() + ": " + e.getMessage());
+            }
+        }
+    } catch (IOException e) {
+        System.err.println("Error reading file: " + e.getMessage());
+    }
+}
     private void disconnectClient(User user) {
         connectedClients.remove(user);
         try {

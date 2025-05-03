@@ -1,10 +1,7 @@
 package com.movieapp.model;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import comm.demo.utils.FileUtils;
+
 
 public class FileTransfer {
     private String fileName;
@@ -18,15 +15,13 @@ public class FileTransfer {
     }
 
     public static byte[] readFile(String path) throws IOException {
-        Path filePath = Paths.get(path);
-        return Files.readAllBytes(filePath);
+        return FileUtils.readFileToBytes(path);
     }
-
+    
     public static void saveFile(byte[] data, String destinationPath) throws IOException {
-        try (FileOutputStream fos = new FileOutputStream(destinationPath)) {
-            fos.write(data);
-        }
+        FileUtils.writeBytesToFile(data, destinationPath);
     }
+    
 
     public String getFileName() {
         return fileName;
