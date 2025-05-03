@@ -1,9 +1,14 @@
 package comm.demo.controller;
+
 import com.movieapp.Main;
 import com.movieapp.model.StreamSession;
+import com.movieapp.model.StreamSessionImpl;
+import com.movieapp.model.ScreenShareSession;
+import com.movieapp.model.CameraShareSession;
+import com.movieapp.model.MediaStreamSession;
 import com.movieapp.network.Server;
+import com.movieapp.utils.ScreenCaptureUtils;
 
-import comm.demo.utils.ScreenCaptureUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,17 +21,18 @@ import java.io.IOException;
 import java.util.Base64;
 import java.io.File;
 import java.io.ByteArrayInputStream;
+
 public class HostController {
     @FXML private ImageView previewImage;
     @FXML private Label connectionStatus;
 
     private Server server;
-    private StreamSession streamSession;
+    private StreamSessionImpl streamSession;
     private Stage chatStage;
     private ChatController chatController;
 
     public void initialize() {
-        streamSession = new StreamSession();
+        streamSession = new StreamSessionImpl();
         try {
             server = new Server();
             server.start(5555);

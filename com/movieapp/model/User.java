@@ -3,8 +3,8 @@ package com.movieapp.model;
 import java.net.Socket;
 
 public class User {
-    private String username;
-    private boolean isHost;
+    private final String username;
+    private final boolean isHost;
     private Socket socket;
 
     public User(String username, boolean isHost, Socket socket) {
@@ -28,4 +28,4 @@ public class User {
     public void setSocket(Socket socket) {
         this.socket = socket;
     }
-}
+} 
