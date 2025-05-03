@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 
 /**
  * Controller for the Viewer Screen. Handles fullscreen video overlay and auto-hiding controls.
@@ -28,6 +29,7 @@ public class ViewerScreenController {
     @FXML private VBox controlsPane;
     @FXML private HBox topBar;
     @FXML private HBox mediaContainer;
+    @FXML private HBox heartButtonContainer;
 
     // Fullscreen state
     private boolean isFullscreen = false;
@@ -39,6 +41,8 @@ public class ViewerScreenController {
     private int originalMediaViewIndex;
     private Parent originalControlsPaneParent;
     private int originalControlsPaneIndex;
+    private Parent originalHeartButtonParent;
+    private int originalHeartButtonIndex;
 
     // Controls auto-hide
     private PauseTransition hideControlsTransition;
@@ -55,7 +59,7 @@ public class ViewerScreenController {
     private void setupAutoHideControls() {
         hideControlsTransition = new PauseTransition(Duration.seconds(3));
         hideControlsTransition.setOnFinished(event -> {
-            if (isFullscreen) controlsPane.setOpacity(0);
+            if (isFullscreen) heartButtonContainer.setOpacity(0);
         });
     }
 
@@ -64,7 +68,7 @@ public class ViewerScreenController {
      */
     private void handleMouseMovement(MouseEvent event) {
         if (isFullscreen) {
-            controlsPane.setOpacity(1);
+            heartButtonContainer.setOpacity(1);
             hideControlsTransition.stop();
             hideControlsTransition.playFromStart();
         }
@@ -89,13 +93,14 @@ public class ViewerScreenController {
         isFullscreen = true;
         topBar.setVisible(false);
         storeAndMoveToFullscreen(mediaView);
-        storeAndMoveToFullscreen(controlsPane);
+        storeAndMoveToFullscreen(heartButtonContainer);
 
         fullscreenRoot = new StackPane();
         fullscreenRoot.setStyle("-fx-background-color: black;");
         fullscreenRoot.getChildren().add(mediaView);
-        fullscreenRoot.getChildren().add(controlsPane);
-        StackPane.setAlignment(controlsPane, Pos.BOTTOM_CENTER);
+        fullscreenRoot.getChildren().add(heartButtonContainer);
+        StackPane.setAlignment(heartButtonContainer, Pos.BOTTOM_RIGHT);
+        StackPane.setMargin(heartButtonContainer, new Insets(0, 40, 40, 0)); // 40px from right and bottom
 
         fullscreenStage = new Stage(StageStyle.UNDECORATED);
         fullscreenStage.initModality(Modality.NONE);
@@ -105,7 +110,7 @@ public class ViewerScreenController {
         fsScene.getStylesheets().add(getClass().getResource("/com/movieapp/styles/viewer.css").toExternalForm());
         fullscreenStage.setScene(fsScene);
 
-        controlsPane.setOpacity(1);
+        heartButtonContainer.setOpacity(1);
         hideControlsTransition.playFromStart();
         fullscreenRoot.setOnMouseMoved(this::handleMouseMovement);
 
@@ -124,8 +129,8 @@ public class ViewerScreenController {
         hideControlsTransition.stop();
         topBar.setVisible(true);
         restoreFromFullscreen(mediaView, originalMediaViewParent, originalMediaViewIndex);
-        restoreFromFullscreen(controlsPane, originalControlsPaneParent, originalControlsPaneIndex);
-        controlsPane.setOpacity(1);
+        restoreFromFullscreen(heartButtonContainer, originalHeartButtonParent, originalHeartButtonIndex);
+        heartButtonContainer.setOpacity(1);
         if (fullscreenStage != null) {
             fullscreenStage.close();
             fullscreenStage = null;
@@ -142,10 +147,10 @@ public class ViewerScreenController {
             originalMediaViewParent = parent;
             originalMediaViewIndex = ((Pane) parent).getChildren().indexOf(mediaView);
             ((Pane) parent).getChildren().remove(mediaView);
-        } else if (node == controlsPane) {
-            originalControlsPaneParent = parent;
-            originalControlsPaneIndex = ((Pane) parent).getChildren().indexOf(controlsPane);
-            ((Pane) parent).getChildren().remove(controlsPane);
+        } else if (node == heartButtonContainer) {
+            originalHeartButtonParent = parent;
+            originalHeartButtonIndex = ((Pane) parent).getChildren().indexOf(heartButtonContainer);
+            ((Pane) parent).getChildren().remove(heartButtonContainer);
         }
     }
 

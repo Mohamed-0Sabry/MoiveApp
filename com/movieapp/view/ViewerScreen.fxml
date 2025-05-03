@@ -124,7 +124,7 @@
                                           </StackPane>
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER" prefHeight="65.0" prefWidth="159.0">
+                                    <HBox fx:id="heartButtonContainer" alignment="CENTER" prefHeight="65.0" prefWidth="159.0">
                                        <children>
                                                 <Button alignment="CENTER" contentDisplay="TOP" prefHeight="41.0" prefWidth="66.0" style="-fx-background-color: transparent; -fx-border-radius: 50%; -fx-border: 2px solid #cccccc; -fx-cursor: hand; -fx-font-weight: bold;">
                                                    <graphic>
