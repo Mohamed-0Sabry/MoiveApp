@@ -49,6 +49,6 @@ Button:pressed {
 
 /* Style for clicked state (pressed) */
 .link:pressed {
-    -fx-text-fill: black; /* Even darker blue when pressed */
+    -fx-text-fill: #989aa6; /* Even darker blue when pressed */
     -fx-underline: true; /* Keep it underlined when clicked */
 }

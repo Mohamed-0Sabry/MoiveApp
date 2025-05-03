@@ -7,7 +7,7 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
@@ -15,168 +15,178 @@
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="397.0" prefWidth="643.0" stylesheets="@../styles/viewer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootPane" prefHeight="467.0" prefWidth="752.0" stylesheets="@../styles/viewer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.ViewerScreenController">
          <children>
-            <AnchorPane prefHeight="379.0" prefWidth="600.0" style="-fx-background-color: grey;">
+      <BorderPane fx:id="mainPane" prefHeight="200.0" prefWidth="200.0">
+         <center>
+            <HBox alignment="CENTER" prefHeight="433.0" prefWidth="752.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox layoutY="-46.666666666666664" prefHeight="397.0" prefWidth="692.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <!-- Title Bar -->
-                        <HBox alignment="CENTER" prefHeight="60.0" prefWidth="603.0">
+                        <VBox alignment="CENTER" prefHeight="426.0" prefWidth="752.0">
                            <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="313.0">
-                           <children>
-                                    <Label prefHeight="58.0" prefWidth="151.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Viewer">
-                                 <font>
-                                    <Font name="Anton" size="49.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="288.0" styleClass="notification">
-                           <children>
-                              <Label text="notificaton" />
-                           </children>
-                        </HBox>
-                           </children>
-                        </HBox>
-                  
-                        <!-- Video or Stream Window (Centered) -->
-                        <VBox alignment="CENTER" prefHeight="282.0" prefWidth="643.0">
-                           <children>
-                        <HBox alignment="CENTER" prefHeight="287.0" prefWidth="643.0">
-                           <children>
-                              <HBox prefHeight="227.0" prefWidth="518.0" style="-fx-background-color: black;">
+                        
+                                    <!-- Video or Stream Window (Centered) -->
+                              <VBox alignment="CENTER" prefHeight="352.0" prefWidth="752.0">
                                  <children>
-                                    <MediaView fitHeight="200.0" fitWidth="200.0" styleClass="mediaView" />
+                              <HBox alignment="CENTER" prefHeight="332.0" prefWidth="752.0">
+                                 <children>
+                                    <HBox fx:id="mediaContainer" alignment="CENTER" prefHeight="327.0" prefWidth="725.0" style="-fx-background-color: black; ">
+                                       <children>
+                                          <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" styleClass="mediaView" />
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="15.0" prefWidth="643.0">
+                                 </children>
+                              </VBox>
+                        <VBox fx:id="controlsPane" alignment="CENTER" prefHeight="0.0" prefWidth="643.0">
                            <children>
-                              <Label style="-fx-font-weight: bold;" text="00/00" textFill="WHITE">
-                                 <font>
-                                    <Font name="Nunito Regular" size="14.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
+                              
+                                          <!-- Button Bar at the Bottom -->
+                                    <HBox alignment="CENTER" prefHeight="25.0" prefWidth="643.0" spacing="15">
+                                       <children>
+                                    <Region prefHeight="45.0" prefWidth="48.0" />
+                                    <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="644.0">
+                                       <children>
+                                          <Button alignment="CENTER" graphicTextGap="7.0" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
+                                             <graphic>
+                                                <ImageView fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@image/social-network.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <tooltip>
+                                                <Tooltip text="Click to Chat" />
+                                             </tooltip>
+                                          </Button>
+                                          <Region prefHeight="74.0" prefWidth="15.0" />
+                                                <Button alignment="CENTER" graphicTextGap="7.0" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
+                                                   <graphic>
+                                                      <ImageView fitHeight="25.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@image/online-video.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                             <tooltip>
+                                                <Tooltip text="Click to Connect To Host" />
+                                             </tooltip>
+                                                </Button>
+                                          <Region layoutX="76.0" layoutY="10.0" prefHeight="74.0" prefWidth="15.0" />
+                                                <Button alignment="CENTER" graphicTextGap="7.0" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
+                                                   <graphic>
+                                                      <ImageView fitHeight="24.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@image/chat.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                             <tooltip>
+                                                <Tooltip text="Click to See Stream" />
+                                             </tooltip>
+                                                </Button>
+                                          <Region layoutX="224.0" layoutY="10.0" prefHeight="65.0" prefWidth="15.0" />
+                                                <Button alignment="CENTER" graphicTextGap="7.0" onAction="#onFullscreenClicked" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
+                                                   <graphic>
+                                                      <ImageView fitHeight="25.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@image/maximize.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                             <tooltip>
+                                                <Tooltip text="Click to Full Screen" />
+                                             </tooltip>
+                                                </Button>
+                                          <Region layoutX="316.0" layoutY="10.0" prefHeight="74.0" prefWidth="13.0" />
+                                                <Button alignment="CENTER" graphicTextGap="7.0" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
+                                                   <graphic>
+                                                      <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@image/download.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                             <tooltip>
+                                                <Tooltip text="Click to Download" />
+                                             </tooltip>
+                                                </Button>
+                                          <Region prefHeight="74.0" prefWidth="15.0" />
+                                          <StackPane prefHeight="49.0" prefWidth="112.0">
+                                             <children>
+                                                <ProgressBar prefHeight="13.0" prefWidth="112.0" progress="0.0" styleClass="downloadProgress" />
+                                                <Label opacity="0.45" prefHeight="23.0" prefWidth="64.0" styleClass="progressLabel" text="Downloading...">
+                                                   <font>
+                                                      <Font name="Nunito Regular" size="7.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="65.0" prefWidth="159.0">
+                                       <children>
+                                                <Button alignment="CENTER" contentDisplay="TOP" prefHeight="41.0" prefWidth="66.0" style="-fx-background-color: transparent; -fx-border-radius: 50%; -fx-border: 2px solid #cccccc; -fx-cursor: hand; -fx-font-weight: bold;">
+                                                   <graphic>
+                                                      <ImageView fitHeight="34.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@image/heart.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic>
+                                             <tooltip>
+                                                <Tooltip text="React Love" />
+                                             </tooltip>
+                                             <styleClass>
+                                                <String fx:value="custom-button" />
+                                                <String fx:value="heart-icon" />
+                                             </styleClass>
+                                                </Button>
+                                       </children>
+                                    </HBox>
+                                       </children>
+                                    </HBox>
                            </children>
                         </VBox>
-                  <VBox prefHeight="0.0" prefWidth="643.0">
-                     <children>
-                        
-                              <!-- Button Bar at the Bottom -->
-                              <HBox alignment="CENTER" prefHeight="72.0" prefWidth="643.0" spacing="15">
-                                 <children>
-                              <Region prefHeight="45.0" prefWidth="48.0" />
-                              <HBox alignment="CENTER_LEFT" prefHeight="74.0" prefWidth="349.0">
-                                 <children>
-                                    <Button alignment="CENTER" graphicTextGap="7.0" styleClass="custom-button">
-                                       <graphic>
-                                          <ImageView fitHeight="18.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@image/social-network.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                       <tooltip>
-                                          <Tooltip text="Click to Chat" />
-                                       </tooltip>
-                                    </Button>
-                                    <Region prefHeight="74.0" prefWidth="13.0" />
-                                          <Button alignment="CENTER" graphicTextGap="7.0" styleClass="custom-button">
-                                             <graphic>
-                                                <ImageView fitHeight="18.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@image/online-video.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                       <tooltip>
-                                          <Tooltip text="Click to Connect To Host" />
-                                       </tooltip>
-                                          </Button>
-                                    <Region layoutX="76.0" layoutY="10.0" prefHeight="74.0" prefWidth="13.0" />
-                                          <Button alignment="CENTER" graphicTextGap="7.0" styleClass="custom-button">
-                                             <graphic>
-                                                <ImageView fitHeight="18.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@image/chat.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                       <tooltip>
-                                          <Tooltip text="Click to See Stream" />
-                                       </tooltip>
-                                          </Button>
-                                    <Region layoutX="224.0" layoutY="10.0" prefHeight="74.0" prefWidth="13.0" />
-                                          <Button alignment="CENTER" graphicTextGap="7.0" styleClass="custom-button">
-                                             <graphic>
-                                                <ImageView fitHeight="18.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@image/maximize.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                       <tooltip>
-                                          <Tooltip text="Click to Full Screen" />
-                                       </tooltip>
-                                          </Button>
-                                    <Region layoutX="316.0" layoutY="10.0" prefHeight="74.0" prefWidth="13.0" />
-                                          <Button alignment="CENTER" graphicTextGap="7.0" styleClass="custom-button">
-                                             <graphic>
-                                                <ImageView fitHeight="18.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@image/download.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                       <tooltip>
-                                          <Tooltip text="Click to Download" />
-                                       </tooltip>
-                                          </Button>
-                                    <Region prefHeight="74.0" prefWidth="12.0" />
-                                    <StackPane prefHeight="49.0" prefWidth="112.0">
-                                       <children>
-                                          <ProgressBar prefHeight="13.0" prefWidth="112.0" progress="0.0" styleClass="downloadProgress" />
-                                          <Label opacity="0.45" prefHeight="23.0" prefWidth="64.0" styleClass="progressLabel" text="Downloading...">
-                                             <font>
-                                                <Font name="Nunito Regular" size="7.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </StackPane>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="46.0" prefWidth="215.0">
-                                 <children>
-                                          <Button alignment="CENTER" contentDisplay="TOP" prefHeight="41.0" prefWidth="66.0" style="-fx-background-color: transparent; -fx-border-radius: 50%; -fx-border: 2px solid #cccccc; -fx-cursor: hand; -fx-font-weight: bold;">
-                                             <graphic>
-                                                <ImageView fitHeight="34.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@image/heart.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                       <tooltip>
-                                          <Tooltip text="React Love" />
-                                       </tooltip>
-                                       <styleClass>
-                                          <String fx:value="custom-button" />
-                                          <String fx:value="heart-icon" />
-                                       </styleClass>
-                                          </Button>
-                                 </children>
-                              </HBox>
-                                 </children>
-                              </HBox>
-                     </children>
-                  </VBox>
-                     </children>
-                  </VBox>
+                           </children>
+                        </VBox>
                </children>
-            </AnchorPane>
+            </HBox>
+         </center>
+         <top>
+                  <!-- Title Bar -->
+                  <HBox fx:id="topBar" prefHeight="69.0" prefWidth="752.0" BorderPane.alignment="CENTER">
+                     <children>
+                  <Region layoutX="370.0" layoutY="10.0" prefHeight="69.0" prefWidth="64.0" />
+                  <VBox prefHeight="50.0" prefWidth="404.0">
+                     <children>
+                        <Region prefHeight="52.0" prefWidth="360.0" />
+                        <HBox alignment="BOTTOM_LEFT" prefHeight="4.0" prefWidth="360.0">
+                           <children>
+                              <Region prefHeight="57.0" prefWidth="16.0" />
+                                    <Label prefHeight="16.0" prefWidth="185.0" style="-fx-font-weight: bold;" text="Viewer">
+                                 <font>
+                                    <Font name="Antipasto Pro ExtraBold" size="36.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <Region prefHeight="50.0" prefWidth="267.0" />
+                  <VBox alignment="TOP_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="213.0">
+                     <children>
+                        <Region prefHeight="200.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="361.0" styleClass="notification">
+                           <children>
+                              <Label prefHeight="22.0" prefWidth="205.0" text="notificaton" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                     </children>
+                  </HBox>
+         </top>
+      </BorderPane>
          </children>
       </StackPane>
