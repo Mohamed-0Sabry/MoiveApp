@@ -1,6 +1,4 @@
 package com.movieapp;
-import org.opencv.core.Core;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +11,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         System.out.println("OpenCV library loaded successfully!");
         primaryStage = stage;
         showHostOrViewerChoice();
@@ -24,7 +21,7 @@ public class Main extends Application {
         Scene scene = new Scene(loader.load());
 
         // Load style
-        scene.getStylesheets().add(getClass().getResource("/com/movieapp/styles/MovieApp.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/movieapp/styles/movieApp.css").toExternalForm());
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Movie Night");
@@ -51,6 +48,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        // System.load("C:\\Users\\mahm1\\Downloads\\opencv\\build\\java\\x64\\opencv_java4110.dll"); 
+
         launch(args);
     }
 }
