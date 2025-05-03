@@ -20,14 +20,14 @@ public class Main extends Application {
     }
 
     private void showHostOrViewerChoice() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/movieapp/view/HostScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/movieapp/view/MovieAppScreen.fxml"));
         Scene scene = new Scene(loader.load());
 
         // Load style
-        scene.getStylesheets().add(getClass().getResource("/com/movieapp/styles/host.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/com/movieapp/styles/MovieApp.css").toExternalForm());
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Movie Night - Host");
+        primaryStage.setTitle("Movie Night");
         primaryStage.setOnCloseRequest(event -> {
             Platform.exit();
             System.exit(0);
@@ -39,7 +39,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("/com/movieapp/view/ViewerScreen.fxml"));
         Scene scene = new Scene(loader.load());
 
-        scene.getStylesheets().add(Main.class.getResource("/com/movieapp/styles/style.css").toExternalForm());
+        scene.getStylesheets().add(Main.class.getResource("/com/movieapp/styles/viewer.css").toExternalForm());
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Movie Night - Viewer");

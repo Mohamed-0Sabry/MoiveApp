@@ -1,7 +1,7 @@
 
 /* Title Styling for MovieApp */
 .title {
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0.0, 0, 3);  /* Subtle drop shadow for depth */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0.0, 0, 3);  /* Subtle drop shadow for depth */
 
 }
 /* General Styles */
@@ -14,13 +14,15 @@ Button {
     -fx-background-color: #707cff; /* Lighter blue color */
     -fx-text-fill: #ffffff;
     -fx-font-size: 25px;
-    -fx-padding: 12px 35px; /* Adjust padding for more oval shape */
-    -fx-border-radius: 20px; /* Slightly sharper radius */
+    -fx-padding: 10px 25px; /* Adjust padding for more oval shape */
+    -fx-background-radius: 95px;
+    -fx-border-radius: 95px;/* Slightly sharper radius */
     -fx-border: 2px solid #7c70ff; /* Subtle border to define button shape */
     -fx-cursor: hand;
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0.0, 0, 3); /* Subtle shadow effect */
-    -fx-transition: all 0.3s ease; /* Smooth transition for hover effect */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0.0, 0, 5); /* Subtle shadow effect */
+    -fx-transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
+
 }
 Button:hover {
     -fx-background-color: #5449f4; /* Slightly darker blue on hover */
@@ -38,4 +40,15 @@ Button:pressed {
 }
 .Region {
     -fx-pref-width: 45;
+}
+/* Style for hover state */
+.link:hover {
+    -fx-font-weight: bold; /* Make text bold on hover */
+    -fx-underline: true; /* Underline the text on hover */
+}
+
+/* Style for clicked state (pressed) */
+.link:pressed {
+    -fx-text-fill: black; /* Even darker blue when pressed */
+    -fx-underline: true; /* Keep it underlined when clicked */
 }

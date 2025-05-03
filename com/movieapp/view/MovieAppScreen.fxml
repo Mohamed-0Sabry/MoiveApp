@@ -2,6 +2,7 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,9 +14,9 @@
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="stackPane" prefHeight="548.0" prefWidth="1152.0" styleClass="stack-pane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <VBox alignment="CENTER_LEFT" prefHeight="431.0" prefWidth="831.0">
+   <VBox alignment="CENTER_LEFT" prefHeight="548.0" prefWidth="1205.0">
       <children>
-         <ImageView fitHeight="431.0" fitWidth="585.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="431.0" fitWidth="606.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@image/movieApp%20(2).png" />
             </image>
@@ -24,68 +25,119 @@
    </VBox>
 <AnchorPane fx:id="anchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/movieApp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="BOTTOM_LEFT" prefHeight="625.0" prefWidth="1171.0" style="-fx-background-color: light red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="BOTTOM_LEFT" layoutX="6.0" prefHeight="548.0" prefWidth="1146.0" style="-fx-background-color: light red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label prefHeight="21.0" prefWidth="337.0" style="-fx-font-weight: bold;" text="Designed by @Mobarmigen | Movie Night App 2025" wrapText="true">
+            <Label opacity="0.64" prefHeight="23.0" prefWidth="323.0" text="Designed by @Mobarmigen | Movie Night App 2025" wrapText="true">
                <font>
-                  <Font name="Yu Gothic Light" size="15.0" />
+                  <Font name="Poppins Regular" size="15.0" />
                </font>
             </Label>
          </children>
       </VBox>
       <VBox alignment="CENTER" layoutX="302.0" prefHeight="431.0" prefWidth="761.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="302.0" AnchorPane.rightAnchor="-232.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" opacity="0.0" prefHeight="55.0" prefWidth="1028.0">
+            <HBox alignment="CENTER" prefHeight="90.0" prefWidth="1082.0">
                <children>
-                  <ImageView fitHeight="81.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
-
-                  </ImageView>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="151.0" prefWidth="1028.0">
-               <children>
-                  <Label prefHeight="83.0" prefWidth="272.0" style="-fx-font-weight: bold;" styleClass="title" stylesheets="@../styles/movieApp.css" text="Movie Night" textAlignment="CENTER" textFill="#46455b" wrapText="true">
+                  <Label prefHeight="125.0" prefWidth="322.0" style="-fx-font-weight: bold;" styleClass="title" text="Movie Night" textAlignment="CENTER" textFill="#46455b" wrapText="true">
                      <font>
-                        <Font name="Anton" size="55.0" />
+                        <Font name="Antipasto Pro ExtraBold" size="63.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="35.0" prefWidth="1028.0">
                <children>
-                  <Label alignment="CENTER" lineSpacing="9.0" prefHeight="51.0" prefWidth="627.0" text="The Ultimate Movie Night Experince " textAlignment="CENTER" textFill="#4f4e63">
+                  <Label alignment="CENTER" lineSpacing="9.0" prefHeight="43.0" prefWidth="607.0" text="The Ultimate Movie Night Experince " textAlignment="CENTER" textFill="#4f4e63">
                      <font>
-                        <Font name="Nirmala UI" size="35.0" />
+                        <Font name="Poppins Regular" size="30.0" />
                      </font>
                   </Label>
                </children>
             </HBox>
-            <Label prefHeight="23.0" prefWidth="619.0" text=".                                                                                                                                                                                      ." underline="true" />
+            <Label prefHeight="41.0" prefWidth="537.0" text="                                                                                                                                                                   " underline="true" />
             <VBox alignment="CENTER" prefHeight="107.0" prefWidth="642.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="86.0" prefWidth="635.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="65.0" prefWidth="135.0" text="Host">
+                        <Button mnemonicParsing="false" prefHeight="65.0" prefWidth="163.0" text="Host">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <font>
                               <Font name="Impact" size="48.0" />
                            </font>
+                              <graphic>
+                                 <ImageView fitHeight="32.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../../../../../Downloads/icons8-movie-50.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
                         </Button>
-                        <Region prefHeight="63.0" prefWidth="45.0" />
+                        <Region prefHeight="86.0" prefWidth="47.0" />
                         <Button alignment="CENTER" mnemonicParsing="false" prefHeight="65.0" prefWidth="163.0" text="Viewer">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <font>
-                              <Font name="Tahoma Bold" size="24.0" />
+                              <Font name="Nunito Regular" size="24.0" />
                            </font>
+                              <graphic>
+                                 <ImageView fitHeight="27.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../../../../../Downloads/icons8-watch-movie-68.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
                         </Button>
                      </children>
                   </HBox>
                </children>
             </VBox>
+               <HBox alignment="CENTER" prefHeight="77.0" prefWidth="1082.0">
+                  <children>
+                     <Button alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="154.0" style="-fx-background-radius: 15px; -fx-border-radius: 15px; -fx-font-size: 15 px; -fx-background-color: #838dff;" text="Learn More">
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor>
+                        <font>
+                           <Font name="Nunito ExtraBold" size="18.0" />
+                        </font>
+                     </Button>
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="41.0" prefWidth="1082.0">
+                  <children>
+                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="96.0">
+                        <children>
+                           <Hyperlink prefHeight="27.0" prefWidth="99.0" styleClass="link" text="Privacy Policy" textFill="#46455b">
+                              <font>
+                                 <Font name="Nunito Regular" size="14.0" />
+                              </font>
+                           </Hyperlink>
+                        </children>
+                     </HBox>
+                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="163.0">
+                        <children>
+                           <Hyperlink prefHeight="27.0" prefWidth="166.0" styleClass="link" text="10 Movie Nights Hosted" textFill="#46455b">
+                              <font>
+                                 <Font name="Nunito Regular" size="14.0" />
+                              </font>
+                           </Hyperlink>
+                        </children>
+                     </HBox>
+                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="81.0">
+                        <children>
+                           <Hyperlink styleClass="link" text="Contact Us" textFill="#46455b">
+                              <font>
+                                 <Font size="14.0" />
+                              </font>
+                           </Hyperlink>
+                        </children>
+                     </HBox>
+                     <Region prefHeight="100.0" prefWidth="41.0" />
+                  </children>
+               </HBox>
          </children>
       </VBox>
    </children>
