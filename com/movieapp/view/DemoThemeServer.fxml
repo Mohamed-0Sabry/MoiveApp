@@ -37,7 +37,7 @@
                      <graphic>
                         <ImageView fitHeight="38.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@image/send%20button.png" />
+                              <Image url="@image/send button.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -53,7 +53,7 @@
                      <graphic>
                         <ImageView fitHeight="37.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@image/photosender%20button.jpg" />
+                              <Image url="@image/photosender button.jpg" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -63,7 +63,7 @@
                      <graphic>
                         <ImageView fitHeight="36.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@image/emoji%20icon.png" />
+                              <Image url="@image/emoji icon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -79,7 +79,7 @@
                               <Button fx:id="closeButton" mnemonicParsing="false" text="Button" />
                               <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@image/Untitled%20design%20(2).png" />
+                                    <Image url="@image/Untitled design (2).png" />
                                  </image>
                               </ImageView>
                            </children>
