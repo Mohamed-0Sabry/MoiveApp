@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="557.0" stylesheets="@../styles/css-stylesheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="557.0" stylesheets="@../styles/css-stylesheet.css" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.DemoThemeServerController">
    <children>
       <AnchorPane fx:id="mainAP" layoutX="36.0" layoutY="29.0" prefHeight="498.0" prefWidth="460.0" stylesheets="@../styles/css-stylesheet.css">
          <children>
@@ -26,18 +26,18 @@
                   <Insets bottom="10" left="5" right="5" top="10" />
                </padding>
             </ScrollPane>
-            <HBox alignment="CENTER_LEFT" layoutX="118.0" layoutY="448.0" prefHeight="50.0" prefWidth="365.0" spacing="10" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css" AnchorPane.bottomAnchor="-0.39999999999997726" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="2.0">
+            <HBox alignment="CENTER_LEFT" layoutX="118.0" layoutY="448.0" prefHeight="50.0" prefWidth="365.0" spacing="10" stylesheets="@../styles/css-stylesheet.css" AnchorPane.bottomAnchor="-0.39999999999997726" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="2.0">
                <children>
                   <TextField fx:id="messageField" prefHeight="36.0" prefWidth="218.0" promptText="Type your message..." stylesheets="@../styles/css-stylesheet.css" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="sendButton" prefHeight="40.0" prefWidth="40.0" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css">
+                  <Button fx:id="sendButton" prefHeight="40.0" prefWidth="40.0" stylesheets="@../styles/css-stylesheet.css">
                      <graphic>
                         <ImageView fitHeight="38.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\view\image\send button.png" />
+                              <Image url="@image/send button.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -49,21 +49,21 @@
             </HBox>
             <HBox layoutX="14.0" layoutY="458.0" prefHeight="30.0" prefWidth="82.0">
                <children>
-                  <Button fx:id="imageButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="25.0" style="-fx-graphic: &quot;C:\Users\a_sal\OneDrive\Desktop\OIP.jpeg&quot;;" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css">
+                  <Button fx:id="imageButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="25.0" stylesheets="@../styles/css-stylesheet.css">
                      <graphic>
                         <ImageView fitHeight="37.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\view\image\photosender button.jpg" />
+                              <Image url="@image/photosender button.jpg" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
                   <Region prefHeight="74.0" prefWidth="31.0" />
-                  <Button fx:id="emojiButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="0.0" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css">
+                  <Button fx:id="emojiButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="0.0" stylesheets="@../styles/css-stylesheet.css">
                      <graphic>
                         <ImageView fitHeight="36.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\view\image\emoji icon.png" />
+                              <Image url="@image/emoji icon.png" />
                            </image>
                         </ImageView>
                      </graphic>

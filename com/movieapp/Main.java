@@ -48,7 +48,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-         System.load("C:\\Users\\a_sal\\OneDrive\\Desktop\\MovieApp\\MoiveApp\\lib\\opencv_java4110.dll"); 
+         System.load("D:\\Study\\ENGINEERING\\25\\Second Term\\Advanced Programming\\Java Projects\\MovieNight\\lib\\opencv_java4110.dll"); 
 
         launch(args);
     }
