@@ -14,7 +14,6 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="557.0" stylesheets="@../styles/css-stylesheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane fx:id="mainAP" layoutX="36.0" layoutY="29.0" prefHeight="498.0" prefWidth="460.0" stylesheets="@../styles/css-stylesheet.css">
@@ -36,9 +35,9 @@
                   </TextField>
                   <Button fx:id="sendButton" prefHeight="40.0" prefWidth="40.0" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css">
                      <graphic>
-                        <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="38.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../vvv.png" />
+                              <Image url="@../../../../../send%20button.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -52,9 +51,9 @@
                <children>
                   <Button fx:id="imageButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="25.0" style="-fx-graphic: &quot;C:\Users\a_sal\OneDrive\Desktop\OIP.jpeg&quot;;" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css">
                      <graphic>
-                        <ImageView fitHeight="90.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="37.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../eeee.png" />
+                              <Image url="@../../../../../emoji%20icon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -62,9 +61,9 @@
                   <Region prefHeight="74.0" prefWidth="31.0" />
                   <Button fx:id="emojiButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="0.0" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css">
                      <graphic>
-                        <ImageView fitHeight="49.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="36.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../www.png" />
+                              <Image url="@../../../../../photosender%20button.jpg" />
                            </image>
                         </ImageView>
                      </graphic>
