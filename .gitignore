@@ -50,14 +50,13 @@ dist/
 nbdist/
 .nb-gradle/
 
-# run.bat
-# run.bat
+run.bat
 
 # run.sh
 run.sh
 setup.bat
 
-test/
+# test/
 
 .hintrc
 .fake
