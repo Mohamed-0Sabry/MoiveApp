@@ -37,7 +37,7 @@ public class Server {
                     connectedClients.add(newUser);
                     System.out.println("New client connected: " + newUser.getUsername());
                     
-                    // Start a new thread to handle this client
+                    
                     handleClient(newUser);
                 } catch (IOException e) {
                     if (isRunning) {
@@ -56,7 +56,7 @@ public class Server {
                 
                 while (isRunning && (message = in.readLine()) != null) {
                     System.out.println("Received from " + user.getUsername() + ": " + message);
-                    // Handle different types of messages
+                    
                     handleMessage(message, user);
                 }
             } catch (IOException e) {
@@ -69,22 +69,30 @@ public class Server {
 
     private void handleMessage(String message, User sender) {
         if (message.startsWith("CHAT:")) {
-            broadcastMessage("CHAT:" + sender.getUsername() + ": " + message.substring(5));
+            String content = message.substring(5);
+            broadcastMessage("CHAT:" + sender.getUsername() + ": " + content, sender);
         }
         if (message.startsWith("FRAME:")) {
             broadcastFrame(sender, message);
+        }
+        if (message.startsWith("SET_NAME:")) {
+            String name = message.substring(9);
+            sender.setUsername(name);
+            System.out.println("Username set to " + name);
         }        
     }
 
-    public void broadcastMessage(String message) {
+    public void broadcastMessage(String message, User sender) {
         for (User client : connectedClients) {
-            try {
-                PrintWriter out = new PrintWriter(client.getSocket().getOutputStream(), true);
-                out.println(message);
-            } catch (IOException e) {
-                System.err.println("Error broadcasting to " + client.getUsername() + ": " + e.getMessage());
+            if (!client.equals(sender)) {
+                try {
+                    PrintWriter out = new PrintWriter(client.getSocket().getOutputStream(), true);
+                    out.println(message);
+                } catch (IOException e) {
+                    System.err.println("Error broadcasting to " + client.getUsername() + ": " + e.getMessage());
+                }
             }
-        }
+        }    
     }
 
     private void broadcastFrame(User sender, String frameMessage) {
@@ -139,4 +147,10 @@ public class Server {
         }
         executorService.shutdown();
     }
+
+    public static void main(String[] args) throws IOException {
+        int port = (args.length > 0) ? Integer.parseInt(args[0]) : 5555;
+        Server server = new Server();
+        server.start(port);
+    }    
 } 

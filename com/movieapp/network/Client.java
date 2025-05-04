@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -21,6 +22,7 @@ import org.opencv.imgcodecs.Imgcodecs;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.util.Base64;
+import java.util.Optional;
 
 
 public class Client {
@@ -36,6 +38,7 @@ public class Client {
         void onMessageReceived(String message);
         void onFileReceived(FileTransfer fileTransfer);
         void onConnectionClosed();
+        void onImageReceived(Image image);
     }
 
     public Client(MessageListener listener) {
@@ -62,6 +65,17 @@ public void stopScreenSharing() {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
         isConnected = true;
+        Platform.runLater(() -> {
+            TextInputDialog dialog = new TextInputDialog("User");
+            dialog.setTitle("Enter your name");
+            dialog.setHeaderText("Welcome to MovieApp Chat");
+            dialog.setContentText("Please enter your username:");
+            
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(name -> {
+                sendMessage("SET_NAME:" + name);
+            });
+        });        
         startListening();
     }
 
@@ -80,7 +94,7 @@ public void stopScreenSharing() {
                 }
     
                 try {
-                    Thread.sleep(100); // approx 10 fps
+                    Thread.sleep(100); 
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -110,6 +124,17 @@ public void stopScreenSharing() {
                         if (imageView != null) {
                             Platform.runLater(() -> imageView.setImage(fxImage));
                         }
+                    } else if (message.startsWith("IMAGE:")) {
+                        String base64 = message.substring(6);
+                        byte[] data = Base64.getDecoder().decode(base64);
+                        ByteArrayInputStream bis = new ByteArrayInputStream(data);
+                        BufferedImage img = ImageIO.read(bis);
+                        Image fxImage = SwingFXUtils.toFXImage(img, null);
+                        
+                        
+                        Platform.runLater(() -> {
+                            messageListener.onImageReceived(fxImage);
+                        });
                     } else {
                         messageListener.onMessageReceived(message);
                     }                    

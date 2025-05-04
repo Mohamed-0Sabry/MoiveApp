@@ -3,7 +3,7 @@ package com.movieapp.model;
 import java.net.Socket;
 
 public class User {
-    private final String username;
+    private String username;
     private final boolean isHost;
     private Socket socket;
 
@@ -16,6 +16,10 @@ public class User {
     public String getUsername() {
         return username;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }    
 
     public boolean isHost() {
         return isHost;
