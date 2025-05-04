@@ -2,15 +2,21 @@ package com.movieapp.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 
 public class DemoThemeServerController {
     
     @FXML
     private AnchorPane mainAP;
+    
+    @FXML
+    private ScrollPane messagesPane;
     
     @FXML
     private TextField messageField;
@@ -25,16 +31,19 @@ public class DemoThemeServerController {
     private Button emojiButton;
     
     @FXML
-    private Circle closeButton;
-    
-    @FXML
-    private Circle minimizeButton;
-    
-    @FXML
-    private Circle maximizeButton;
+    private Button closeButton;
     
     @FXML
     private VBox messagesBox;
+    
+    @FXML
+    private HBox windowButtonsContainer;
+    
+    @FXML
+    private Line separatorLine1;
+    
+    @FXML
+    private Line separatorLine2;
     
     @FXML
     public void initialize() {
@@ -44,9 +53,14 @@ public class DemoThemeServerController {
         emojiButton.setOnAction(e -> handleEmojiButton());
         
         // Initialize window control buttons
-        closeButton.setOnMouseClicked(e -> System.exit(0));
-        minimizeButton.setOnMouseClicked(e -> minimizeWindow());
-        maximizeButton.setOnMouseClicked(e -> maximizeWindow());
+        closeButton.setOnAction(e -> System.exit(0));
+        
+        // Set up message field enter key handler
+        messageField.setOnAction(e -> handleSendMessage());
+        
+        // Initialize scroll pane behavior
+        messagesPane.setFitToWidth(true);
+        messagesPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }
     
     private void handleSendMessage() {
@@ -66,15 +80,5 @@ public class DemoThemeServerController {
     private void handleEmojiButton() {
         // Implement emoji picker functionality
         System.out.println("Emoji button clicked");
-    }
-    
-    private void minimizeWindow() {
-        // Implement window minimize functionality
-        System.out.println("Minimize clicked");
-    }
-    
-    private void maximizeWindow() {
-        // Implement window maximize functionality
-        System.out.println("Maximize clicked");
     }
 } 

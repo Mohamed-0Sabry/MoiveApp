@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="557.0" stylesheets="@../styles/css-stylesheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="557.0" fx:controller="com.movieapp.controller.DemoThemeServerController" stylesheets="@../styles/css-stylesheet.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane fx:id="mainAP" layoutX="36.0" layoutY="29.0" prefHeight="498.0" prefWidth="460.0" stylesheets="@../styles/css-stylesheet.css">
          <children>
@@ -49,7 +49,7 @@
             </HBox>
             <HBox layoutX="14.0" layoutY="458.0" prefHeight="30.0" prefWidth="82.0">
                <children>
-                  <Button fx:id="imageButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="25.0" style="-fx-graphic: &quot;C:\Users\a_sal\OneDrive\Desktop\OIP.jpeg&quot;;" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css">
+                  <Button fx:id="imageButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="25.0">
                      <graphic>
                         <ImageView fitHeight="37.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -76,10 +76,10 @@
                      <children>
                         <StackPane prefHeight="72.0" prefWidth="28.0">
                            <children>
-                              <Button fx:id="closeButton" minHeight="9.0" minWidth="17.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="30.0" text="Button" />
-                              <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                              <Button fx:id="closeButton" minHeight="9.0" minWidth="17.0" mnemonicParsing="false" prefHeight="9.0" prefWidth="30.0" style="-fx-background-color: transparent;" />
+                              <ImageView fitHeight="29.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" mouseTransparent="true">
                                  <image>
-                                    <Image url="@image/Untitled design (2).png" />
+                                    <Image url="@image/exit icon.png" />
                                  </image>
                               </ImageView>
                            </children>
