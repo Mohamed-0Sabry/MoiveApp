@@ -49,6 +49,9 @@ public class Server {
     }
 
     private void handleClient(User user) {
+
+        System.out.println("NEW CLIENT: " + user.getUsername());
+
         executorService.submit(() -> {
             try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(user.getSocket().getInputStream()));
@@ -59,6 +62,7 @@ public class Server {
                     
                     handleMessage(message, user);
                 }
+
             } catch (IOException e) {
                 System.err.println("Error handling client " + user.getUsername() + ": " + e.getMessage());
             } finally {
@@ -70,7 +74,14 @@ public class Server {
     private void handleMessage(String message, User sender) {
         if (message.startsWith("CHAT:")) {
             String content = message.substring(5);
-            broadcastMessage("CHAT:" + sender.getUsername() + ": " + content, sender);
+            broadcastMessage("CHAT:%" + sender.getUsername() + "%" + content, sender);
+        }
+        if (message.startsWith("IMAGE_CHAT:")) {
+            String content = message.substring(11);
+            broadcastMessage("IMAGE_CHAT:%" + sender.getUsername() + "%" + content, sender);
+        }
+        if (message.startsWith("INFO_CHAT:")) {
+            broadcastMessage(message, sender);
         }
         if (message.startsWith("FRAME:")) {
             broadcastFrame(sender, message);
@@ -79,6 +90,7 @@ public class Server {
             String name = message.substring(9);
             sender.setUsername(name);
             System.out.println("Username set to " + name);
+            broadcastMessage("INFO_CHAT:"+ sender.getUsername() + " Joined To The Chat", sender);
         }        
     }
 
@@ -134,6 +146,7 @@ public class Server {
             System.err.println("Error closing client socket: " + e.getMessage());
         }
         System.out.println("Client disconnected: " + user.getUsername());
+        broadcastMessage("INFO_CHAT:"+ user.getUsername() + " Leaved", user);
     }
 
     public void stop() {

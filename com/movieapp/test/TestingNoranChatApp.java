@@ -1,6 +1,6 @@
 package com.movieapp.test;
 
-import com.movieapp.controller.DemoThemeServerController;
+import com.movieapp.controller.ChatController;
 import com.movieapp.network.Client;
 import com.movieapp.model.FileTransfer;
 
@@ -19,7 +19,7 @@ public class TestingNoranChatApp extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/movieapp/view/DemoThemeServer.fxml"));
             Parent root = loader.load();
             
-            DemoThemeServerController controller = loader.getController();
+            ChatController controller = loader.getController();
             Client client = new Client(new Client.MessageListener() {
                 @Override
                 public void onMessageReceived(String msg) {
@@ -35,8 +35,8 @@ public class TestingNoranChatApp extends Application {
                 }
                 
                 @Override
-                public void onImageReceived(Image image) {
-                    controller.onImageReceived(image);
+                public void onImageReceived(Image image, String name) {
+                    controller.onImageReceived(image, name);
                 }
             });
             controller.setClient(client);
@@ -46,11 +46,15 @@ public class TestingNoranChatApp extends Application {
             Scene scene = new Scene(root);
             primaryStage.setTitle("Demo Theme Server Test");
             primaryStage.setScene(scene);
+
+            primaryStage.setOnCloseRequest(event -> {
+                client.sendMessage("INFO_CHAT:"+ client.getUsername() + " Leaved");
+            });
+
             primaryStage.show();
             
         } catch (Exception e) {
             System.err.println("Error loading FXML: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 

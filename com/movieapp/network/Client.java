@@ -32,13 +32,14 @@ public class Client {
     private ExecutorService executorService;
     private MessageListener messageListener;
     public boolean isConnected;
-    private ImageView imageView; 
+    private ImageView imageView;
+    private String clientUsername;
 
     public interface MessageListener {
         void onMessageReceived(String message);
         void onFileReceived(FileTransfer fileTransfer);
         void onConnectionClosed();
-        void onImageReceived(Image image);
+        void onImageReceived(Image image, String name);
     }
 
     public Client(MessageListener listener) {
@@ -47,17 +48,21 @@ public class Client {
         this.isConnected = false;
     }
 
+    public String getUsername() {
+        return clientUsername;
+    }
+
 
     public void startScreenSharing(int fps) {
-    ScreenCaptureUtils.startScreenCapture(frame -> {
-        String base64 = Base64.getEncoder().encodeToString(frame);
-        sendMessage("FRAME:" + base64);
-    }, fps);
-}
+        ScreenCaptureUtils.startScreenCapture(frame -> {
+            String base64 = Base64.getEncoder().encodeToString(frame);
+            sendMessage("FRAME:" + base64);
+        }, fps);
+    }
 
-public void stopScreenSharing() {
-    ScreenCaptureUtils.stopScreenCapture();
-}
+    public void stopScreenSharing() {
+        ScreenCaptureUtils.stopScreenCapture();
+    }
 
 
     public void connectToHost(String ip, int port) throws IOException {
@@ -73,6 +78,7 @@ public void stopScreenSharing() {
             
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(name -> {
+                clientUsername = name;
                 sendMessage("SET_NAME:" + name);
             });
         });        
@@ -124,8 +130,12 @@ public void stopScreenSharing() {
                         if (imageView != null) {
                             Platform.runLater(() -> imageView.setImage(fxImage));
                         }
-                    } else if (message.startsWith("IMAGE:")) {
-                        String base64 = message.substring(6);
+                    } else if (message.startsWith("IMAGE_CHAT:")) {
+
+                        int index = message.indexOf('%', 12);
+                        String name = message.substring(12, index);
+                        String base64 = message.substring(index+1);
+
                         byte[] data = Base64.getDecoder().decode(base64);
                         ByteArrayInputStream bis = new ByteArrayInputStream(data);
                         BufferedImage img = ImageIO.read(bis);
@@ -133,7 +143,7 @@ public void stopScreenSharing() {
                         
                         
                         Platform.runLater(() -> {
-                            messageListener.onImageReceived(fxImage);
+                            messageListener.onImageReceived(fxImage, name);
                         });
                     } else {
                         messageListener.onMessageReceived(message);

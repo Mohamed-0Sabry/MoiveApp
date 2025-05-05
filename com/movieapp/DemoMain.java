@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 public class DemoMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("view/ViewerScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("view/DemoThemeServer.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles/viewer.css").toExternalForm());
-        primaryStage.setTitle("Movie Viewer Demo");
+        scene.getStylesheets().add(getClass().getResource("styles/css-stylesheet.css").toExternalForm());
+        primaryStage.setTitle("Chat App Demo");
         primaryStage.setScene(scene);
         primaryStage.setWidth(900);
         primaryStage.setHeight(600);
