@@ -12,6 +12,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
+import javafx.fxml.FXMLLoader;
+import java.io.IOException;
 
 /**
  * Controller for the Viewer Screen. Handles fullscreen video overlay and heart button overlay.
@@ -97,7 +99,18 @@ public class ViewerScreenController {
         }
     }
 
-    // --- Helper Methods ---
+    /**
+     *function to return to the MovieAppScreen when the back button is clicked.
+     */
+    @FXML
+    private void onBackButtonClicked() {
+        try {
+            com.movieapp.Main.switchToMainScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /** Ensure primaryStage is set. */
     private void ensurePrimaryStage() {

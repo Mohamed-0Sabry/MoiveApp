@@ -145,13 +145,26 @@
                   <!-- Title Bar -->
                   <HBox fx:id="topBar" prefHeight="69.0" prefWidth="752.0" BorderPane.alignment="CENTER">
                      <children>
-                  <Region layoutX="370.0" layoutY="10.0" prefHeight="69.0" prefWidth="64.0" />
-                  <VBox prefHeight="50.0" prefWidth="404.0">
+                  <Region layoutX="370.0" layoutY="10.0" prefHeight="69.0" prefWidth="32.0" />
+                  <VBox prefHeight="69.0" prefWidth="453.0">
                      <children>
                         <Region prefHeight="52.0" prefWidth="360.0" />
                         <HBox alignment="BOTTOM_LEFT" prefHeight="4.0" prefWidth="360.0">
                            <children>
-                              <Region prefHeight="57.0" prefWidth="16.0" />
+                              <HBox prefHeight="35.0" prefWidth="21.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="35.0" prefWidth="25.0" styleClass="backbutton">
+                                       <graphic>
+                                          <ImageView fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@image/arrow.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <Region prefHeight="38.0" prefWidth="5.0" />
                                     <Label prefHeight="16.0" prefWidth="185.0" style="-fx-font-weight: bold;" text="Viewer">
                                  <font>
                                     <Font name="Antipasto Pro ExtraBold" size="36.0" />
