@@ -62,3 +62,4 @@ setup.bat
 .fake
 
 /src
+dependency-reduced-pom.xml

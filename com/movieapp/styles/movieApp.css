@@ -37,8 +37,8 @@ Button:pressed {
     -fx-background-color: #384fc4; /* Even darker blue when pressed */
     -fx-border-color: #3848c4;
     -fx-text-fill: #ffffff;
-    -fx-scale-x: 1.7;
-    -fx-scale-y: 1.7;
+    -fx-scale-x: 1.09;
+    -fx-scale-y: 1.09;
 }
 
 .Region {

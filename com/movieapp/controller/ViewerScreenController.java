@@ -126,8 +126,10 @@ public class ViewerScreenController {
         fullscreenRoot.setStyle("-fx-background-color: black;");
         fullscreenRoot.getChildren().add(mediaView);
         fullscreenRoot.getChildren().add(heartButtonContainer);
+        heartButtonContainer.setMinSize(javafx.scene.layout.Region.USE_PREF_SIZE, javafx.scene.layout.Region.USE_PREF_SIZE);
+        heartButtonContainer.setMaxSize(javafx.scene.layout.Region.USE_PREF_SIZE, javafx.scene.layout.Region.USE_PREF_SIZE);
         StackPane.setAlignment(heartButtonContainer, Pos.BOTTOM_RIGHT);
-        StackPane.setMargin(heartButtonContainer, new Insets(0, 40, 40, 0));
+        StackPane.setMargin(heartButtonContainer, new Insets(0, 10, 10, 0));
         fullscreenStage = new Stage(StageStyle.UNDECORATED);
         fullscreenStage.initOwner(primaryStage);
         fullscreenStage.setFullScreen(true);
