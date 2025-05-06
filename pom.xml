@@ -37,6 +37,11 @@
             <artifactId>javafx-swing</artifactId>
             <version>${javafx.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
 
         <!-- OpenCV -->
         <dependency>
@@ -46,6 +51,22 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/opencv-4110.jar</systemPath>
         </dependency>
+
+        <!-- Gluon emoji core -->
+        <dependency>
+        <groupId>com.gluonhq.emoji</groupId>
+        <artifactId>emoji</artifactId>
+        <version>1.1.0</version>
+        </dependency>
+
+        <!-- Gluon offline sprite bundle -->
+        <dependency>
+        <groupId>com.gluonhq.emoji</groupId>
+        <artifactId>offline</artifactId>
+        <version>1.1.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -109,6 +130,8 @@
                     <mainClass>com.movieapp.Main</mainClass>
                     <options>
                         <option>-Djava.library.path=${project.basedir}/lib</option>
+                        <option>--add-modules</option>
+                        <option>javafx.controls,javafx.fxml,javafx.graphics</option>
                     </options>
                     <launcher>movieapp</launcher>
                     <jlinkImageName>movieapp</jlinkImageName>
@@ -146,6 +169,10 @@
                         <version>3.1.0</version>
                         <configuration>
                             <mainClass>com.movieapp.test.TestingNoranChatApp</mainClass>
+                            <arguments>
+                                <argument>--add-modules</argument>
+                                <argument>javafx.controls,javafx.fxml,javafx.graphics</argument>
+                            </arguments>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -161,6 +188,10 @@
                         <version>3.1.0</version>
                         <configuration>
                             <mainClass>com.movieapp.test.TestingNoranChatApp</mainClass>
+                            <arguments>
+                                <argument>--add-modules</argument>
+                                <argument>javafx.controls,javafx.fxml,javafx.graphics</argument>
+                            </arguments>
                         </configuration>
                     </plugin>
                 </plugins>
