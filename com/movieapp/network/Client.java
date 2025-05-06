@@ -1,8 +1,7 @@
 package com.movieapp.network;
 
 import com.movieapp.model.FileTransfer;
-
-import comm.demo.utils.ScreenCaptureUtils;
+import com.movieapp.utils.ScreenCaptureUtils;
 
 import java.io.*;
 import java.net.Socket;

@@ -75,7 +75,7 @@ public class ChatController {
                 msgLabel.setTextFill(Color.web("#cccccc"));
                 Platform.runLater(() -> {
                     messagesBox.getChildren().add(msgLabel);
-                });
+            });
         }
 
     }

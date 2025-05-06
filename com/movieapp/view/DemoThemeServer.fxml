@@ -26,14 +26,14 @@
                   <Insets bottom="10" left="5" right="5" top="10" />
                </padding>
             </ScrollPane>
-            <HBox alignment="CENTER_LEFT" layoutX="118.0" layoutY="448.0" prefHeight="50.0" prefWidth="365.0" spacing="10" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css" AnchorPane.bottomAnchor="-0.39999999999997726" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="2.0">
+            <HBox alignment="CENTER_LEFT" layoutX="118.0" layoutY="448.0" prefHeight="50.0" prefWidth="365.0" spacing="10" stylesheets="@../styles/css-stylesheet.css" AnchorPane.bottomAnchor="-0.39999999999997726" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="2.0">
                <children>
                   <TextField fx:id="messageField" prefHeight="36.0" prefWidth="218.0" promptText="Type your message..." stylesheets="@../styles/css-stylesheet.css" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="sendButton" prefHeight="40.0" prefWidth="40.0" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css">
+                  <Button fx:id="sendButton" prefHeight="40.0" prefWidth="40.0" stylesheets="@../styles/css-stylesheet.css">
                      <graphic>
                         <ImageView fitHeight="38.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -59,7 +59,7 @@
                      </graphic>
                   </Button>
                   <Region prefHeight="74.0" prefWidth="31.0" />
-                  <Button fx:id="emojiButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="0.0" stylesheets="C:\Users\a_sal\OneDrive\Desktop\MovieApp\MoiveApp\com\movieapp\styles\css-stylesheet.css">
+                  <Button fx:id="emojiButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="0.0" stylesheets="@../styles/css-stylesheet.css">
                      <graphic>
                         <ImageView fitHeight="36.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                            <image>

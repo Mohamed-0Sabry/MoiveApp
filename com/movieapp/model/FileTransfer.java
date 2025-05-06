@@ -1,8 +1,6 @@
 package com.movieapp.model;
 import java.io.IOException;
-import comm.demo.utils.FileUtils;
-
-
+import com.movieapp.utils.FileUtils;
 public class FileTransfer {
     private String fileName;
     private long fileSize;
