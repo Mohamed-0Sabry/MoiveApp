@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="stackPane" prefHeight="533.0" prefWidth="1152.0" styleClass="stack-pane" stylesheets="@../styles/movieApp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.HomePageScreenController">
@@ -70,7 +71,11 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Label prefHeight="41.0" prefWidth="537.0" text="                                                                                                                                                 " underline="true" />
+                     <HBox alignment="CENTER" prefHeight="56.0" prefWidth="491.0">
+                        <children>
+                           <Line endX="388.62615966796875" endY="-0.7070915102958679" startX="-100.0" />
+                        </children>
+                     </HBox>
                   <VBox alignment="CENTER" prefHeight="107.0" prefWidth="642.0">
                      <children>
                         <HBox alignment="CENTER" prefHeight="86.0" prefWidth="635.0">

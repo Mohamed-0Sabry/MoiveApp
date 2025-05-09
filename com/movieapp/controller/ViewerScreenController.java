@@ -14,6 +14,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.StageStyle;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+import javafx.scene.image.Image;
+import javafx.scene.control.Slider;
 
 /**
  * Controller for the Viewer Screen. Handles fullscreen video overlay and heart button overlay.
@@ -25,6 +33,13 @@ public class ViewerScreenController {
     @FXML private VBox controlsPane;
     @FXML private HBox topBar;
     @FXML private HBox heartButtonContainer;
+    @FXML private Button heartButton;
+    @FXML private ImageView heartIcon;
+    @FXML private Button muteButton;
+    @FXML private ImageView volumeOnIcon;
+    @FXML private ImageView volumeMuteIcon;
+    @FXML private Slider volumeSlider;
+    @FXML private Pane effectsPane;
 
     // State fields
     private boolean isFullscreen = false;
@@ -38,6 +53,10 @@ public class ViewerScreenController {
     private Parent originalHeartButtonParent;
     private int originalHeartButtonIndex;
 
+    private boolean isLiked = false;
+    private boolean isMuted = false;
+    private double previousVolume = 1.0;
+
     /**
      * Initialize controller and set up primary stage reference.
      */
@@ -48,6 +67,17 @@ public class ViewerScreenController {
                 primaryStage = (Stage) newValue.getWindow();
             }
         });
+        heartButton.setOnAction(event -> {
+            animateHeart();
+            showHeartBurst();
+        });
+        
+        // Initialize volume controls
+        setupVolumeControls();
+        // Make effectsPane mouse transparent so it doesn't block button clicks
+        if (effectsPane != null) {
+            effectsPane.setMouseTransparent(true);
+        }
     }
 
     /**
@@ -139,6 +169,7 @@ public class ViewerScreenController {
         fullscreenRoot.setStyle("-fx-background-color: black;");
         fullscreenRoot.getChildren().add(mediaView);
         fullscreenRoot.getChildren().add(heartButtonContainer);
+        fullscreenRoot.getChildren().add(effectsPane);
         heartButtonContainer.setMinSize(javafx.scene.layout.Region.USE_PREF_SIZE, javafx.scene.layout.Region.USE_PREF_SIZE);
         heartButtonContainer.setMaxSize(javafx.scene.layout.Region.USE_PREF_SIZE, javafx.scene.layout.Region.USE_PREF_SIZE);
         StackPane.setAlignment(heartButtonContainer, Pos.BOTTOM_RIGHT);
@@ -170,6 +201,7 @@ public class ViewerScreenController {
         if (fullscreenRoot != null) {
             fullscreenRoot.getChildren().remove(mediaView);
             fullscreenRoot.getChildren().remove(heartButtonContainer);
+            fullscreenRoot.getChildren().remove(effectsPane);
         }
     }
 
@@ -177,5 +209,120 @@ public class ViewerScreenController {
     private void restoreToOriginalParents() {
         ((Pane) originalMediaViewParent).getChildren().add(originalMediaViewIndex, mediaView);
         ((Pane) originalHeartButtonParent).getChildren().add(originalHeartButtonIndex, heartButtonContainer);
+        ((StackPane) rootPane).getChildren().add(effectsPane);
+    }
+
+    private void animateHeart() {
+        // Create a combined scale, rotation, and glow animation
+        Timeline animationTimeline = new Timeline(
+            new KeyFrame(Duration.ZERO,
+                new KeyValue(heartIcon.scaleXProperty(), 1),
+                new KeyValue(heartIcon.scaleYProperty(), 1),
+                new KeyValue(heartIcon.rotateProperty(), 0),
+                new KeyValue(heartIcon.opacityProperty(), 1)
+            ),
+            new KeyFrame(Duration.millis(100),
+                new KeyValue(heartIcon.scaleXProperty(), 1.4),
+                new KeyValue(heartIcon.scaleYProperty(), 1.4),
+                new KeyValue(heartIcon.rotateProperty(), 30),
+                new KeyValue(heartIcon.opacityProperty(), 1.2)
+            ),
+            new KeyFrame(Duration.millis(200),
+                new KeyValue(heartIcon.scaleXProperty(), 1),
+                new KeyValue(heartIcon.scaleYProperty(), 1),
+                new KeyValue(heartIcon.rotateProperty(), 0),
+                new KeyValue(heartIcon.opacityProperty(), 1)
+            )
+        );
+        
+        // Toggle liked state
+        isLiked = !isLiked;
+        
+        // Update styles based on liked state
+        if (isLiked) {
+            heartButton.setStyle("-fx-background-color: transparent; " +
+                               "-fx-border-radius: 50%; " +
+                               "-fx-border: 2px solid #ff4d4d; " +
+                               "-fx-cursor: hand; " +
+                               "-fx-font-weight: bold; " +
+                               "-fx-effect: dropshadow(gaussian, #ff9999, 10, 0.3, 0, 0);");
+            heartIcon.setStyle("-fx-effect: dropshadow(gaussian, #ff9999, 12, 0.4, 0, 0);");
+        } else {
+            heartButton.setStyle("-fx-background-color: transparent; " +
+                               "-fx-border-radius: 50%; " +
+                               "-fx-border: 2px solid #cccccc; " +
+                               "-fx-cursor: hand; " +
+                               "-fx-font-weight: bold; " +
+                               "-fx-effect: none;");
+            heartIcon.setStyle("-fx-effect: none;");
+        }
+        
+        // Play the animation
+        animationTimeline.play();
+    }
+
+    private void setupVolumeControls() {
+        volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (mediaView.getMediaPlayer() != null) {
+                double volume = newVal.doubleValue() / 100.0;
+                mediaView.getMediaPlayer().setVolume(volume);
+            }
+            // Icon switching logic (always runs)
+            if (volumeOnIcon != null && volumeMuteIcon != null) {
+                boolean isMuted = newVal.doubleValue() == 0;
+                volumeOnIcon.setVisible(!isMuted);
+                volumeMuteIcon.setVisible(isMuted);
+            }
+        });
+
+        muteButton.setOnAction(event -> toggleMute());
+    }
+
+    private void toggleMute() {
+        if (volumeSlider.getValue() == 0) {
+            volumeSlider.setValue(100);
+        } else {
+            volumeSlider.setValue(0);
+        }
+    }
+
+    private void showHeartBurst() {
+        for (int i = 0; i < 6; i++) {
+            ImageView heart = new ImageView(heartIcon.getImage());
+            heart.setFitWidth(24);
+            heart.setFitHeight(24);
+            // Get the center of the heart button in scene coordinates
+            double startX = heartButton.localToScene(heartButton.getWidth()/2, heartButton.getHeight()/2).getX();
+            double startY = heartButton.localToScene(heartButton.getWidth()/2, heartButton.getHeight()/2).getY();
+            // Convert to effectsPane local coordinates
+            double paneX = effectsPane.sceneToLocal(startX, startY).getX();
+            double paneY = effectsPane.sceneToLocal(startX, startY).getY();
+            heart.setLayoutX(paneX);
+            heart.setLayoutY(paneY);
+            effectsPane.getChildren().add(heart);
+            // Random direction
+            double angle = Math.toRadians(60 * i + 20 - Math.random()*40);
+            double distance = 80 + Math.random()*30;
+            double dx = Math.cos(angle) * distance;
+            double dy = Math.sin(angle) * distance;
+            Timeline tl = new Timeline(
+                new KeyFrame(Duration.ZERO,
+                    new KeyValue(heart.opacityProperty(), 1),
+                    new KeyValue(heart.translateXProperty(), 0),
+                    new KeyValue(heart.translateYProperty(), 0),
+                    new KeyValue(heart.scaleXProperty(), 1),
+                    new KeyValue(heart.scaleYProperty(), 1)
+                ),
+                new KeyFrame(Duration.seconds(0.7),
+                    new KeyValue(heart.opacityProperty(), 0),
+                    new KeyValue(heart.translateXProperty(), dx),
+                    new KeyValue(heart.translateYProperty(), dy),
+                    new KeyValue(heart.scaleXProperty(), 1.5),
+                    new KeyValue(heart.scaleYProperty(), 1.5)
+                )
+            );
+            tl.setOnFinished(e -> effectsPane.getChildren().remove(heart));
+            tl.play();
+        }
     }
 } 
