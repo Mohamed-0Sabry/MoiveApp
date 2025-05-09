@@ -54,18 +54,26 @@
 
         <!-- Gluon emoji core -->
         <dependency>
-        <groupId>com.gluonhq.emoji</groupId>
-        <artifactId>emoji</artifactId>
-        <version>1.1.0</version>
+            <groupId>com.gluonhq.emoji</groupId>
+            <artifactId>emoji</artifactId>
+            <version>1.1.0</version>
         </dependency>
 
         <!-- Gluon offline sprite bundle -->
         <dependency>
-        <groupId>com.gluonhq.emoji</groupId>
-        <artifactId>offline</artifactId>
-        <version>1.1.0</version>
+            <groupId>com.gluonhq.emoji</groupId>
+            <artifactId>offline</artifactId>
+            <version>1.1.0</version>
         </dependency>
 
+
+
+        <!-- Json -->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
 
     </dependencies>
 
@@ -81,6 +89,7 @@
                     <include>com/**/*.png</include>
                     <include>com/**/*.jpg</include>
                     <include>com/**/*.jpeg</include>
+                    <include>com/**/*.json</include>
                 </includes>
             </resource>
         </resources>
@@ -192,6 +201,41 @@
                                 <argument>--add-modules</argument>
                                 <argument>javafx.controls,javafx.fxml,javafx.graphics</argument>
                             </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>host</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
+                            <mainClass>com.movieapp.test.TestingHost</mainClass>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>login</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
+                            <mainClass>com.movieapp.test.TestingLoginPage</mainClass>
+                            <arguments>
+                                <argument>--add-modules</argument>
+                                <argument>javafx.controls,javafx.fxml,javafx.graphics</argument>
+                            </arguments>
+                            <classpathScope>compile</classpathScope>
                         </configuration>
                     </plugin>
                 </plugins>

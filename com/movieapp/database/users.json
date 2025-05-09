@@ -1,0 +1,21 @@
+{
+    "users":
+    [
+      {"password":"123",
+        "name":"kjhg",
+        "email":"123"
+      },
+      {"password":"123",
+        "name":"noha",
+        "email":"nohashehab"
+      },
+      {"password":"123",
+        "name":"noraaaaaan",
+        "email":"noran@"
+      },
+      {"password":"asd",
+        "name":"asd",
+        "email":"asd"
+      }
+    ]
+  }

@@ -1,3 +1,4 @@
+package com.movieapp.controller;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

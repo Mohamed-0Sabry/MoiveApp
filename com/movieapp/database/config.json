@@ -1,0 +1,14 @@
+{
+    "appSettings": {
+        "windowTitle": "Movie Night - Login",
+        "windowWidth": 800,
+        "windowHeight": 600,
+        "animationDuration": 0.5,
+        "slideDistance": 300
+    },
+    "theme": {
+        "primaryColor": "#2196F3",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#333333"
+    }
+} 
