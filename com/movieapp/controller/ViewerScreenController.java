@@ -19,6 +19,14 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.fxml.FXMLLoader;
+import com.movieapp.network.Client;
+import com.movieapp.model.FileTransfer;
+import javafx.scene.image.Image;
 
 /**
  * Controller for the Viewer Screen. Handles fullscreen video overlay and heart button overlay.
@@ -37,6 +45,11 @@ public class ViewerScreenController {
     @FXML private ImageView volumeMuteIcon;
     @FXML private Slider volumeSlider;
     @FXML private Pane effectsPane;
+    @FXML private StackPane chatPanel;
+    @FXML private TextField messageField;
+    @FXML private Button sendButton;
+    @FXML private VBox messagesBox;
+    @FXML private ScrollPane messagesPane;
 
     // State fields
     private boolean isFullscreen = false;
@@ -53,6 +66,11 @@ public class ViewerScreenController {
     private boolean isLiked = false;
     private boolean isMuted = false;
     private double previousVolume = 1.0;
+
+    private Client client;
+    private ChatController chatController;
+    private boolean isChatOpen = false;
+    private Timeline slideAnimation;
 
     /**
      * Initialize controller and set up primary stage reference.
@@ -74,6 +92,51 @@ public class ViewerScreenController {
         // Make effectsPane mouse transparent so it doesn't block button clicks
         if (effectsPane != null) {
             effectsPane.setMouseTransparent(true);
+        }
+
+        // Initialize client
+        client = new Client(new Client.MessageListener() {
+            @Override
+            public void onMessageReceived(String msg) {
+                if (chatController != null) {
+                    chatController.displayMessage(msg);
+                }
+            }
+            
+            @Override
+            public void onFileReceived(FileTransfer fileTransfer) {
+                // Handle file transfer if needed
+            }
+            
+            @Override
+            public void onConnectionClosed() {
+                // Handle connection closed
+            }
+            
+            @Override
+            public void onImageReceived(Image image, String name) {
+                if (chatController != null) {
+                    chatController.onImageReceived(image, name);
+                }
+            }
+        });
+
+        // Connect to host
+        try {
+            client.connectToHost("localhost", 5555);
+        } catch (Exception e) {
+            System.err.println("Error connecting to host: " + e.getMessage());
+        }
+
+        // Initialize chat panel
+        chatPanel.setPrefWidth(400);
+        chatPanel.setMaxWidth(400);
+        chatPanel.setTranslateX(400); // Start off-screen
+
+        // Get the ChatController from the included FXML
+        chatController = (ChatController) chatPanel.lookup("#mainAP").getUserData();
+        if (chatController != null) {
+            chatController.setClient(client);
         }
     }
 
@@ -138,6 +201,63 @@ public class ViewerScreenController {
         }
     }
 
+    @FXML
+    private void onChatButtonClicked() {
+        if (!isChatOpen) {
+            openChat();
+        } else {
+            closeChat();
+        }
+    }
+
+    @FXML
+    private void onCloseChatClicked() {
+        closeChat();
+    }
+
+    private void openChat() {
+        chatPanel.setVisible(true);
+        if (slideAnimation != null) {
+            slideAnimation.stop();
+        }
+        slideAnimation = new Timeline(
+            new KeyFrame(Duration.ZERO,
+                new KeyValue(chatPanel.translateXProperty(), 400)
+            ),
+            new KeyFrame(Duration.millis(300),
+                new KeyValue(chatPanel.translateXProperty(), 0)
+            )
+        );
+        slideAnimation.play();
+        isChatOpen = true;
+    }
+
+    private void closeChat() {
+        if (slideAnimation != null) {
+            slideAnimation.stop();
+        }
+        slideAnimation = new Timeline(
+            new KeyFrame(Duration.ZERO,
+                new KeyValue(chatPanel.translateXProperty(), 0)
+            ),
+            new KeyFrame(Duration.millis(300),
+                new KeyValue(chatPanel.translateXProperty(), 400)
+            )
+        );
+        slideAnimation.setOnFinished(e -> chatPanel.setVisible(false));
+        slideAnimation.play();
+        isChatOpen = false;
+    }
+
+    @FXML
+    private void onSendMessageClicked() {
+        String message = messageField.getText().trim();
+        if (!message.isEmpty() && client != null) {
+            client.sendMessage("CHAT:" + message);
+            displayMessage("CHAT:You%" + message);
+            messageField.clear();
+        }
+    }
 
     /** Ensure primaryStage is set. */
     private void ensurePrimaryStage() {
@@ -321,5 +441,46 @@ public class ViewerScreenController {
             tl.setOnFinished(e -> effectsPane.getChildren().remove(heart));
             tl.play();
         }
+    }
+
+    private void displayMessage(String message) {
+        if (message.startsWith("CHAT:")) {
+            int index = message.indexOf('%', 6);
+            String name = message.substring(6, index);
+            String content = message.substring(index + 1);
+            
+            Label msgLabel = new Label(content);
+            msgLabel.getStyleClass().add("message-bubble-left");
+            msgLabel.setWrapText(true);
+            msgLabel.setMaxWidth(300);
+            
+            javafx.application.Platform.runLater(() -> {
+                messagesBox.getChildren().add(new Label(name));
+                messagesBox.getChildren().add(msgLabel);
+                messagesPane.setVvalue(1.0); // Scroll to bottom
+            });
+        } else if (message.startsWith("INFO_CHAT")) {
+            String content = message.substring(10);
+            Label msgLabel = new Label(content);
+            msgLabel.setAlignment(Pos.CENTER);
+            msgLabel.setTextFill(Color.web("#cccccc"));
+            
+            javafx.application.Platform.runLater(() -> {
+                messagesBox.getChildren().add(msgLabel);
+                messagesPane.setVvalue(1.0);
+            });
+        }
+    }
+
+    private void displayImage(Image image, String name) {
+        ImageView imgView = new ImageView(image);
+        imgView.setFitWidth(150);
+        imgView.setPreserveRatio(true);
+        
+        javafx.application.Platform.runLater(() -> {
+            messagesBox.getChildren().add(new Label(name));
+            messagesBox.getChildren().add(imgView);
+            messagesPane.setVvalue(1.0);
+        });
     }
 } 

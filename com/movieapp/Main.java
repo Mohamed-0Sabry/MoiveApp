@@ -2,6 +2,8 @@ package com.movieapp;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+
+import com.movieapp.controller.HostController;
 import com.movieapp.network.Server;
 import com.movieapp.utils.StageManager;
 
@@ -55,9 +57,7 @@ public class Main extends Application {
             );
 
             // Get the controller and set the server
-            com.movieapp.controller.HostController controller = 
-                (com.movieapp.controller.HostController) StageManager.getInstance()
-                    .getPrimaryStage().getScene().getUserData();
+            HostController controller = (HostController) StageManager.getInstance().getPrimaryStage().getScene().getUserData();
             
             if (controller == null) {
                 throw new RuntimeException("Failed to get controller from FXML");
