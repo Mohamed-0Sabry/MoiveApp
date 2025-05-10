@@ -1,70 +1,44 @@
 package com.movieapp;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import com.movieapp.network.Server;
 import com.movieapp.utils.StageManager;
 
 public class Main extends Application {
 
-    private static Stage primaryStage;
     private static final int DEFAULT_PORT = 5555;
     private static Server server;
 
     @Override
     public void start(Stage stage) throws Exception {
         System.out.println("OpenCV library loaded successfully!");
-        primaryStage = stage;
-        StageManager.getInstance().configureStage(primaryStage);
+        StageManager.getInstance().setPrimaryStage(stage);
         showHostOrViewerChoice();
     }
 
     private void showHostOrViewerChoice() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/movieapp/view/MovieAppScreen.fxml"));
-        Scene scene = new Scene(loader.load());
-
-        // Load style
-        scene.getStylesheets().add(getClass().getResource("/com/movieapp/styles/movieApp.css").toExternalForm());
-
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Movie Night");
-        
-        primaryStage.setOnCloseRequest(event -> {
-            Platform.exit();
-            System.exit(0);
-        });
-        primaryStage.show();
+        StageManager.getInstance().loadScene(
+            "/com/movieapp/view/MovieAppScreen.fxml",
+            "/com/movieapp/styles/movieApp.css",
+            "Movie Night"
+        );
     }
 
     public static void switchToViewer() throws Exception {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/com/movieapp/view/ViewerScreen.fxml"));
-        Scene scene = new Scene(loader.load());
-
-        scene.getStylesheets().add(Main.class.getResource("/com/movieapp/styles/viewer.css").toExternalForm());
-
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Movie Night - Viewer");
-        StageManager.getInstance().configureStage(primaryStage);
-
-        primaryStage.setOnCloseRequest(event -> {
-            Platform.exit();
-            System.exit(0);
-        });
+        StageManager.getInstance().loadScene(
+            "/com/movieapp/view/ViewerScreen.fxml",
+            "/com/movieapp/styles/viewer.css",
+            "Movie Night - Viewer"
+        );
     }
 
     public static void switchToMainScreen() throws Exception {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/com/movieapp/view/MovieAppScreen.fxml"));
-        Scene scene = new Scene(loader.load());
-        scene.getStylesheets().add(Main.class.getResource("/com/movieapp/styles/movieApp.css").toExternalForm());
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Movie Night");
-        StageManager.getInstance().configureStage(primaryStage);
-        primaryStage.setOnCloseRequest(event -> {
-            Platform.exit();
-            System.exit(0);
-        });
+        StageManager.getInstance().loadScene(
+            "/com/movieapp/view/MovieAppScreen.fxml",
+            "/com/movieapp/styles/movieApp.css",
+            "Movie Night"
+        );
     }
 
     public static void switchToHost() throws Exception {
@@ -74,28 +48,21 @@ public class Main extends Application {
             server.start(DEFAULT_PORT);
             System.out.println("Server started successfully on port " + DEFAULT_PORT);
 
-            // Load the HostScreen FXML
-            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/com/movieapp/view/HostScreen.fxml"));
-            Scene scene = new Scene(loader.load());
-            scene.getStylesheets().add(Main.class.getResource("/com/movieapp/styles/host.css").toExternalForm());
-            
+            StageManager.getInstance().loadScene(
+                "/com/movieapp/view/HostScreen.fxml",
+                "/com/movieapp/styles/host.css",
+                "Movie Night - Host"
+            );
+
             // Get the controller and set the server
-            com.movieapp.controller.HostController controller = loader.getController();
+            com.movieapp.controller.HostController controller = 
+                (com.movieapp.controller.HostController) StageManager.getInstance()
+                    .getPrimaryStage().getScene().getUserData();
+            
             if (controller == null) {
                 throw new RuntimeException("Failed to get controller from FXML");
             }
 
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("Movie Night - Host");
-            StageManager.getInstance().configureStage(primaryStage);
-            primaryStage.setOnCloseRequest(event -> {
-                if (server != null) {
-                    server.stop();
-                    System.out.println("Server stopped");
-                }
-                Platform.exit();
-                System.exit(0);
-            });
         } catch (Exception e) {
             System.err.println("Error in switchToHost: " + e.getMessage());
             e.printStackTrace();
