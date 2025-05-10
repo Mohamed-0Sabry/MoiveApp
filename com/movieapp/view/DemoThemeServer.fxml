@@ -14,9 +14,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="557.0" stylesheets="@../styles/css-stylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.ChatController">
+<AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="556.0" prefWidth="557.0" stylesheets="@../styles/css-stylesheet.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.ChatController">
    <children>
-      <AnchorPane fx:id="mainAP" layoutX="36.0" layoutY="29.0" prefHeight="498.0" prefWidth="460.0" stylesheets="@../styles/css-stylesheet.css">
+      <AnchorPane fx:id="mainAP" layoutX="36.0" layoutY="29.0" prefHeight="498.0" prefWidth="460.0" stylesheets="@../styles/css-stylesheet.css" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
          <children>
             <ScrollPane fx:id="messagesPane" fitToWidth="true" hbarPolicy="NEVER" layoutX="19.0" layoutY="77.0" prefHeight="345.0" prefWidth="448.0" style="-fx-background-color: white;" stylesheets="@../styles/css-stylesheet.css" AnchorPane.bottomAnchor="76.59999999999997" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="19.399999999999977" AnchorPane.topAnchor="77.0">
                <content>
@@ -26,7 +26,7 @@
                   <Insets bottom="10" left="5" right="5" top="10" />
                </padding>
             </ScrollPane>
-            <HBox alignment="CENTER_LEFT" layoutX="118.0" layoutY="448.0" prefHeight="50.0" prefWidth="365.0" spacing="10" stylesheets="@../styles/css-stylesheet.css" AnchorPane.bottomAnchor="-0.39999999999997726" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="2.0">
+            <HBox alignment="CENTER_LEFT" layoutX="118.0" layoutY="448.0" prefHeight="50.0" prefWidth="365.0" spacing="10" stylesheets="@../styles/css-stylesheet.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="2.0">
                <children>
                   <TextField fx:id="messageField" prefHeight="36.0" prefWidth="218.0" promptText="Type your message..." stylesheets="@../styles/css-stylesheet.css" HBox.hgrow="ALWAYS">
                      <font>
@@ -47,9 +47,9 @@
                   <Insets bottom="5" left="5" right="5" top="5" />
                </padding>
             </HBox>
-            <HBox layoutX="14.0" layoutY="458.0" prefHeight="30.0" prefWidth="82.0">
+            <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="458.0" prefHeight="50.0" prefWidth="82.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0">
                <children>
-                  <Button fx:id="imageButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="25.0">
+                  <Button fx:id="imageButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0">
                      <graphic>
                         <ImageView fitHeight="37.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -59,7 +59,7 @@
                      </graphic>
                   </Button>
                   <Region prefHeight="74.0" prefWidth="31.0" />
-                  <Button fx:id="emojiButton" mnemonicParsing="false" prefHeight="19.0" prefWidth="0.0" stylesheets="@../styles/css-stylesheet.css">
+                  <Button fx:id="emojiButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" stylesheets="@../styles/css-stylesheet.css">
                      <graphic>
                         <ImageView fitHeight="36.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -70,7 +70,7 @@
                   </Button>
                </children>
             </HBox>
-            <HBox layoutY="-2.0" prefHeight="72.0" prefWidth="481.0">
+            <HBox layoutY="-2.0" prefHeight="72.0" prefWidth="481.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox prefHeight="72.0" prefWidth="50.0" spacing="6" styleClass="window-buttons-container">
                      <children>
@@ -89,8 +89,8 @@
                   <ImageView fitHeight="68.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </HBox>
-            <Line endX="261.3999938964844" endY="3.0517578125E-5" layoutX="220.0" layoutY="440.0" startX="-219.00003051757812" startY="3.0517578125E-5" stroke="#0000001b" styleClass="separator-line" />
-            <Line endX="217.69992065429688" endY="7.62939453125E-6" layoutX="266.0" layoutY="70.0" startX="-266.0000305175781" startY="7.62939453125E-6" stroke="#0000001b" />
+            <Line endX="261.3999938964844" endY="3.0517578125E-5" layoutX="220.0" layoutY="440.0" startX="-219.00003051757812" startY="3.0517578125E-5" stroke="#0000001b" styleClass="separator-line" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Line endX="217.69992065429688" endY="7.62939453125E-6" layoutX="266.0" layoutY="70.0" startX="-266.0000305175781" startY="7.62939453125E-6" stroke="#0000001b" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="emojis" prefHeight="36.0" prefWidth="225.0" style="-fx-background-color: #FFF; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(255, 158, 158,0.7), 5, 0, 0, 0); -fx-border-radius: 20;" visible="false" AnchorPane.bottomAnchor="95.0" AnchorPane.leftAnchor="80.0">

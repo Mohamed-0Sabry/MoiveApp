@@ -27,6 +27,14 @@ import javafx.fxml.FXMLLoader;
 import com.movieapp.network.Client;
 import com.movieapp.model.FileTransfer;
 import javafx.scene.image.Image;
+import java.io.IOException;
+import com.movieapp.utils.StageManager;
+import javafx.application.Platform;
+import javafx.stage.FileChooser;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.Base64;
 
 /**
  * Controller for the Viewer Screen. Handles fullscreen video overlay and heart button overlay.
@@ -70,7 +78,6 @@ public class ViewerScreenController {
     private Client client;
     private ChatController chatController;
     private boolean isChatOpen = false;
-    private Timeline slideAnimation;
 
     /**
      * Initialize controller and set up primary stage reference.
@@ -129,15 +136,15 @@ public class ViewerScreenController {
         }
 
         // Initialize chat panel
-        chatPanel.setPrefWidth(400);
-        chatPanel.setMaxWidth(400);
-        chatPanel.setTranslateX(400); // Start off-screen
-
-        // Get the ChatController from the included FXML
-        chatController = (ChatController) chatPanel.lookup("#mainAP").getUserData();
+        StageManager.getInstance().loadSlidingPanel(rootPane, "/com/movieapp/view/DemoThemeServer.fxml", "/com/movieapp/styles/css-stylesheet.css");
+        chatPanel = (StackPane) rootPane.getChildren().get(rootPane.getChildren().size() - 1);
+        chatController = (ChatController) chatPanel.getChildren().get(0).getUserData();
         if (chatController != null) {
             chatController.setClient(client);
         }
+
+        // Make sure the chat panel stays on top
+        chatPanel.toFront();
     }
 
     /**
@@ -203,59 +210,10 @@ public class ViewerScreenController {
 
     @FXML
     private void onChatButtonClicked() {
-        if (!isChatOpen) {
-            openChat();
-        } else {
-            closeChat();
-        }
-    }
-
-    @FXML
-    private void onCloseChatClicked() {
-        closeChat();
-    }
-
-    private void openChat() {
-        chatPanel.setVisible(true);
-        if (slideAnimation != null) {
-            slideAnimation.stop();
-        }
-        slideAnimation = new Timeline(
-            new KeyFrame(Duration.ZERO,
-                new KeyValue(chatPanel.translateXProperty(), 400)
-            ),
-            new KeyFrame(Duration.millis(300),
-                new KeyValue(chatPanel.translateXProperty(), 0)
-            )
-        );
-        slideAnimation.play();
-        isChatOpen = true;
-    }
-
-    private void closeChat() {
-        if (slideAnimation != null) {
-            slideAnimation.stop();
-        }
-        slideAnimation = new Timeline(
-            new KeyFrame(Duration.ZERO,
-                new KeyValue(chatPanel.translateXProperty(), 0)
-            ),
-            new KeyFrame(Duration.millis(300),
-                new KeyValue(chatPanel.translateXProperty(), 400)
-            )
-        );
-        slideAnimation.setOnFinished(e -> chatPanel.setVisible(false));
-        slideAnimation.play();
-        isChatOpen = false;
-    }
-
-    @FXML
-    private void onSendMessageClicked() {
-        String message = messageField.getText().trim();
-        if (!message.isEmpty() && client != null) {
-            client.sendMessage("CHAT:" + message);
-            displayMessage("CHAT:You%" + message);
-            messageField.clear();
+        isChatOpen = !isChatOpen;
+        StageManager.getInstance().showSlidingPanel(chatPanel, isChatOpen);
+        if (isChatOpen) {
+            chatPanel.toFront();
         }
     }
 

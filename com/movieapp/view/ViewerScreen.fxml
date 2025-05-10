@@ -207,13 +207,13 @@
             </top>
         </BorderPane>
         <Pane fx:id="effectsPane" pickOnBounds="false" style="-fx-background-color: transparent;" />
-
-        <!-- Sliding Chat Panel -->
-        <StackPane fx:id="chatPanel" style="-fx-background-color: white;" visible="false">
+        
+        <!-- Chat Panel -->
+        <StackPane fx:id="chatPanel" visible="false" style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);">
             <translateX>400</translateX>
-            <children>
-                <fx:include source="DemoThemeServer.fxml"/>
-            </children>
+            <maxWidth>400</maxWidth>
+            <prefWidth>400</prefWidth>
+            <StackPane.alignment>CENTER_RIGHT</StackPane.alignment>
         </StackPane>
     </children>
 </StackPane>
