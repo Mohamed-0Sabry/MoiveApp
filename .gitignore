@@ -63,3 +63,5 @@ setup.bat
 
 /src
 dependency-reduced-pom.xml
+
+/bin

@@ -53,7 +53,7 @@ public class ViewerScreenController {
     @FXML private ImageView volumeMuteIcon;
     @FXML private Slider volumeSlider;
     @FXML private Pane effectsPane;
-    @FXML private StackPane chatPanel;
+    @FXML public StackPane chatPanel;
     @FXML private TextField messageField;
     @FXML private Button sendButton;
     @FXML private VBox messagesBox;
@@ -215,6 +215,10 @@ public class ViewerScreenController {
         if (isChatOpen) {
             chatPanel.toFront();
         }
+    }
+
+    public boolean getChatState(){
+        return this.isChatOpen;
     }
 
     /** Ensure primaryStage is set. */
@@ -399,46 +403,5 @@ public class ViewerScreenController {
             tl.setOnFinished(e -> effectsPane.getChildren().remove(heart));
             tl.play();
         }
-    }
-
-    private void displayMessage(String message) {
-        if (message.startsWith("CHAT:")) {
-            int index = message.indexOf('%', 6);
-            String name = message.substring(6, index);
-            String content = message.substring(index + 1);
-            
-            Label msgLabel = new Label(content);
-            msgLabel.getStyleClass().add("message-bubble-left");
-            msgLabel.setWrapText(true);
-            msgLabel.setMaxWidth(300);
-            
-            javafx.application.Platform.runLater(() -> {
-                messagesBox.getChildren().add(new Label(name));
-                messagesBox.getChildren().add(msgLabel);
-                messagesPane.setVvalue(1.0); // Scroll to bottom
-            });
-        } else if (message.startsWith("INFO_CHAT")) {
-            String content = message.substring(10);
-            Label msgLabel = new Label(content);
-            msgLabel.setAlignment(Pos.CENTER);
-            msgLabel.setTextFill(Color.web("#cccccc"));
-            
-            javafx.application.Platform.runLater(() -> {
-                messagesBox.getChildren().add(msgLabel);
-                messagesPane.setVvalue(1.0);
-            });
-        }
-    }
-
-    private void displayImage(Image image, String name) {
-        ImageView imgView = new ImageView(image);
-        imgView.setFitWidth(150);
-        imgView.setPreserveRatio(true);
-        
-        javafx.application.Platform.runLater(() -> {
-            messagesBox.getChildren().add(new Label(name));
-            messagesBox.getChildren().add(imgView);
-            messagesPane.setVvalue(1.0);
-        });
     }
 } 
