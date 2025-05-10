@@ -2,13 +2,11 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.Tooltip?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -19,9 +17,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.control.ToggleButton?>
 
 <StackPane fx:id="rootPane" prefHeight="613.0" prefWidth="964.0" stylesheets="@../styles/viewer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.ViewerScreenController">
     <children>
@@ -50,35 +45,11 @@
                                         <!-- Button Bar at the Bottom -->
                                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="643.0" spacing="15">
                                             <children>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="720.0">
+                                    <Region prefHeight="71.0" prefWidth="41.0" />
+                                                <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="664.0">
                                                     <children>
-                                                        <Button alignment="CENTER" graphicTextGap="7.0" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
-                                                            <graphic>
-                                                                <ImageView fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                                                                    <image>
-                                                                        <Image url="@image/Connect.png" />
-                                                                    </image>
-                                                                </ImageView>
-                                                            </graphic>
-                                                            <tooltip>
-                                                                <Tooltip text="Click to Chat" />
-                                                            </tooltip>
-                                                        </Button>
-                                                        <Region prefHeight="74.0" prefWidth="15.0" />
-                                                        <Button alignment="CENTER" graphicTextGap="7.0" prefHeight="36.0" prefWidth="57.0" styleClass="custom-button">
-                                                            <graphic>
-                                                                <ImageView fitHeight="31.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                                                                    <image>
-                                                                        <Image url="@image/PNG%20image%205.png" />
-                                                                    </image>
-                                                                </ImageView>
-                                                            </graphic>
-                                                            <tooltip>
-                                                                <Tooltip text="Click to Connect To Host" />
-                                                            </tooltip>
-                                                        </Button>
                                                         <Region layoutX="76.0" layoutY="10.0" prefHeight="74.0" prefWidth="15.0" />
-                                                        <Button alignment="CENTER" graphicTextGap="7.0" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button" onAction="#onChatButtonClicked">
+                                                        <Button alignment="CENTER" graphicTextGap="7.0" onAction="#onChatButtonClicked" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
                                                             <graphic>
                                                                 <ImageView fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                                                     <image>
@@ -140,34 +111,36 @@
                                                             <Slider fx:id="volumeSlider" max="100" min="0" prefWidth="100" styleClass="volume-slider" value="100" />
                                                         </HBox>
                                                         <Region prefHeight="74.0" prefWidth="15.0" />
-                                                        <VBox alignment="CENTER" spacing="5">
-                                                            <ToggleButton fx:id="audioButton" styleClass="control-button">
-                                                                <graphic>
-                                                                    <StackPane>
-                                                                        <ImageView fx:id="audioOnIcon" fitWidth="24" fitHeight="24">
-                                                                            <image>
-                                                                                <Image url="@image/microphone-on.png"/>
-                                                                            </image>    
-                                                                        </ImageView>
-                                                                        <ImageView fx:id="audioOffIcon" fitWidth="24" fitHeight="24" visible="false">
-                                                                            <image>
-                                                                                <Image url="@image/microphone-off.png"/>
-                                                                            </image>
-                                                                        </ImageView>
-                                                                    </StackPane>
-                                                                </graphic>
-                                                                <tooltip>
-                                                                    <Tooltip text="Toggle microphone" />
-                                                                </tooltip>
-                                                            </ToggleButton>
-                                                            <ComboBox fx:id="micSelector" promptText="Select Mic" prefWidth="120" />
-                                                            <ProgressBar fx:id="audioLevelMeter" prefWidth="120" progress="0" style="-fx-accent: green;" />
-                                                        </VBox>
                                                     </children>
                                                 </HBox>
-                                                <HBox fx:id="heartButtonContainer" alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="159.0">
+                                    <HBox alignment="CENTER" prefHeight="71.0" prefWidth="211.0">
+                                       <children>
+                                                         <ToggleButton fx:id="audioButton" prefHeight="44.0" prefWidth="62.0" styleClass="custom-button">
+                                                             <graphic>
+                                                                 <StackPane prefHeight="29.0" prefWidth="51.0">
+                                                                     <ImageView fx:id="audioOnIcon" fitHeight="30.0" fitWidth="33.0">
+                                                                         <image>
+                                                                             <Image url="@image/microphone-on.png" />
+                                                                         </image>    
+                                                                     </ImageView>
+                                                                     <ImageView fx:id="audioOffIcon" fitHeight="29.0" fitWidth="31.0" visible="false">
+                                                                         <image>
+                                                                             <Image url="@image/microphone-off.png" />
+                                                                         </image>
+                                                                     </ImageView>
+                                                                 </StackPane>
+                                                             </graphic>
+                                                             <tooltip>
+                                                                 <Tooltip text="Toggle microphone" />
+                                                             </tooltip>
+                                                         </ToggleButton>
+                                                        <Region prefHeight="71.0" prefWidth="23.0" />
+                                                         <ComboBox fx:id="micSelector" prefHeight="33.0" prefWidth="160.0" promptText="Select Mic" style="-fx-cursor: hand;" />
+                                       </children>
+                                    </HBox>
+                                                <HBox fx:id="heartButtonContainer" alignment="CENTER" prefHeight="71.0" prefWidth="68.0">
                                                     <children>
-                                                        <Button fx:id="heartButton" alignment="CENTER" contentDisplay="TOP" prefHeight="41.0" prefWidth="66.0" style="-fx-background-color: transparent; -fx-border-radius: 50%; -fx-border: 2px solid #cccccc; -fx-cursor: hand; -fx-font-weight: bold;">
+                                                        <Button fx:id="heartButton" alignment="CENTER" contentDisplay="TOP" prefHeight="71.0" prefWidth="43.0" style="-fx-background-color: transparent; -fx-border-radius: 50%; -fx-border: 2px solid #cccccc; -fx-cursor: hand; -fx-font-weight: bold;">
                                                             <graphic>
                                                                 <ImageView fx:id="heartIcon" fitHeight="40.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
                                                                     <image>
@@ -185,6 +158,7 @@
                                                         </Button>
                                                     </children>
                                                 </HBox>
+                                    <Region prefHeight="71.0" prefWidth="42.0" />
                                             </children>
                                         </HBox>
                                     </children>
@@ -236,7 +210,7 @@
         <Pane fx:id="effectsPane" pickOnBounds="false" style="-fx-background-color: transparent;" />
         
         <!-- Chat Panel -->
-        <StackPane fx:id="chatPanel" visible="false" style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);">
+        <StackPane fx:id="chatPanel" style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);" visible="false">
             <translateX>400</translateX>
             <maxWidth>400</maxWidth>
             <prefWidth>400</prefWidth>
