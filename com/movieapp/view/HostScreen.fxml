@@ -3,10 +3,29 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.ToggleButton?>
 
 <AnchorPane fx:id="hostScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="916.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.HostController">
    <children>
       <StackPane fx:id="showScreen" layoutX="140.0" layoutY="116.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="319.0" prefWidth="637.0" style="-fx-background-color: black; -fx-background-radius: 15; -fx-border-color: green; -fx-border-width: 2; -fx-border-radius: 15;" AnchorPane.bottomAnchor="183.0" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="139.0" AnchorPane.topAnchor="116.0" />
       <Button fx:id="chatButton" layoutX="725.0" layoutY="492.0" mnemonicParsing="false" onAction="#openChat" prefHeight="42.0" prefWidth="62.0" text="Chat" AnchorPane.bottomAnchor="70.0" AnchorPane.rightAnchor="60.0" />
+      <ToggleButton fx:id="audioButton" styleClass="control-button">
+         <graphic>
+            <StackPane>
+               <ImageView fx:id="audioOnIcon" fitWidth="24" fitHeight="24">
+                  <image>
+                     <Image url="@image/microphone-on.png"/>
+                  </image>
+               </ImageView>
+               <ImageView fx:id="audioOffIcon" fitWidth="24" fitHeight="24" visible="false">
+                  <image>
+                     <Image url="@image/microphone-off.png"/>
+                  </image>
+               </ImageView>
+            </StackPane>
+         </graphic>
+      </ToggleButton>
    </children>
 </AnchorPane>

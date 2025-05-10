@@ -2,9 +2,13 @@ package com.movieapp.network;
 
 import com.movieapp.model.FileTransfer;
 import com.movieapp.model.User;
+import com.movieapp.model.AudioPacket;
 import com.movieapp.utils.FileUtils;
 
 import java.io.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -14,9 +18,13 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private ServerSocket serverSocket;
+    private ServerSocket audioServerSocket;
     private List<User> connectedClients;
     private ExecutorService executorService;
     private boolean isRunning;
+    private DatagramSocket audioSocket;
+    private ExecutorService audioExecutor = Executors.newCachedThreadPool();
+
 
     public Server() {
         this.connectedClients = new ArrayList<>();
@@ -26,8 +34,12 @@ public class Server {
 
     public void start(int port) throws IOException {
         serverSocket = new ServerSocket(port);
+        audioServerSocket = new ServerSocket(5556);
         isRunning = true;
+        executorService.submit(this::handleAudioConnections);
         System.out.println("Server started on port " + port);
+        audioSocket = new DatagramSocket(5556);   // listen for client audio frames
+        audioExecutor.submit(this::handleAudio);
 
         executorService.submit(() -> {
             while (isRunning) {
@@ -47,6 +59,35 @@ public class Server {
             }
         });
     }
+
+
+    private void handleAudio() {
+        byte[] buf = new byte[8192];
+        System.out.println("[Server] Starting audio handling loop...");
+        while (isRunning) {
+            try {
+                DatagramPacket dp = new DatagramPacket(buf, buf.length);
+                audioSocket.receive(dp);
+                System.out.println("[Server] Received audio packet from " + dp.getAddress() + ":" + dp.getPort());
+
+                // deserialize
+                AudioPacket pkt = AudioPacket.fromBytes(dp.getData(), dp.getLength());
+                if (pkt != null && pkt.getAudioData() != null) {
+                    System.out.println("[Server] Audio packet from: " + pkt.getSenderId() + 
+                                     ", size: " + pkt.getAudioData().length + " bytes");
+                    broadcastAudio(pkt);
+                } else {
+                    System.err.println("[Server] Failed to deserialize audio packet");
+                }
+            } catch (IOException e) {
+                if (isRunning) {
+                    System.err.println("[Server] Error receiving audio: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     private void handleClient(User user) {
 
@@ -91,8 +132,68 @@ public class Server {
             sender.setUsername(name);
             System.out.println("Username set to " + name);
             broadcastMessage("INFO_CHAT:"+ sender.getUsername() + " Joined To The Chat", sender);
-        }        
+        }
+        if (message.startsWith("AUDIO:")) {
+            handleAudioStream(sender);
+        }
+        if(message.startsWith("AUDIO_PORT:")) {
+            try {
+                int newPort = Integer.parseInt(message.substring(11));
+                if (newPort != sender.getAudioPort()) {
+                    System.out.println("[Server] Client " + sender.getUsername() + " changed audio port from " + 
+                                     sender.getAudioPort() + " to " + newPort);
+                    sender.setAudioPort(newPort);
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("[Server] Invalid audio port received from " + sender.getUsername());
+            }
+        }
     }
+
+    private void handleAudioStream(User sender) {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(sender.getSocket().getInputStream());
+            AudioPacket audioPacket = (AudioPacket) ois.readObject();
+            broadcastAudio(audioPacket);
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error handling audio stream from " + sender.getUsername() + ": " + e.getMessage());
+        }
+    }
+
+    private void broadcastAudio(AudioPacket packet) {
+        if (packet == null) {
+            System.err.println("[Server] Cannot broadcast null audio packet");
+            return;
+        }
+        
+        byte[] outBuf = packet.toBytes();
+        if (outBuf == null) {
+            System.err.println("[Server] Error serializing audio packet");
+            return;
+        }
+        System.out.println("[Server] Broadcasting audio from " + packet.getSenderId() + " to " + connectedClients.size() + " clients");
+
+        int successCount = 0;
+        for (User u : connectedClients) {
+            if (u.getAudioPort() <= 0) {
+                System.err.println("[Server] Skipping client " + u.getUsername() + " - no audio port registered");
+                continue;
+            }
+
+            InetAddress addr = u.getSocket().getInetAddress();
+            int port = u.getAudioPort();
+            try {
+                DatagramPacket dp = new DatagramPacket(outBuf, outBuf.length, addr, port);
+                audioSocket.send(dp);
+                successCount++;
+                System.out.println("[Server] Sent audio to " + u.getUsername() + " at " + addr + ":" + port);
+            } catch (IOException ex) {
+                System.err.println("[Server] Error sending audio to " + u.getUsername() + ": " + ex.getMessage());
+            }
+        }
+        System.out.println("[Server] Successfully sent audio to " + successCount + " out of " + connectedClients.size() + " clients");
+    }
+
 
     public void broadcastMessage(String message, User sender) {
         for (User client : connectedClients) {
@@ -155,11 +256,39 @@ public class Server {
             if (serverSocket != null) {
                 serverSocket.close();
             }
+            if (audioServerSocket != null) {
+                audioServerSocket.close();
+            }
+            if (audioSocket != null) {
+                audioSocket.close();
+            }
         } catch (IOException e) {
-            System.err.println("Error closing server socket: " + e.getMessage());
+            System.err.println("Error closing server sockets: " + e.getMessage());
         }
         executorService.shutdown();
+        audioExecutor.shutdown();
     }
+    private void handleAudioConnections() {
+        while (isRunning) {
+            try {
+                Socket audioClientSocket = audioServerSocket.accept();
+                executorService.submit(() -> {
+                    try {
+                        ObjectInputStream ois = new ObjectInputStream(audioClientSocket.getInputStream());
+                        AudioPacket packet = (AudioPacket) ois.readObject();
+                        broadcastAudio(packet);
+                        ois.close();
+                        audioClientSocket.close();
+                    } catch (Exception e) {
+                        System.err.println("Audio Error: " + e.getMessage());
+                    }
+                });
+            } catch (IOException e) {
+                System.err.println("Audio socket error: " + e.getMessage());
+            }
+        }
+    }
+    
 
     public static void main(String[] args) throws IOException {
         int port = (args.length > 0) ? Integer.parseInt(args[0]) : 5555;

@@ -35,6 +35,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Base64;
+import javafx.scene.control.ToggleButton;
 
 /**
  * Controller for the Viewer Screen. Handles fullscreen video overlay and heart button overlay.
@@ -58,6 +59,9 @@ public class ViewerScreenController {
     @FXML private Button sendButton;
     @FXML private VBox messagesBox;
     @FXML private ScrollPane messagesPane;
+    @FXML private ToggleButton audioButton;
+    @FXML private ImageView audioOnIcon;
+    @FXML private ImageView audioOffIcon;
 
     // State fields
     private boolean isFullscreen = false;
@@ -78,6 +82,8 @@ public class ViewerScreenController {
     private Client client;
     private ChatController chatController;
     private boolean isChatOpen = false;
+
+    private boolean isAudioStreaming = false;
 
     /**
      * Initialize controller and set up primary stage reference.
@@ -131,6 +137,13 @@ public class ViewerScreenController {
                         chatController.onImageReceived(image, name);
                     }
                 }
+
+                @Override
+                public void onAudioReceived(byte[] audioData, String senderId) {
+                    // Audio is automatically played by the Client class
+                    // We can add additional handling here if needed
+                    System.out.println("Received audio from: " + senderId);
+                }
             });
 
             // Connect to host before loading the chat panel
@@ -160,6 +173,12 @@ public class ViewerScreenController {
         } catch (Exception e) {
             System.err.println("Error initializing chat panel: " + e.getMessage());
             e.printStackTrace();
+        }
+
+        // Initialize audio controls
+        if (audioButton != null) {
+            audioButton.setOnAction(event -> toggleAudioStreaming());
+            updateAudioButtonState();
         }
     }
 
@@ -426,6 +445,36 @@ public class ViewerScreenController {
             );
             tl.setOnFinished(e -> effectsPane.getChildren().remove(heart));
             tl.play();
+        }
+    }
+
+    private void toggleAudioStreaming() {
+        if (client != null) {
+            if (!isAudioStreaming) {
+                client.startAudioStreaming();
+                isAudioStreaming = true;
+            } else {
+                client.stopAudioStreaming();
+                isAudioStreaming = false;
+            }
+            updateAudioButtonState();
+        }
+    }
+
+    private void updateAudioButtonState() {
+        if (audioButton != null && audioOnIcon != null && audioOffIcon != null) {
+            audioOnIcon.setVisible(isAudioStreaming);
+            audioOffIcon.setVisible(!isAudioStreaming);
+        }
+    }
+
+    private void disconnect() {
+        if (client != null) {
+            if (isAudioStreaming) {
+                client.stopAudioStreaming();
+                isAudioStreaming = false;
+            }
+            client.stop();
         }
     }
 } 

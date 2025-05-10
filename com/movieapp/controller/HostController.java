@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
@@ -12,16 +13,26 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import com.movieapp.network.Client;
+import com.movieapp.model.FileTransfer;
+import javafx.application.Platform;
+import javafx.scene.image.Image;
 
 public class HostController {
     @FXML private StackPane showScreen;
     @FXML private Button chatButton;
+    @FXML private ToggleButton audioButton;
+    @FXML private ImageView audioOnIcon;
+    @FXML private ImageView audioOffIcon;
     
     private AnimationTimer captureTimer;
     private Robot robot;
     private boolean capturing = false;
     private ImageView imageView;
+    private Client client;
+    private boolean isAudioStreaming = false;
 
     @FXML
     public void initialize() {
@@ -52,6 +63,51 @@ public class HostController {
             if (chatButton != null) {
                 chatButton.setDisable(true);
             }
+        }
+
+        // Initialize audio controls
+        if (audioButton != null) {
+            audioButton.setOnAction(event -> toggleAudioStreaming());
+            updateAudioButtonState();
+        }
+
+        // Initialize client with audio support
+        client = new Client(new Client.MessageListener() {
+            @Override
+            public void onMessageReceived(String message) {
+                // Handle chat messages if needed
+            }
+
+            @Override
+            public void onFileReceived(FileTransfer fileTransfer) {
+                // Handle file transfers if needed
+            }
+
+            @Override
+            public void onConnectionClosed() {
+                Platform.runLater(() -> {
+                    if (isAudioStreaming) {
+                        stopAudioStreaming();
+                    }
+                });
+            }
+
+            @Override
+            public void onImageReceived(Image image, String name) {
+                // Handle received images if needed
+            }
+
+            @Override
+            public void onAudioReceived(byte[] audioData, String senderId) {
+                // Audio is automatically played by the Client class
+                System.out.println("Received audio from: " + senderId);
+            }
+        });
+
+        try {
+            client.connectToHost("localhost", 5555);
+        } catch (IOException e) {
+            System.err.println("Error connecting to server: " + e.getMessage());
         }
     }
     
@@ -139,6 +195,47 @@ public class HostController {
         capturing = false;
         if (captureTimer != null) {
             captureTimer.stop();
+        }
+    }
+
+    private void toggleAudioStreaming() {
+        if (client != null) {
+            if (!isAudioStreaming) {
+                startAudioStreaming();
+            } else {
+                stopAudioStreaming();
+            }
+        }
+    }
+
+    private void startAudioStreaming() {
+        if (client != null) {
+            client.startAudioStreaming();
+            isAudioStreaming = true;
+            updateAudioButtonState();
+        }
+    }
+
+    private void stopAudioStreaming() {
+        if (client != null) {
+            client.stopAudioStreaming();
+            isAudioStreaming = false;
+            updateAudioButtonState();
+        }
+    }
+
+    private void updateAudioButtonState() {
+        if (audioButton != null && audioOnIcon != null && audioOffIcon != null) {
+            audioOnIcon.setVisible(isAudioStreaming);
+            audioOffIcon.setVisible(!isAudioStreaming);
+        }
+    }
+
+    public void stop() {
+        stopScreenCapture();
+        stopAudioStreaming();
+        if (client != null) {
+            client.stop();
         }
     }
 }

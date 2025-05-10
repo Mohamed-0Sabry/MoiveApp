@@ -38,6 +38,12 @@ public class TestingNoranChatApp extends Application {
                 public void onImageReceived(Image image, String name) {
                     controller.onImageReceived(image, name);
                 }
+
+                @Override
+                public void onAudioReceived(byte[] audioData, String senderId) {
+                    // Audio is automatically played by the Client class
+                    System.out.println("Received audio from: " + senderId);
+                }
             });
             controller.setClient(client);
             
