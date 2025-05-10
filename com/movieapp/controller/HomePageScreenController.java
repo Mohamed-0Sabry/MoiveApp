@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import com.movieapp.utils.StageManager;
 import java.io.IOException;
 
 public class HomePageScreenController {
@@ -49,7 +50,7 @@ public class HomePageScreenController {
     private void handleHostButton() {
         try {
             // Load the HostScreen FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/movieapp/view/HostScreen1.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/movieapp/view/HostScreen.fxml"));
             Parent root = loader.load();
             
             // Get the current stage
@@ -57,7 +58,11 @@ public class HomePageScreenController {
             
             // Create new scene and set it
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/com/movieapp/styles/host.css").toExternalForm());
             stage.setScene(scene);
+            
+            // Configure stage using StageManager
+            StageManager.getInstance().configureStage(stage);
             stage.show();
             
         } catch (IOException e) {
@@ -77,7 +82,11 @@ public class HomePageScreenController {
             
             // Create new scene and set it
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/com/movieapp/styles/viewer.css").toExternalForm());
             stage.setScene(scene);
+            
+            // Configure stage using StageManager
+            StageManager.getInstance().configureStage(stage);
             stage.show();
             
         } catch (IOException e) {
