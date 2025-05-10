@@ -15,6 +15,7 @@ import javafx.stage.StageStyle;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.animation.AnimationTimer;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -22,12 +23,16 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
 import javafx.fxml.FXMLLoader;
 import com.movieapp.network.Client;
 import com.movieapp.model.FileTransfer;
 import javafx.scene.image.Image;
 import java.io.IOException;
+
+import com.movieapp.utils.AudioStreamUtils;
 import com.movieapp.utils.StageManager;
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
@@ -35,6 +40,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Base64;
+import javax.sound.sampled.Mixer;
 import javafx.scene.control.ToggleButton;
 
 /**
@@ -62,6 +68,8 @@ public class ViewerScreenController {
     @FXML private ToggleButton audioButton;
     @FXML private ImageView audioOnIcon;
     @FXML private ImageView audioOffIcon;
+    @FXML private ProgressBar audioLevelMeter;
+    @FXML private ComboBox<String> micSelector;
 
     // State fields
     private boolean isFullscreen = false;
@@ -84,6 +92,8 @@ public class ViewerScreenController {
     private boolean isChatOpen = false;
 
     private boolean isAudioStreaming = false;
+    private Mixer.Info selectedMicrophone;
+    private AnimationTimer audioLevelTimer;
 
     /**
      * Initialize controller and set up primary stage reference.
@@ -105,6 +115,19 @@ public class ViewerScreenController {
         // Make effectsPane mouse transparent so it doesn't block button clicks
         if (effectsPane != null) {
             effectsPane.setMouseTransparent(true);
+        }
+
+        // Initialize audio level meter if available
+        if (audioLevelMeter != null) {
+            audioLevelMeter.setProgress(0);
+            audioLevelMeter.setStyle("-fx-accent: green;");
+            startAudioLevelMeter();
+        }
+        
+        // Initialize microphone selector if available
+        if (micSelector != null) {
+            updateAvailableMicrophones();
+            micSelector.setOnAction(e -> setSelectedMicrophone());
         }
 
         // Initialize chat panel
@@ -140,9 +163,13 @@ public class ViewerScreenController {
 
                 @Override
                 public void onAudioReceived(byte[] audioData, String senderId) {
-                    // Audio is automatically played by the Client class
-                    // We can add additional handling here if needed
-                    System.out.println("Received audio from: " + senderId);
+                    // Play all received audio - the server handles routing
+                    AudioStreamUtils.playAudioStream(audioData);
+                    
+                    // Update volume meter based on the audio data
+                    if (audioLevelMeter != null) {
+                        updateVolumeMeter(audioData);
+                    }
                 }
             });
 
@@ -448,6 +475,83 @@ public class ViewerScreenController {
         }
     }
 
+    private void updateAvailableMicrophones() {
+        if (micSelector == null) return;
+        
+        micSelector.getItems().clear();
+        Mixer.Info[] mixers = AudioStreamUtils.getAvailableMixers();
+        for (Mixer.Info mixer : mixers) {
+            micSelector.getItems().add(mixer.getName());
+        }
+    }
+
+    private void setSelectedMicrophone() {
+        if (micSelector == null) return;
+        
+        String selected = micSelector.getValue();
+        if (selected != null) {
+            Mixer.Info[] mixers = AudioStreamUtils.getAvailableMixers();
+            for (Mixer.Info mixer : mixers) {
+                if (mixer.getName().equals(selected)) {
+                    AudioStreamUtils.setSelectedMixer(mixer);
+                    selectedMicrophone = mixer;
+                    System.out.println("Selected microphone: " + mixer.getName());
+                    
+                    // If we're currently streaming, restart with the new microphone
+                    if (isAudioStreaming && client != null) {
+                        client.stopAudioStreaming();
+                        client.startAudioStreaming();
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    private void startAudioLevelMeter() {
+        if (audioLevelMeter == null) return;
+        
+        if (audioLevelTimer != null) {
+            audioLevelTimer.stop();
+        }
+        
+        audioLevelTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                float level = AudioStreamUtils.getCurrentInputLevel();
+                Platform.runLater(() -> {
+                    audioLevelMeter.setProgress(level);
+                    // Change color based on level
+                    if (level > 0.7) {
+                        audioLevelMeter.setStyle("-fx-accent: red;");
+                    } else if (level > 0.3) {
+                        audioLevelMeter.setStyle("-fx-accent: yellow;");
+                    } else {
+                        audioLevelMeter.setStyle("-fx-accent: green;");
+                    }
+                });
+            }
+        };
+        audioLevelTimer.start();
+    }
+
+    private void updateVolumeMeter(byte[] audioData) {
+        if (audioLevelMeter == null) return;
+        
+        double volume = AudioStreamUtils.calculateVolume(audioData);
+        Platform.runLater(() -> {
+            audioLevelMeter.setProgress(volume);
+            // Change color based on volume level
+            if (volume > 0.7) {
+                audioLevelMeter.setStyle("-fx-accent: red;");
+            } else if (volume > 0.3) {
+                audioLevelMeter.setStyle("-fx-accent: yellow;");
+            } else {
+                audioLevelMeter.setStyle("-fx-accent: green;");
+            }
+        });
+    }
+
     private void toggleAudioStreaming() {
         if (client != null) {
             if (!isAudioStreaming) {
@@ -476,5 +580,18 @@ public class ViewerScreenController {
             }
             client.stop();
         }
+        
+        // Stop the audio level timer if it's running
+        if (audioLevelTimer != null) {
+            audioLevelTimer.stop();
+        }
+        
+        // Make sure we clean up any remaining audio resources
+        AudioStreamUtils.stopAudioStream();
+        AudioStreamUtils.stopPlayback();
+    }
+    
+    public void stop() {
+        disconnect();
     }
 } 

@@ -7,6 +7,8 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -137,22 +139,30 @@
                                                             </Button>
                                                             <Slider fx:id="volumeSlider" max="100" min="0" prefWidth="100" styleClass="volume-slider" value="100" />
                                                         </HBox>
-                                                        <ToggleButton fx:id="audioButton" styleClass="control-button">
-                                                            <graphic>
-                                                                <StackPane>
-                                                                    <ImageView fx:id="audioOnIcon" fitWidth="24" fitHeight="24">
-                                                                        <image>
-                                                                            <Image url="@image/microphone-on.png"/>
-                                                                        </image>    
-                                                                    </ImageView>
-                                                                    <ImageView fx:id="audioOffIcon" fitWidth="24" fitHeight="24" visible="false">
-                                                                        <image>
-                                                                            <Image url="@image/microphone-off.png"/>
-                                                                        </image>
-                                                                    </ImageView>
-                                                                </StackPane>
-                                                            </graphic>
-                                                        </ToggleButton>
+                                                        <Region prefHeight="74.0" prefWidth="15.0" />
+                                                        <VBox alignment="CENTER" spacing="5">
+                                                            <ToggleButton fx:id="audioButton" styleClass="control-button">
+                                                                <graphic>
+                                                                    <StackPane>
+                                                                        <ImageView fx:id="audioOnIcon" fitWidth="24" fitHeight="24">
+                                                                            <image>
+                                                                                <Image url="@image/microphone-on.png"/>
+                                                                            </image>    
+                                                                        </ImageView>
+                                                                        <ImageView fx:id="audioOffIcon" fitWidth="24" fitHeight="24" visible="false">
+                                                                            <image>
+                                                                                <Image url="@image/microphone-off.png"/>
+                                                                            </image>
+                                                                        </ImageView>
+                                                                    </StackPane>
+                                                                </graphic>
+                                                                <tooltip>
+                                                                    <Tooltip text="Toggle microphone" />
+                                                                </tooltip>
+                                                            </ToggleButton>
+                                                            <ComboBox fx:id="micSelector" promptText="Select Mic" prefWidth="120" />
+                                                            <ProgressBar fx:id="audioLevelMeter" prefWidth="120" progress="0" style="-fx-accent: green;" />
+                                                        </VBox>
                                                     </children>
                                                 </HBox>
                                                 <HBox fx:id="heartButtonContainer" alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="159.0">
