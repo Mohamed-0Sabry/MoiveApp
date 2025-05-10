@@ -102,6 +102,9 @@ public class StageManager {
             // Anchor the panel to the right side
             StackPane.setAlignment(slidingPanel, Pos.CENTER_RIGHT);
             
+            // Store the controller in the panel's user data
+            slidingPanel.setUserData(loader.getController());
+            
             rootPane.getChildren().add(slidingPanel);
             
         } catch (IOException e) {

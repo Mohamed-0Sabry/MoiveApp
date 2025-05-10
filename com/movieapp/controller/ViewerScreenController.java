@@ -101,50 +101,66 @@ public class ViewerScreenController {
             effectsPane.setMouseTransparent(true);
         }
 
-        // Initialize client
-        client = new Client(new Client.MessageListener() {
-            @Override
-            public void onMessageReceived(String msg) {
-                if (chatController != null) {
-                    chatController.displayMessage(msg);
-                }
-            }
-            
-            @Override
-            public void onFileReceived(FileTransfer fileTransfer) {
-                // Handle file transfer if needed
-            }
-            
-            @Override
-            public void onConnectionClosed() {
-                // Handle connection closed
-            }
-            
-            @Override
-            public void onImageReceived(Image image, String name) {
-                if (chatController != null) {
-                    chatController.onImageReceived(image, name);
-                }
-            }
-        });
-
-        // Connect to host
-        try {
-            client.connectToHost("localhost", 5555);
-        } catch (Exception e) {
-            System.err.println("Error connecting to host: " + e.getMessage());
-        }
-
         // Initialize chat panel
-        StageManager.getInstance().loadSlidingPanel(rootPane, "/com/movieapp/view/DemoThemeServer.fxml", "/com/movieapp/styles/css-stylesheet.css");
-        chatPanel = (StackPane) rootPane.getChildren().get(rootPane.getChildren().size() - 1);
-        chatController = (ChatController) chatPanel.getChildren().get(0).getUserData();
-        if (chatController != null) {
-            chatController.setClient(client);
-        }
+        try {
+            // Initialize client with proper message listener first
+            client = new Client(new Client.MessageListener() {
+                @Override
+                public void onMessageReceived(String msg) {
+                    if (chatController != null) {
+                        chatController.displayMessage(msg);
+                    }
+                }
+                
+                @Override
+                public void onFileReceived(FileTransfer fileTransfer) {
+                    // Handle file transfer if needed
+                }
+                
+                @Override
+                public void onConnectionClosed() {
+                    Platform.runLater(() -> {
+                        // Handle connection closed
+                        System.out.println("Connection to server closed");
+                    });
+                }
+                
+                @Override
+                public void onImageReceived(Image image, String name) {
+                    if (chatController != null) {
+                        chatController.onImageReceived(image, name);
+                    }
+                }
+            });
 
-        // Make sure the chat panel stays on top
-        chatPanel.toFront();
+            // Connect to host before loading the chat panel
+            try {
+                client.connectToHost("localhost", 5555);
+                System.out.println("Successfully connected to chat server");
+            } catch (Exception e) {
+                System.err.println("Error connecting to chat server: " + e.getMessage());
+                return; // Exit if connection fails
+            }
+
+            // Now load the chat panel
+            StageManager.getInstance().loadSlidingPanel(rootPane, "/com/movieapp/view/DemoThemeServer.fxml", "/com/movieapp/styles/css-stylesheet.css");
+            chatPanel = (StackPane) rootPane.getChildren().get(rootPane.getChildren().size() - 1);
+            
+            // Get the controller from the panel's user data
+            chatController = (ChatController) chatPanel.getUserData();
+            if (chatController != null) {
+                System.out.println("Setting client in chat controller...");
+                chatController.setClient(client);
+            } else {
+                System.err.println("Failed to get chat controller!");
+            }
+
+            // Make sure the chat panel stays on top
+            chatPanel.toFront();
+        } catch (Exception e) {
+            System.err.println("Error initializing chat panel: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -211,15 +227,23 @@ public class ViewerScreenController {
     @FXML
     private void onChatButtonClicked() {
         isChatOpen = !isChatOpen;
+        chatPanel.setVisible(true);
         StageManager.getInstance().showSlidingPanel(chatPanel, isChatOpen);
         if (isChatOpen) {
             chatPanel.toFront();
-        }
+            // Ensure chat panel is properly initialized
+            Platform.runLater(() -> {
+                if (chatController != null) {
+                    chatController.focusMessageField();
+                }
+            });
+        }    
     }
 
     public boolean getChatState(){
         return this.isChatOpen;
     }
+    
 
     /** Ensure primaryStage is set. */
     private void ensurePrimaryStage() {

@@ -110,6 +110,15 @@ public class ChatController {
         messagesPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     }
     
+
+    public void focusMessageField() {
+        if (messageField != null) {
+            messageField.requestFocus();
+        }
+    }
+
+    
+    
     private void handleSendMessage() {
         String msg = messageField.getText().trim();
         if (!msg.isEmpty() && client != null) {
