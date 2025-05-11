@@ -18,9 +18,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import com.movieapp.network.Client;
+import com.movieapp.network.Server;
 import com.movieapp.model.FileTransfer;
+import com.movieapp.utils.StageManager;
 import javafx.application.Platform;
-import javafx.scene.input.KeyCode;
 
 public class HostController {
     @FXML private StackPane showScreen;
@@ -38,7 +39,9 @@ public class HostController {
     private Double[] originalConstraints = new Double[4];
     private String originalButtonText;
     private Client client;
+    private Server server;
     private boolean isAudioStreaming = false;
+    private static final int DEFAULT_PORT = 5555;
 
     @FXML
     public void initialize() {
@@ -71,13 +74,23 @@ public class HostController {
             }
         }
 
-        //Initialize audio controls
+        // Initialize audio controls
         if (audioButton != null) {
             audioButton.setOnAction(event -> toggleAudioStreaming());
             updateAudioButtonState();
         }
 
-        //Initialize client with audio support
+        // Start the server
+        try {
+            server = new Server();
+            server.start(DEFAULT_PORT);
+            System.out.println("Server started successfully on port " + DEFAULT_PORT);
+        } catch (Exception e) {
+            System.err.println("Error starting server: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        // Initialize client with audio support
         client = new Client(new Client.MessageListener() {
             @Override
             public void onMessageReceived(String message) {
@@ -111,7 +124,7 @@ public class HostController {
         });
 
         try {
-            client.connectToHost("localhost", 5555);
+            client.connectToHost("localhost", DEFAULT_PORT);
         } catch (IOException e) {
             System.err.println("Error connecting to server: " + e.getMessage());
         }
@@ -123,7 +136,21 @@ public class HostController {
             }
         });
         
-         originalButtonText = fullScreenButton.getText();
+        originalButtonText = fullScreenButton.getText();
+    }
+
+    @FXML
+    private void openChat() {
+        try {
+            StageManager.getInstance().loadNewStage(
+                "/com/movieapp/view/DemoThemeServer.fxml",
+                "/com/movieapp/styles/demoTheme.css",
+                "Chat"
+            );
+        } catch (Exception e) {
+            System.err.println("Failed to load chat window: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
     
     public void startScreenCapture() {
@@ -166,41 +193,6 @@ public class HostController {
             
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-    
-    @FXML
-    private void openChat() {
-        try {
-            // Try loading from resources first
-            URL fxmlUrl = getClass().getResource("/DemoThemeServer.fxml");
-            
-            if (fxmlUrl == null) {
-                // Fallback to file system path
-                File fxmlFile = new File("src/DemoThemeServer.fxml");
-                if (fxmlFile.exists()) {
-                    fxmlUrl = fxmlFile.toURI().toURL();
-                } else {
-                    System.err.println("Error: DemoThemeServer.fxml not found in either resources or src/ directory");
-                    return;
-                }
-            }
-            
-            // Load the chat window
-            AnchorPane chatRoot = FXMLLoader.load(fxmlUrl);
-            
-            Stage chatStage = new Stage();
-            chatStage.setTitle("Chat");
-            chatStage.setScene(new Scene(chatRoot));
-            chatStage.show();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Failed to load chat window: " + e.getMessage());
-            System.err.println("Current working directory: " + System.getProperty("user.dir"));
-            
-            // Debug: Print classpath
-            System.err.println("Classpath: " + System.getProperty("java.class.path"));
         }
     }
     
@@ -295,6 +287,13 @@ public class HostController {
         stopAudioStreaming();
         if (client != null) {
             client.stop();
+        }
+        if (server != null) {
+            try {
+                server.stop();
+            } catch (Exception e) {
+                System.err.println("Error stopping server: " + e.getMessage());
+            }
         }
     }
 }

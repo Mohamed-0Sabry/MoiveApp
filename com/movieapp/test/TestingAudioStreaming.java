@@ -14,9 +14,7 @@ import javafx.animation.AnimationTimer;
 import javax.sound.sampled.Mixer;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Line;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class TestingAudioStreaming extends Application {
     private Server server;
