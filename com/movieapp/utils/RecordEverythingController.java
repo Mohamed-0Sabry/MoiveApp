@@ -23,16 +23,12 @@ public class RecordEverythingController {
         this.stateListener = listener;
     }
 
-    public void toggleRecording(String micDevice) throws IOException {
+    public void toggleRecording(String micDevice, String systemDevice) throws IOException {
+        // Always use the correct device names for your setup
+        micDevice = "Microphone Array (Realtek(R) Audio)";
+        systemDevice = "Stereo Mix (Realtek(R) Audio)";
         if (!isRecording) {
-            // Fallback to first available mic if none is selected
-            if (micDevice == null || micDevice.isEmpty()) {
-                micDevice = getFirstAvailableMicrophone();
-                if (micDevice == null) {
-                    throw new IOException("No microphone found!");
-                }
-            }
-            startRecording(micDevice);
+            startRecording(micDevice, systemDevice);
         } else {
             stopRecording();
         }
@@ -53,9 +49,23 @@ public class RecordEverythingController {
         return null;
     }
 
-    private void startRecording(String micDevice) throws IOException {
+    private String getFirstAvailableSystemAudio() {
+        javax.sound.sampled.Mixer.Info[] mixers = javax.sound.sampled.AudioSystem.getMixerInfo();
+        for (javax.sound.sampled.Mixer.Info mixerInfo : mixers) {
+            String name = mixerInfo.getName().toLowerCase();
+            if (name.contains("stereo mix") || name.contains("loopback") || name.contains("output")) {
+                return mixerInfo.getName();
+            }
+        }
+        return null;
+    }
+
+    private void startRecording(String micDevice, String systemDevice) throws IOException {
         if (micDevice == null || micDevice.isEmpty()) {
             throw new IOException("No microphone selected!");
+        }
+        if (systemDevice == null || systemDevice.isEmpty()) {
+            throw new IOException("No system audio device selected!");
         }
         // Check if ffmpeg exists
         if (!isFFmpegAvailable()) {
@@ -70,20 +80,24 @@ public class RecordEverythingController {
         // Create a unique filename with timestamp
         String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"));
         String outputPath = new File(recordingsDir, "recording_" + timestamp + ".mp4").getAbsolutePath();
-        
-        // Updated FFmpeg command to use desktop capture and improved settings
+
+        // FFmpeg command to record desktop, mic, and system audio, and mux as stereo (L=mic, R=system), boosting system audio
         String command = String.format(
-            "%s -y -f gdigrab -framerate 30 -i desktop -f dshow -i audio=\"%s\" -c:v libx264 -preset ultrafast -crf 23 -c:a aac -b:a 128k \"%s\"",
-            FFMPEG_PATH, micDevice, outputPath
+            "%s -y -f gdigrab -framerate 30 -i desktop " +
+            "-f dshow -i audio=\"%s\" " + // mic
+            "-f dshow -i audio=\"%s\" " + // system
+            "-filter_complex \"[1:a]anull[a1];[2:a]volume=20.0[a2];[a1][a2]amerge=inputs=2,pan=stereo|c0=c0|c1=c1[aout]\" " +
+            "-map 0:v -map \"[aout]\" -c:v libx264 -preset ultrafast -crf 23 -c:a aac -b:a 128k \"%s\"",
+            FFMPEG_PATH, micDevice, systemDevice, outputPath
         );
-        
+
         try {
             // Start FFmpeg process
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.command("cmd.exe", "/c", command);
             processBuilder.redirectErrorStream(true);
             ffmpegProcess = processBuilder.start();
-            
+
             // Monitor FFmpeg output in a separate thread
             new Thread(() -> {
                 try (java.io.BufferedReader reader = new java.io.BufferedReader(
@@ -96,7 +110,7 @@ public class RecordEverythingController {
                     System.err.println("[FFmpeg] Error reading output: " + e.getMessage());
                 }
             }).start();
-            
+
             isRecording = true;
             if (stateListener != null) {
                 stateListener.onRecordingStateChanged(true, outputPath);
