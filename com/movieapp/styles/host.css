@@ -47,4 +47,172 @@
 
 #previewImage {
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
-} 
+}
+
+.custom-button {
+  -fx-background-color: #707cff;
+  -fx-background-radius: 15px;
+  -fx-border-radius: 15px;
+  -fx-cursor: hand;
+  -fx-padding: 5px;
+  -fx-alignment: CENTER;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 1, 2);
+  -fx-transition: all 1.5s ease-in-out; /* Smooth transition for all properties */
+  -fx-transition: background-color 1s ease-in-out;
+}
+/* Hover Effect for Buttons */
+.custom-button:hover {
+  -fx-background-color: #5449f4;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 3);
+  -fx-transform: scale(1.05);
+  -fx-scale-x: 1.1;
+  -fx-scale-y: 1.1;
+  transition-delay: 0.9s;
+  -fx-transition: all 0.3s ease-in-out;
+}
+/* Active (Pressed) Button */
+.custom-button:pressed {
+  -fx-background-color: #384fc4;
+  -fx-transform: scale(0.95);
+}
+/* Style for the heart icon */
+.heart-icon {
+  -fx-fill: red; /* Color of the heart */
+  -fx-cursor: hand; /* Change cursor to pointer */
+}
+/* Pulse effect on hover */
+.heart-icon:hover {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 3);
+  -fx-scale-x: 1.2;
+  -fx-scale-y: 1.2;
+  -fx-transition: all 0.3s ease-in-out;
+}
+/* Pulse animation on click */
+.heart-icon:pressed {
+  -fx-fill: #ff3366; /* Change color on click */
+  -fx-scale-x: 1.3; /* Increase size */
+  -fx-scale-y: 1.3; /* Increase size */
+  -fx-transition: all 0.2s ease-out;
+}
+.backbutton {
+  -fx-background-color: transparent; /* Make background transparent */
+  -fx-cursor: hand;
+  -fx-padding: 5px;
+  -fx-alignment: CENTER;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 1, 2);
+  -fx-transition: all 1.5s ease-in-out; /* Smooth transition for all properties */
+  -fx-transition: background-color 1s ease-in-out;
+}
+.backbutton:hover {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 3);
+  -fx-transform: scale(1.05);
+  -fx-scale-x: 1.1;
+  -fx-scale-y: 1.1;
+  transition-delay: 0.9s;
+  -fx-transition: all 0.3s ease-in-out;
+}
+.backbutton:pressed {
+  -fx-transform: scale(0.95);
+}
+.volume-slider {
+  -fx-padding: 0;
+}
+
+.volume-slider .track {
+  -fx-background-color: #cccccc;
+  -fx-background-radius: 2;
+  -fx-pref-height: 4;
+}
+
+.volume-slider .thumb {
+  -fx-background-color: #ff4d4d;
+  -fx-background-radius: 50%;
+  -fx-pref-width: 12;
+  -fx-pref-height: 12;
+}
+
+.volume-slider .thumb:hover {
+  -fx-background-color: #ff6666;
+}
+
+.volume-slider .thumb:pressed {
+  -fx-background-color: #ff3333;
+}
+
+.volume-slider .colored-track {
+  -fx-background-color: #ff4d4d;
+}
+
+.volume-slider .animated-thumb {
+  -fx-background-color: #ff4d4d;
+}
+
+.volume-slider .slider-value {
+  -fx-fill: white;
+  -fx-stroke: white;
+}
+
+#micSelector {
+  -fx-background-color: white;
+  -fx-border-color: #707cff;
+  -fx-border-width: 1.5px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+  -fx-padding: 0;
+  -fx-pref-height: 36px;
+  -fx-pref-width: 150px;
+  -fx-alignment: center-left;
+}
+
+#micSelector .combo-box-display-area,
+#micSelector .combo-box-base,
+#micSelector .text-field,
+#micSelector .label {
+  -fx-background-color: white;
+  -fx-background-radius: 10px;
+  -fx-background-insets: 0;
+  -fx-padding: 0 14px;
+  -fx-font-size: 15px;
+  -fx-text-fill: #707cff;
+  -fx-alignment: center-left;
+  -fx-effect: none;
+  -fx-border-width: 0;
+}
+
+#micSelector .arrow-button {
+  -fx-background-color: transparent;
+  -fx-padding: 0 6px 0 0;
+}
+
+#micSelector .arrow {
+  -fx-background-color: #707cff;
+  -fx-shape: "M 0 0 L 4 4 L 8 0 Z";
+  -fx-scale-x: 1.1;
+  -fx-scale-y: 1.1;
+}
+
+#micSelector .list-view {
+  -fx-background-color: white;
+  -fx-border-color: #707cff;
+  -fx-border-width: 1.5px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+  -fx-effect: dropshadow(gaussian, rgba(112, 124, 255, 0.08), 4, 0, 0, 1);
+}
+
+#micSelector .list-cell {
+  -fx-background-color: white;
+  -fx-text-fill: #222;
+  -fx-font-size: 14px;
+  -fx-padding: 6px 12px;
+  -fx-background-radius: 8px;
+}
+
+#micSelector .list-cell:selected {
+  -fx-background-color: #e6eaff;
+  -fx-text-fill: #5449f4;
+}
+
+#micSelector .list-cell:hover {
+  -fx-background-color: #f3f5ff;
+}
