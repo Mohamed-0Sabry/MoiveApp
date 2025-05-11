@@ -170,9 +170,8 @@ public class ViewerScreenController {
                 @Override
                 public void onHeartAnimation(String username, boolean isLiked) {
                     Platform.runLater(() -> {
-                        // Find the heart controller for this user and show animation
+                        // Only show the floating heart for remote triggers
                         if (heartEffectsController != null) {
-                            heartEffectsController.showHeartBurst();
                             heartEffectsController.showFloatingHeart();
                         }
                     });

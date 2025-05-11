@@ -25,6 +25,8 @@ public class HeartEffectsController {
         if (heartButton != null) {
             heartButton.setOnAction(event -> {
                 animateHeart();
+                showHeartBurst();      // Local burst effect
+                showFloatingHeart();   // Local floating heart effect
             });
         }
     }
@@ -77,13 +79,11 @@ public class HeartEffectsController {
     }
 
     public void showHeartBurst() {
-        // Create 6 hearts that burst out in a circle
         for (int i = 0; i < 6; i++) {
             ImageView heart = new ImageView(heartIcon.getImage());
             heart.setFitWidth(24);
             heart.setFitHeight(24);
             
-            // Position at the center of the button
             double startX = heartButton.localToScene(heartButton.getWidth()/2, heartButton.getHeight()/2).getX();
             double startY = heartButton.localToScene(heartButton.getWidth()/2, heartButton.getHeight()/2).getY();
             double paneX = effectsPane.sceneToLocal(startX, startY).getX();
@@ -93,23 +93,25 @@ public class HeartEffectsController {
             heart.setLayoutY(paneY);
             effectsPane.getChildren().add(heart);
             
-            // Calculate direction for each heart
-            double angle = Math.toRadians(60 * i);
-            double distance = 100;
+            double angle = Math.toRadians(60 * i + 20 - Math.random()*40);
+            double distance = 80 + Math.random()*30;
             double dx = Math.cos(angle) * distance;
             double dy = Math.sin(angle) * distance;
             
-            // Animate the heart
             Timeline tl = new Timeline(
                 new KeyFrame(Duration.ZERO,
                     new KeyValue(heart.opacityProperty(), 1),
                     new KeyValue(heart.translateXProperty(), 0),
-                    new KeyValue(heart.translateYProperty(), 0)
+                    new KeyValue(heart.translateYProperty(), 0),
+                    new KeyValue(heart.scaleXProperty(), 1),
+                    new KeyValue(heart.scaleYProperty(), 1)
                 ),
                 new KeyFrame(Duration.seconds(0.7),
                     new KeyValue(heart.opacityProperty(), 0),
                     new KeyValue(heart.translateXProperty(), dx),
-                    new KeyValue(heart.translateYProperty(), dy)
+                    new KeyValue(heart.translateYProperty(), dy),
+                    new KeyValue(heart.scaleXProperty(), 1.5),
+                    new KeyValue(heart.scaleYProperty(), 1.5)
                 )
             );
             
