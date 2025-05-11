@@ -140,7 +140,7 @@
                     <options>
                         <option>-Djava.library.path=${project.basedir}/lib</option>
                         <option>--add-modules</option>
-                        <option>javafx.controls,javafx.fxml,javafx.graphics</option>
+                        <option>javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing</option>
                     </options>
                     <launcher>movieapp</launcher>
                     <jlinkImageName>movieapp</jlinkImageName>

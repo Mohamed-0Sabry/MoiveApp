@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.effect.DropShadow?>
+
+<StackPane fx:id="dialogPane" styleClass="dialog-pane" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.MovieDetailsController">
+    <BorderPane styleClass="dialog-content">
+        <left>
+            <ImageView fx:id="posterImage" fitHeight="500" fitWidth="350" preserveRatio="true" styleClass="poster-image"/>
+        </left>
+        <center>
+            <VBox spacing="15" styleClass="details-container">
+                <padding>
+                    <Insets top="20" right="20" bottom="20" left="20"/>
+                </padding>
+                <Label fx:id="titleLabel" styleClass="movie-title"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label fx:id="yearLabel" styleClass="movie-year"/>
+                    <Label fx:id="runtimeLabel" styleClass="movie-runtime"/>
+                    <Label fx:id="ratingLabel" styleClass="movie-rating"/>
+                </HBox>
+                <Label fx:id="genreLabel" styleClass="movie-genre"/>
+                <Label text="Plot:" styleClass="section-label"/>
+                <TextArea fx:id="plotText" editable="false" wrapText="true" styleClass="plot-text"/>
+                <Label text="Director:" styleClass="section-label"/>
+                <Label fx:id="directorLabel" styleClass="detail-label"/>
+                <Label text="Writers:" styleClass="section-label"/>
+                <Label fx:id="writersLabel" styleClass="detail-label"/>
+                <Label text="Actors:" styleClass="section-label"/>
+                <Label fx:id="actorsLabel" styleClass="detail-label"/>
+                <Label text="Awards:" styleClass="section-label"/>
+                <Label fx:id="awardsLabel" styleClass="detail-label"/>
+            </VBox>
+        </center>
+        <bottom>
+            <HBox alignment="CENTER_RIGHT" styleClass="button-container">
+                <padding>
+                    <Insets top="10" right="20" bottom="20" left="20"/>
+                </padding>
+                <Button fx:id="closeButton" text="Close" styleClass="close-button"/>
+            </HBox>
+        </bottom>
+    </BorderPane>
+</StackPane> 

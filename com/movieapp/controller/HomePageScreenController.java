@@ -34,7 +34,7 @@ public class HomePageScreenController {
         // Initialize button actions
         hostButton.setOnAction(e -> handleHostButton());
         viewerButton.setOnAction(e -> handleViewerButton());
-        learnMoreButton.setOnAction(e -> handleLearnMore());
+        learnMoreButton.setOnAction(e -> handleMovieSearch());
         
         // Initialize hyperlink actions
         privacyPolicyLink.setOnAction(e -> handlePrivacyPolicy());
@@ -58,10 +58,12 @@ public class HomePageScreenController {
         );
     }
     
-    private void handleLearnMore() {
-        // TODO: Implement learn more functionality
-        // This could open a new window with information about the app
-        System.out.println("Learn More clicked");
+    private void handleMovieSearch() {
+        StageManager.getInstance().loadScene(
+            "/com/movieapp/view/MovieSearchScreen.fxml",
+            "/com/movieapp/styles/movieSearch.css",
+            "Movie Night - Search Movies"
+        );
     }
     
     private void handlePrivacyPolicy() {

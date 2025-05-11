@@ -14,10 +14,10 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackPane" prefHeight="533.0" prefWidth="1152.0" styleClass="stack-pane" stylesheets="@../styles/movieApp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.HomePageScreenController">
+<StackPane fx:id="stackPane" prefHeight="533.0" prefWidth="1152.0" styleClass="stack-pane" stylesheets="@../styles/movieApp.css" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.HomePageScreenController">
    <BorderPane prefHeight="455.0" prefWidth="1001.0">
       <bottom>
-      <VBox alignment="BOTTOM_LEFT" prefHeight="24.0" prefWidth="1039.0" style="-fx-background-color: light red;" BorderPane.alignment="CENTER">
+      <VBox alignment="BOTTOM_LEFT" prefHeight="24.0" prefWidth="1039.0" style="-fx-background-color: #ffcccc;" BorderPane.alignment="CENTER">
          <children>
                <HBox prefHeight="100.0" prefWidth="200.0">
                   <children>
@@ -117,7 +117,7 @@
                   </VBox>
                      <HBox alignment="CENTER" prefHeight="61.0" prefWidth="487.0">
                         <children>
-                           <Button fx:id="learnMoreButton" mnemonicParsing="false" prefHeight="49.0" prefWidth="141.0" style="-fx-background-radius: 15px; -fx-border-radius: 15px; -fx-font-size: 15px;" text="Learn More">
+                           <Button fx:id="learnMoreButton" mnemonicParsing="false" prefHeight="49.0" prefWidth="141.0" style="-fx-background-radius: 15px; -fx-border-radius: 15px; -fx-font-size: 15px;" text="Search Movies">
                               <cursor>
                                  <Cursor fx:constant="HAND" />
                               </cursor>
