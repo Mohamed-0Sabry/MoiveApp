@@ -236,10 +236,14 @@ public class ViewerScreenController {
             if ((selectedMic == null || selectedMic.isEmpty()) && micSelector != null && !micSelector.getItems().isEmpty()) {
                 selectedMic = micSelector.getItems().get(0);
             }
+            String systemDevice = "Stereo Mix (Realtek(R) Audio)"; // Hardcoded for now, can be made dynamic
             if (recordButton.isSelected()) {
-                recorder.toggleRecording(selectedMic);
+                // Starting recording with selected microphone and system audio
+                recorder.toggleRecording(selectedMic, systemDevice);
             } else {
-                recorder.toggleRecording(selectedMic);
+                // Stopping recording
+                recorder.toggleRecording(selectedMic, systemDevice);
+                // Show where the file was saved
                 String userHome = System.getProperty("user.home");
                 String recordingsPath = new File(userHome, "Documents/MovieApp Recordings").getAbsolutePath();
                 System.out.println("Recording saved in: " + recordingsPath);
