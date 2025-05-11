@@ -5,8 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -18,11 +20,12 @@ import java.net.URL;
 import com.movieapp.network.Client;
 import com.movieapp.model.FileTransfer;
 import javafx.application.Platform;
-import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 
 public class HostController {
     @FXML private StackPane showScreen;
     @FXML private Button chatButton;
+    @FXML private Button fullScreenButton;
     @FXML private ToggleButton audioButton;
     @FXML private ImageView audioOnIcon;
     @FXML private ImageView audioOffIcon;
@@ -31,6 +34,9 @@ public class HostController {
     private Robot robot;
     private boolean capturing = false;
     private ImageView imageView;
+    private boolean isFullScreen = false;
+    private Double[] originalConstraints = new Double[4];
+    private String originalButtonText;
     private Client client;
     private boolean isAudioStreaming = false;
 
@@ -65,13 +71,13 @@ public class HostController {
             }
         }
 
-        // Initialize audio controls
+        //Initialize audio controls
         if (audioButton != null) {
             audioButton.setOnAction(event -> toggleAudioStreaming());
             updateAudioButtonState();
         }
 
-        // Initialize client with audio support
+        //Initialize client with audio support
         client = new Client(new Client.MessageListener() {
             @Override
             public void onMessageReceived(String message) {
@@ -109,6 +115,15 @@ public class HostController {
         } catch (IOException e) {
             System.err.println("Error connecting to server: " + e.getMessage());
         }
+
+        // Set up ESC key handler for full screen
+        showScreen.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE && isFullScreen) {
+                fullScreenClicked();
+            }
+        });
+        
+         originalButtonText = fullScreenButton.getText();
     }
     
     public void startScreenCapture() {
@@ -196,6 +211,50 @@ public class HostController {
         if (captureTimer != null) {
             captureTimer.stop();
         }
+    }
+
+    @FXML 
+    private void fullScreenClicked() {
+        isFullScreen = !isFullScreen;
+        
+        if (isFullScreen) {
+            // Store original constraints
+            originalConstraints[0] = AnchorPane.getTopAnchor(showScreen);
+            originalConstraints[1] = AnchorPane.getBottomAnchor(showScreen);
+            originalConstraints[2] = AnchorPane.getLeftAnchor(showScreen);
+            originalConstraints[3] = AnchorPane.getRightAnchor(showScreen);
+            
+            // Set fullscreen constraints
+            AnchorPane.clearConstraints(showScreen);
+            AnchorPane.setTopAnchor(showScreen, 0.0);
+            AnchorPane.setBottomAnchor(showScreen, 0.0);
+            AnchorPane.setLeftAnchor(showScreen, 0.0);
+            AnchorPane.setRightAnchor(showScreen, 0.0);
+            
+            // Hide all buttons
+            setButtonsVisible(false);
+            
+            // Request focus for key events
+            showScreen.requestFocus();
+        } else {
+            // Restore original constraints
+            AnchorPane.setTopAnchor(showScreen, originalConstraints[0]);
+            AnchorPane.setBottomAnchor(showScreen, originalConstraints[1]);
+            AnchorPane.setLeftAnchor(showScreen, originalConstraints[2]);
+            AnchorPane.setRightAnchor(showScreen, originalConstraints[3]);
+            
+            // Show all buttons
+            setButtonsVisible(true);
+        }
+        
+        // Update button text
+        fullScreenButton.setText(isFullScreen ? "Exit Full Screen" : "Full Screen");
+    }
+    
+    private void setButtonsVisible(boolean visible) {
+        chatButton.setVisible(visible);
+        fullScreenButton.setVisible(visible);
+        audioButton.setVisible(visible);
     }
 
     private void toggleAudioStreaming() {
