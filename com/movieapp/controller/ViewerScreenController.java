@@ -81,8 +81,11 @@ public class ViewerScreenController {
             }
         });
 
-        // Initialize controllers
-        heartEffectsController = new HeartEffectsController(heartButton, heartIcon, effectsPane);
+        // Initialize chat panel and client first
+        initializeChatPanel();
+
+        // Now initialize controllers with a valid client
+        heartEffectsController = new HeartEffectsController(heartButton, heartIcon, effectsPane, client);
         fullscreenController = new FullscreenController(mediaView, rootPane, controlsPane, topBar, heartButtonContainer, effectsPane);
 
         // Setup recorder state listener
@@ -105,9 +108,6 @@ public class ViewerScreenController {
         if (effectsPane != null) {
             effectsPane.setMouseTransparent(true);
         }
-
-        // Initialize chat panel
-        initializeChatPanel();
     }
 
     private void setupVolumeControls() {
@@ -165,6 +165,17 @@ public class ViewerScreenController {
                     if (audioController != null) {
                         audioController.updateVolumeMeter(audioData);
                     }
+                }
+
+                @Override
+                public void onHeartAnimation(String username, boolean isLiked) {
+                    Platform.runLater(() -> {
+                        // Find the heart controller for this user and show animation
+                        if (heartEffectsController != null) {
+                            heartEffectsController.showHeartBurst();
+                            heartEffectsController.showFloatingHeart();
+                        }
+                    });
                 }
             });
 

@@ -10,61 +10,39 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.stage.Window;
+import javafx.stage.StageStyle;
 
 public class TestingNoranChatApp extends Application {
-
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/movieapp/view/DemoThemeServer.fxml"));
-            Parent root = loader.load();
-            
-            ChatController controller = loader.getController();
-            Client client = new Client(new Client.MessageListener() {
-                @Override
-                public void onMessageReceived(String msg) {
-                    controller.displayMessage(msg);
-                }
-                
-                @Override
-                public void onFileReceived(FileTransfer fileTransfer) {
-                }
-                
-                @Override
-                public void onConnectionClosed() {
-                }
-                
-                @Override
-                public void onImageReceived(Image image, String name) {
-                    controller.onImageReceived(image, name);
-                }
-
-                @Override
-                public void onAudioReceived(byte[] audioData, String senderId) {
-                    // Audio is automatically played by the Client class
-                    System.out.println("Received audio from: " + senderId);
-                }
-            });
-            controller.setClient(client);
-            
-            client.connectToHost("localhost", 5555);
-            
+            Parent root = FXMLLoader.load(getClass().getResource("/com/movieapp/view/ChatView.fxml"));
             Scene scene = new Scene(root);
-            primaryStage.setTitle("Demo Theme Server Test");
             primaryStage.setScene(scene);
+            primaryStage.setTitle("Noran Chat");
+            primaryStage.getIcons().add(new Image("/com/movieapp/icon/icon.png"));
+            primaryStage.setResizable(false);
+            primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.show();
 
             primaryStage.setOnCloseRequest(event -> {
-                client.sendMessage("INFO_CHAT:"+ client.getUsername() + " Leaved");
+                event.consume();
+                closeApp();
             });
-
-            primaryStage.show();
-            
         } catch (Exception e) {
-            System.err.println("Error loading FXML: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    private void closeApp() {
+        // Add any additional logic you want to execute before closing the application
+        System.out.println("Application is closing...");
+        // ...
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-} 
+}

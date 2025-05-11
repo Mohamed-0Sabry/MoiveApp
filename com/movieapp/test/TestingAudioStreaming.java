@@ -117,6 +117,13 @@ public class TestingAudioStreaming extends Application {
             public void onAudioReceived(byte[] audioData, String senderId) {
                 AudioStreamUtils.playAudioStream(audioData);
             }
+
+            @Override
+            public void onHeartAnimation(String username, boolean isLiked) {
+                Platform.runLater(() -> {
+                    System.out.println("Received heart animation from: " + username + ", isLiked: " + isLiked);
+                });
+            }
         });
 
         try {

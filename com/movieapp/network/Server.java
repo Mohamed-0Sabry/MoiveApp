@@ -148,6 +148,10 @@ public class Server {
                 System.err.println("[Server] Invalid audio port received from " + sender.getUsername());
             }
         }
+        if (message.startsWith("HEART_ANIMATION:")) {
+            String content = message.substring(15);
+            broadcastMessage("HEART_ANIMATION:%" + sender.getUsername() + "%" + content, null);
+        }
     }
 
     private void handleAudioStream(User sender) {

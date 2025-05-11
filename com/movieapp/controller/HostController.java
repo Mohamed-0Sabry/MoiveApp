@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.awt.*;
@@ -22,6 +23,7 @@ import com.movieapp.network.Server;
 import com.movieapp.model.FileTransfer;
 import com.movieapp.utils.StageManager;
 import javafx.application.Platform;
+import com.movieapp.controller.effects.HeartEffectsController;
 
 public class HostController {
     @FXML private StackPane showScreen;
@@ -30,6 +32,9 @@ public class HostController {
     @FXML private ToggleButton audioButton;
     @FXML private ImageView audioOnIcon;
     @FXML private ImageView audioOffIcon;
+    @FXML private Button heartButton;
+    @FXML private ImageView heartIcon;
+    @FXML private Pane effectsPane;
     
     private AnimationTimer captureTimer;
     private Robot robot;
@@ -42,6 +47,7 @@ public class HostController {
     private Server server;
     private boolean isAudioStreaming = false;
     private static final int DEFAULT_PORT = 5555;
+    private HeartEffectsController heartEffectsController;
 
     @FXML
     public void initialize() {
@@ -50,6 +56,9 @@ public class HostController {
             System.err.println("Error: showScreen was not injected properly from FXML");
             return;
         }
+
+        // Initialize heart effects controller
+        heartEffectsController = new HeartEffectsController(heartButton, heartIcon, effectsPane, client);
 
         try {
             System.setProperty("java.awt.headless", "false");
@@ -120,6 +129,17 @@ public class HostController {
             public void onAudioReceived(byte[] audioData, String senderId) {
                 // Audio is automatically played by the Client class
                 System.out.println("Received audio from: " + senderId);
+            }
+
+            @Override
+            public void onHeartAnimation(String username, boolean isLiked) {
+                Platform.runLater(() -> {
+                    // Find the heart controller for this user and show animation
+                    if (heartEffectsController != null) {
+                        heartEffectsController.showHeartBurst();
+                        heartEffectsController.showFloatingHeart();
+                    }
+                });
             }
         });
 

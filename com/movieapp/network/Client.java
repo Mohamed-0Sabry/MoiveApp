@@ -47,6 +47,7 @@ public interface MessageListener {
     void onConnectionClosed();
     void onImageReceived(Image image, String name);
     void onAudioReceived(byte[] audioData, String senderId);
+    void onHeartAnimation(String username, boolean isLiked);
 }
 
 public Client(MessageListener listener) {
@@ -220,6 +221,8 @@ private void startListening() {
                     handleImageChat(message);
                 } else if (message.startsWith("AUDIO:")) {
                     handleAudioTransfer();
+                } else if (message.startsWith("HEART_ANIMATION:")) {
+                    handleHeartAnimation(message);
                 } else {
                     messageListener.onMessageReceived(message);
                 }                    
@@ -268,6 +271,21 @@ private void handleAudioTransfer() {
         messageListener.onAudioReceived(audioPacket.getAudioData(), audioPacket.getSenderId());
     } catch (Exception e) {
         System.err.println("[Client] Error receiving audio: " + e.getMessage());
+    }
+}
+
+private void handleHeartAnimation(String message) {
+    try {
+        int index = message.indexOf('%', 15);
+        String name = message.substring(15, index);
+        String state = message.substring(index + 1);
+        boolean isLiked = state.equals("1");
+        
+        Platform.runLater(() -> {
+            messageListener.onHeartAnimation(name, isLiked);
+        });
+    } catch (Exception e) {
+        System.err.println("Error handling heart animation: " + e.getMessage());
     }
 }
 
