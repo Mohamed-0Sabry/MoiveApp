@@ -42,6 +42,7 @@ import java.nio.file.Files;
 import java.util.Base64;
 import javax.sound.sampled.Mixer;
 import javafx.scene.control.ToggleButton;
+import com.movieapp.utils.RecordEverythingController;
 
 /**
  * Controller for the Viewer Screen. Handles fullscreen video overlay and heart button overlay.
@@ -70,6 +71,7 @@ public class ViewerScreenController {
     @FXML private ImageView audioOffIcon;
     @FXML private ProgressBar audioLevelMeter;
     @FXML private ComboBox<String> micSelector;
+    @FXML private ToggleButton recordButton;
 
     // State fields
     private boolean isFullscreen = false;
@@ -95,16 +97,45 @@ public class ViewerScreenController {
     private Mixer.Info selectedMicrophone;
     private AnimationTimer audioLevelTimer;
 
+    private RecordEverythingController recorder = new RecordEverythingController();
+    private String currentRecordingPath = null;
+
+    // Initialize images as null first
+    private Image staticRecord = null;
+    private Image animatedRecord = null;
+
     /**
      * Initialize controller and set up primary stage reference.
      */
     @FXML
     private void initialize() {
+        // Try to load images, but don't let it break the initialization
+        try {
+            staticRecord = new Image(getClass().getResourceAsStream("/com/movieapp/view/image/record.png"));
+            animatedRecord = new Image(getClass().getResourceAsStream("/com/movieapp/view/image/Camera Recording Sticker.gif"));
+        } catch (Exception e) {
+            System.err.println("Warning: Could not load recording icons: " + e.getMessage());
+        }
+
         rootPane.sceneProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 primaryStage = (Stage) newValue.getWindow();
             }
         });
+
+        // Setup recorder state listener
+        recorder.setStateListener((isRecording, filePath) -> {
+            Platform.runLater(() -> {
+                if (isRecording) {
+                    currentRecordingPath = filePath;
+                    recordButton.setSelected(true);
+                } else {
+                    currentRecordingPath = null;
+                    recordButton.setSelected(false);
+                }
+            });
+        });
+
         heartButton.setOnAction(event -> {
             animateHeart();
             showHeartBurst();
@@ -593,5 +624,30 @@ public class ViewerScreenController {
     
     public void stop() {
         disconnect();
+    }
+
+    @FXML
+    private void onRecordButtonClicked() {
+        try {
+            String selectedMic = micSelector != null ? micSelector.getValue() : null;
+            if ((selectedMic == null || selectedMic.isEmpty()) && micSelector != null && !micSelector.getItems().isEmpty()) {
+                selectedMic = micSelector.getItems().get(0); // Use first available mic
+            }
+            if (recordButton.isSelected()) {
+                // Starting recording with selected microphone
+                recorder.toggleRecording(selectedMic);
+            } else {
+                // Stopping recording
+                recorder.toggleRecording(selectedMic);
+                // Show where the file was saved
+                String userHome = System.getProperty("user.home");
+                String recordingsPath = new File(userHome, "Documents/MovieApp Recordings").getAbsolutePath();
+                System.out.println("Recording saved in: " + recordingsPath);
+            }
+        } catch (Exception e) {
+            System.err.println("Recording error: " + e.getMessage());
+            // Reset button state if there was an error
+            recordButton.setSelected(false);
+        }
     }
 } 

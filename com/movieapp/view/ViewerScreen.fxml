@@ -75,18 +75,25 @@
                                                             </tooltip>
                                                         </Button>
                                                         <Region layoutX="316.0" layoutY="10.0" prefHeight="74.0" prefWidth="13.0" />
-                                                        <Button alignment="CENTER" graphicTextGap="7.0" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
+                                                        <ToggleButton fx:id="recordButton" alignment="CENTER" graphicTextGap="7.0" onAction="#onRecordButtonClicked" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
                                                             <graphic>
-                                                                <ImageView fitHeight="32.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                                                                    <image>
-                                                                        <Image url="@image/record.png" />
-                                                                    </image>
-                                                                </ImageView>
+                                                                <StackPane>
+                                                                    <ImageView fx:id="recordIcon" fitHeight="32.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                                                                        <image>
+                                                                            <Image url="@image/record.png" />
+                                                                        </image>
+                                                                    </ImageView>
+                                                                    <ImageView fx:id="stopIcon" fitHeight="32.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                                        <image>
+                                                                            <Image url="@image/Camera%20Recording%20Sticker.gif" />
+                                                                        </image>
+                                                                    </ImageView>
+                                                                </StackPane>
                                                             </graphic>
                                                             <tooltip>
                                                                 <Tooltip text="Click to Record" />
                                                             </tooltip>
-                                                        </Button>
+                                                        </ToggleButton>
                                                         <Region prefHeight="74.0" prefWidth="15.0" />
                                                         <HBox alignment="CENTER" spacing="5">
                                                             <Button fx:id="muteButton" alignment="CENTER" graphicTextGap="7.0" prefHeight="42.0" prefWidth="63.0" styleClass="custom-button">
