@@ -263,6 +263,16 @@ public class HostController {
         fullScreenButton.setText(isFullScreen ? "Exit Full Screen" : "Full Screen");
     }
     
+
+    @FXML
+    private void onBackButtonClicked() {
+        try {
+            com.movieapp.Main.switchToMainScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void setButtonsVisible(boolean visible) {
         chatButton.setVisible(visible);
         fullScreenButton.setVisible(visible);
