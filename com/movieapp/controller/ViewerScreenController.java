@@ -33,7 +33,8 @@ import com.movieapp.controller.fullscreen.FullscreenController;
  */
 public class ViewerScreenController {
     // FXML-injected fields
-    @FXML private MediaView mediaView;
+    @FXML private ImageView screenImageView;
+    @FXML private HBox mediaContainer;
     @FXML private StackPane rootPane;
     @FXML private VBox controlsPane;
     @FXML private HBox topBar;
@@ -84,9 +85,16 @@ public class ViewerScreenController {
         // Initialize chat panel and client first
         initializeChatPanel();
 
+        // Make the screen image view fill the available space
+        if (screenImageView != null) {
+            screenImageView.setPreserveRatio(true);
+            screenImageView.fitWidthProperty().bind(mediaContainer.widthProperty());
+            screenImageView.fitHeightProperty().bind(mediaContainer.heightProperty());
+        }
+
         // Now initialize controllers with a valid client
         heartEffectsController = new HeartEffectsController(heartButton, heartIcon, effectsPane, client);
-        fullscreenController = new FullscreenController(mediaView, rootPane, controlsPane, topBar, heartButtonContainer, effectsPane);
+        fullscreenController = new FullscreenController(screenImageView, rootPane, controlsPane, topBar, heartButtonContainer, effectsPane);
 
         // Setup recorder state listener
         recorder.setStateListener((isRecording, filePath) -> {
@@ -112,10 +120,6 @@ public class ViewerScreenController {
 
     private void setupVolumeControls() {
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (mediaView.getMediaPlayer() != null) {
-                double volume = newVal.doubleValue() / 100.0;
-                mediaView.getMediaPlayer().setVolume(volume);
-            }
             if (volumeOnIcon != null && volumeMuteIcon != null) {
                 boolean isMuted = newVal.doubleValue() == 0;
                 volumeOnIcon.setVisible(!isMuted);
@@ -154,10 +158,18 @@ public class ViewerScreenController {
                 
                 @Override
                 public void onImageReceived(Image image, String name) {
-                    if (chatController != null) {
-                        chatController.onImageReceived(image, name);
-                    }
-                }
+                    Platform.runLater(() -> {
+                        if (name.equals("screen")) {
+                            // This is a screen share frame
+                            if (screenImageView != null) {
+                                screenImageView.setImage(image);
+                            }
+                        } else if (chatController != null) {
+                            // This is a chat image
+                            chatController.onImageReceived(image, name);
+                        }
+                    });
+                }                
 
                 @Override
                 public void onAudioReceived(byte[] audioData, String senderId) {

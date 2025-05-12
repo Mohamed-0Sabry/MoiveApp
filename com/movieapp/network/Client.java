@@ -221,11 +221,11 @@ private void startListening() {
                     handleImageChat(message);
                 } else if (message.startsWith("AUDIO:")) {
                     handleAudioTransfer();
-                } else if (message.startsWith("HEART_ANIMATION:")) {
-                    handleHeartAnimation(message);
+                } else if (message.startsWith("FRAME:")) {
+                    handleFrameReceived(message);
                 } else {
                     messageListener.onMessageReceived(message);
-                }                    
+                }                                    
             }
         } catch (IOException e) {
             System.err.println("Error reading from server: " + e.getMessage());
@@ -233,6 +233,29 @@ private void startListening() {
             disconnect();
         }
     });
+}
+
+
+private void handleFrameReceived(String message) {
+    try {
+        String base64 = message.substring(6); // Remove "FRAME:" prefix
+        byte[] imageData = Base64.getDecoder().decode(base64);
+        
+        ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
+        BufferedImage bufferedImage = ImageIO.read(bis);
+        
+        if (bufferedImage != null) {
+            Image fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
+            Platform.runLater(() -> {
+                if (messageListener != null) {
+                    messageListener.onImageReceived(fxImage, "screen");
+                }
+            });
+        }
+    } catch (Exception e) {
+        System.err.println("Error processing received frame: " + e.getMessage());
+        e.printStackTrace();
+    }
 }
 
 private void handleFileTransfer() throws IOException {

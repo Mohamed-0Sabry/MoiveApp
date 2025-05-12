@@ -1,8 +1,6 @@
 package com.movieapp.controller;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -12,12 +10,17 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.AWTException;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.util.Base64;
+import java.awt.image.DataBufferInt;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.PixelGrabber;
 import com.movieapp.network.Client;
 import com.movieapp.network.Server;
 import com.movieapp.model.FileTransfer;
@@ -186,35 +189,45 @@ public class HostController {
         captureTimer.start();
     }
     
-    private void captureAndDisplayScreen() {
-        try {
-            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-            BufferedImage awtImage = robot.createScreenCapture(screenRect);
-            
-            WritableImage fxImage = new WritableImage(awtImage.getWidth(), awtImage.getHeight());
-            java.awt.image.PixelGrabber pg = new java.awt.image.PixelGrabber(
-                awtImage, 0, 0, awtImage.getWidth(), awtImage.getHeight(),
-                ((java.awt.image.DataBufferInt) awtImage.getRaster().getDataBuffer()).getData(), 0, awtImage.getWidth()
-            );
-            
-            pg.grabPixels();
-            
-            fxImage.getPixelWriter().setPixels(0, 0, awtImage.getWidth(), awtImage.getHeight(),
-                javafx.scene.image.PixelFormat.getIntArgbInstance(),
-                ((java.awt.image.DataBufferInt) awtImage.getRaster().getDataBuffer()).getData(),
-                0, awtImage.getWidth()
-            );
-            
-            javafx.application.Platform.runLater(() -> {
-                if (imageView != null) {
-                    imageView.setImage(fxImage);
-                }
-            });
-            
-        } catch (Exception e) {
-            e.printStackTrace();
+  // In HostController.java, modify the captureAndDisplayScreen method
+private void captureAndDisplayScreen() {
+    try {
+        Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+        BufferedImage awtImage = robot.createScreenCapture(screenRect);
+        
+        // Send to clients
+        if (client != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(awtImage, "jpg", baos);
+            String base64 = Base64.getEncoder().encodeToString(baos.toByteArray());
+            client.sendMessage("FRAME:" + base64);
         }
+        
+        // Display locally
+        WritableImage fxImage = new WritableImage(awtImage.getWidth(), awtImage.getHeight());
+        PixelGrabber pg = new PixelGrabber(
+            awtImage, 0, 0, awtImage.getWidth(), awtImage.getHeight(),
+            ((DataBufferInt) awtImage.getRaster().getDataBuffer()).getData(), 0, awtImage.getWidth()
+        );
+        
+        pg.grabPixels();
+        
+        fxImage.getPixelWriter().setPixels(0, 0, awtImage.getWidth(), awtImage.getHeight(),
+            javafx.scene.image.PixelFormat.getIntArgbInstance(),
+            ((DataBufferInt) awtImage.getRaster().getDataBuffer()).getData(),
+            0, awtImage.getWidth()
+        );
+        
+        javafx.application.Platform.runLater(() -> {
+            if (imageView != null) {
+                imageView.setImage(fxImage);
+            }
+        });
+        
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
     
     public void stopScreenCapture() {
         if (!capturing) return;

@@ -33,7 +33,7 @@
                                             <children>
                                                 <HBox fx:id="mediaContainer" alignment="CENTER" prefHeight="332.0" prefWidth="885.0" style="-fx-background-color: black; ">
                                                     <children>
-                                                        <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" styleClass="mediaView" />
+                                                        <ImageView fx:id="screenImageView" fitHeight="200.0" fitWidth="200.0" preserveRatio="true" styleClass="mediaView" />
                                                     </children>
                                                 </HBox>
                                             </children>
