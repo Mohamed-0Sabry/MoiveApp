@@ -79,6 +79,7 @@ public class HostController {
     private boolean isChatOpen = false;
     private String currentRecordingPath = null;
     private boolean isAudioStreaming = false;
+    private boolean isSystemAudioStreaming = false;
 
     /**
      * Initialize controller and set up primary stage reference.
@@ -291,7 +292,34 @@ public class HostController {
             }
         };
         captureTimer.start();
+        
+        // Start system audio streaming automatically with screen sharing
+        startSystemAudioStreaming();
     }
+    
+
+    private void startSystemAudioStreaming() {
+        if (isSystemAudioStreaming) return;
+        
+        if (client != null) {
+            client.startSystemAudioStreaming();
+            isSystemAudioStreaming = true;
+            System.out.println("System audio streaming started");
+        }
+    }
+
+    private void stopSystemAudioStreaming() {
+        if (!isSystemAudioStreaming) return;
+        
+        if (client != null) {
+            client.stopSystemAudioStreaming();
+            isSystemAudioStreaming = false;
+            System.out.println("System audio streaming stopped");
+        }
+    }
+
+    
+
 
     private void captureAndDisplayScreen() {
         try {
@@ -341,7 +369,11 @@ public class HostController {
         if (captureTimer != null) {
             captureTimer.stop();
         }
+        
+        // Stop system audio streaming when screen sharing stops
+        stopSystemAudioStreaming();
     }
+    
 
     @FXML
     private void onChatButtonClicked() {
@@ -415,6 +447,7 @@ public class HostController {
 
     public void stop() {
         stopScreenCapture();
+        stopSystemAudioStreaming();
         if (audioController != null) {
             audioController.stop();
         }
@@ -432,4 +465,5 @@ public class HostController {
             }
         }
     }
+    
 }

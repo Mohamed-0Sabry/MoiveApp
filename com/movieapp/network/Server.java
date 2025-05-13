@@ -187,37 +187,40 @@ public class Server {
             System.err.println("[Server] Cannot broadcast null audio packet");
             return;
         }
-
+    
+        // Check if this is system audio
+        boolean isSystemAudio = packet.getSenderId() != null &&  packet.getSenderId().endsWith("_system");
+        
         byte[] outBuf = packet.toBytes();
         if (outBuf == null) {
             System.err.println("[Server] Error serializing audio packet");
             return;
         }
-        System.out.println("[Server] Broadcasting audio from " + packet.getSenderId() + " to " + connectedClients.size()
-                + " clients");
-
+        
+        String logPrefix = isSystemAudio ? "[Server][SystemAudio]" : "[Server][MicAudio]";
+        System.out.println(logPrefix + " Broadcasting audio from " + packet.getSenderId() + " to " + connectedClients.size() + " clients");
+    
         int successCount = 0;
         for (User u : connectedClients) {
             if (u.getAudioPort() <= 0) {
-                System.err.println("[Server] Skipping client " + u.getUsername() + " - no audio port registered");
+                System.err.println(logPrefix + " Skipping client " + u.getUsername() + " - no audio port registered");
                 continue;
             }
-
+    
             InetAddress addr = u.getSocket().getInetAddress();
             int port = u.getAudioPort();
             try {
                 DatagramPacket dp = new DatagramPacket(outBuf, outBuf.length, addr, port);
                 audioSocket.send(dp);
                 successCount++;
-                System.out.println("[Server] Sent audio to " + u.getUsername() + " at " + addr + ":" + port);
+                System.out.println(logPrefix + " Sent audio to " + u.getUsername() + " at " + addr + ":" + port);
             } catch (IOException ex) {
-                System.err.println("[Server] Error sending audio to " + u.getUsername() + ": " + ex.getMessage());
+                System.err.println(logPrefix + " Error sending audio to " + u.getUsername() + ": " + ex.getMessage());
             }
         }
-        System.out.println("[Server] Successfully sent audio to " + successCount + " out of " + connectedClients.size()
-                + " clients");
+        System.out.println(logPrefix + " Successfully sent audio to " + successCount + " out of " + connectedClients.size() + " clients");
     }
-
+    
     public void broadcastMessage(String message, User sender) {
         for (User client : connectedClients) {
             if (!client.equals(sender)) {

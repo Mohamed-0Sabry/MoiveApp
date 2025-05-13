@@ -20,8 +20,78 @@ public class AudioStreamUtils {
     private static float currentInputLevel = 0.0f, currentOutputLevel = 0.0f;
     private static SourceDataLine persistentSpeaker;
 
+    private static volatile boolean isSystemAudioStreaming = false;
+    private static TargetDataLine systemAudioLine;
+
+
     public interface AudioStreamListener { void onAudioData(byte[] audioData); }
 
+
+    public static void startSystemAudioStream(java.util.function.Consumer<byte[]> audioConsumer) {
+        if (isSystemAudioStreaming) return;
+        
+        try {
+            javax.sound.sampled.Mixer.Info[] mixerInfos = javax.sound.sampled.AudioSystem.getMixerInfo();
+            javax.sound.sampled.Mixer.Info systemMixerInfo = null;
+            
+            // Find the "Stereo Mix" or similar system audio device
+            for (javax.sound.sampled.Mixer.Info info : mixerInfos) {
+                if (info.getName().contains("Stereo Mix") || 
+                    info.getName().contains("What U Hear") ||
+                    info.getName().contains("Loopback")) {
+                    systemMixerInfo = info;
+                    break;
+                }
+            }
+            
+            if (systemMixerInfo == null) {
+                System.err.println("No system audio capture device found!");
+                return;
+            }
+            
+            javax.sound.sampled.AudioFormat format = new javax.sound.sampled.AudioFormat(
+                44100.0f, 16, 2, true, false);
+            
+            javax.sound.sampled.DataLine.Info dataLineInfo = 
+                new javax.sound.sampled.DataLine.Info(javax.sound.sampled.TargetDataLine.class, format);
+                
+            javax.sound.sampled.Mixer mixer = javax.sound.sampled.AudioSystem.getMixer(systemMixerInfo);
+            systemAudioLine = (javax.sound.sampled.TargetDataLine) mixer.getLine(dataLineInfo);
+            systemAudioLine.open(format);
+            systemAudioLine.start();
+            
+            isSystemAudioStreaming = true;
+            
+            new Thread(() -> {
+                byte[] buffer = new byte[4096];
+                while (isSystemAudioStreaming && systemAudioLine != null && systemAudioLine.isOpen()) {
+                    int bytesRead = systemAudioLine.read(buffer, 0, buffer.length);
+                    if (bytesRead > 0) {
+                        byte[] data = new byte[bytesRead];
+                        System.arraycopy(buffer, 0, data, 0, bytesRead);
+                        audioConsumer.accept(data);
+                    }
+                }
+            }).start();
+            
+        } catch (Exception e) {
+            System.err.println("Error starting system audio capture: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void stopSystemAudioStream() {
+        isSystemAudioStreaming = false;
+        if (systemAudioLine != null) {
+            systemAudioLine.stop();
+            systemAudioLine.close();
+            systemAudioLine = null;
+        }
+    }
+
+    
+    
     public static Mixer.Info[] getAvailableMixers() {
         return java.util.Arrays.stream(AudioSystem.getMixerInfo())
             .filter(mixerInfo -> AudioSystem.getMixer(mixerInfo).getTargetLineInfo().length > 0)
