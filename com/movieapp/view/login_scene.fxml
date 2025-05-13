@@ -1,106 +1,145 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
 
-<HBox prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #fcd3e1; -fx-background-radius: 20; -fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.LoginController">
+<HBox prefHeight="600.0" prefWidth="1000.0" styleClass="main-container" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.LoginController">
     <!-- Illustration Side with background image -->
-    <StackPane style="-fx-background-image: url('/com/movieapp/view/image/movie-night-background.jpg'); -fx-background-size: cover; -fx-background-position: center; -fx-background-radius: 20 0 0 20;" HBox.hgrow="ALWAYS">
-        <ImageView fx:id="illustrationImage" fitHeight="560" fitWidth="440" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 20, 0, 0, 0);" StackPane.alignment="CENTER_LEFT" />
+    <StackPane styleClass="illustration-side" HBox.hgrow="ALWAYS">
+        <Region />
     </StackPane>
-
     <!-- Form Card Side -->
-    <AnchorPane style="-fx-background-color: white; -fx-background-radius: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 20, 0, 0, 0);" HBox.hgrow="ALWAYS">
-        <!-- Login Form -->
-        <VBox fx:id="loginForm" alignment="TOP_CENTER" spacing="15" style="-fx-padding: 30 40 30 40;" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-         <HBox prefHeight="60.0" prefWidth="301.0">
-            <children>
-                  <Label style="-fx-font-size: 42px; -fx-font-family: 'Comic Sans MS', 'Arial Black', cursive; -fx-font-weight: bold; -fx-text-fill: #fcd3e1;" text="Welcome Back!" />
-            </children>
-         </HBox>
-         <HBox prefHeight="25.0" prefWidth="197.0">
-            <children>
-                  <Label style="-fx-font-size: 16px; -fx-font-family: 'Arial'; -fx-text-fill: #222; -fx-padding: 0 0 5 0;" text="Please log in to your account" />
-            </children>
-         </HBox>
-         <Region prefHeight="19.0" prefWidth="255.0" />
-
-            <!-- Email Field -->
-            <VBox alignment="TOP_LEFT" spacing="5" style="-fx-pref-width: 100%;">
-                <Label style="-fx-font-size: 13px; -fx-font-family: 'Arial'; -fx-text-fill: #222;" text="Email Address :" />
-                <TextField fx:id="loginEmail" promptText="Enter your email" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: #f5f7fa; -fx-border-color: transparent; -fx-padding: 10; -fx-font-size: 14px;" />
-            </VBox>
-
-            <!-- Password Field with Toggle -->
-            <VBox alignment="TOP_LEFT" spacing="5" style="-fx-pref-width: 100%;">
-                <Label style="-fx-font-size: 13px; -fx-font-family: 'Arial'; -fx-text-fill: #222;" text="Password :" />
-                <PasswordField fx:id="loginPassword" promptText="Enter your password" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: #f5f7fa; -fx-border-color: transparent; -fx-padding: 10; -fx-font-size: 14px;" />
-            </VBox>
-
-            <!-- Login Button -->
-            <Button maxWidth="Infinity" onAction="#handleLogin" style="-fx-background-color: #fcd3e1; -fx-text-fill: white; -fx-font-size: 24px; -fx-font-family: 'Comic Sans MS', 'Arial Black', cursive; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 0 10 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 10, 0, 0, 0);" text="Login" />
-
-            <!-- Sign Up Link -->
-            <HBox alignment="CENTER_RIGHT" spacing="5">
-                <Label style="-fx-font-size: 14px; -fx-font-family: 'Arial'; -fx-text-fill: #222;" text="Don't have an account?" />
-                <Hyperlink fx:id="toggleLink" onAction="#toggleForms" style="-fx-font-size: 14px; -fx-text-fill: #fcd3e1; -fx-font-weight: bold;" text="Sign Up" />
-            </HBox>
-        </VBox>
-
-        <!-- Sign Up Form -->
-        <VBox fx:id="signupForm" alignment="TOP_CENTER" spacing="15" style="-fx-padding: 30 40 30 40;" visible="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-         <HBox prefHeight="100.0" prefWidth="200.0">
-            <children>
-                  <Label style="-fx-font-size: 42px; -fx-font-family: 'Comic Sans MS', 'Arial Black', cursive; -fx-font-weight: bold; -fx-text-fill: #fcd3e1;" text="Create Account" />
-            </children>
-         </HBox>
-         <HBox prefHeight="100.0" prefWidth="200.0">
-            <children>
-                  <Label style="-fx-font-size: 16px; -fx-font-family: 'Arial'; -fx-text-fill: #222; -fx-padding: 0 0 5 0;" text="Please fill in your details" />
-            </children>
-         </HBox>
-
-            <!-- Name Field -->
-            <VBox alignment="TOP_LEFT" spacing="5" style="-fx-pref-width: 100%;">
-                <Label style="-fx-font-size: 13px; -fx-font-family: 'Arial'; -fx-text-fill: #222;" text="Full Name" />
-                <TextField fx:id="signupName" promptText="Enter your full name" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: #f5f7fa; -fx-border-color: transparent; -fx-padding: 10; -fx-font-size: 14px;" />
-            </VBox>
-
-            <!-- Email Field -->
-            <VBox alignment="TOP_LEFT" spacing="5" style="-fx-pref-width: 100%;">
-                <Label style="-fx-font-size: 13px; -fx-font-family: 'Arial'; -fx-text-fill: #222;" text="Email Address" />
-                <TextField fx:id="signupEmail" promptText="Enter your email" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: #f5f7fa; -fx-border-color: transparent; -fx-padding: 10; -fx-font-size: 14px;" />
-            </VBox>
-
-            <!-- Password Field -->
-            <VBox alignment="TOP_LEFT" spacing="5" style="-fx-pref-width: 100%;">
-                <Label style="-fx-font-size: 13px; -fx-font-family: 'Arial'; -fx-text-fill: #222;" text="Password" />
-                <PasswordField fx:id="signupPassword" promptText="Create a password" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: #f5f7fa; -fx-border-color: transparent; -fx-padding: 10; -fx-font-size: 14px;" />
-            </VBox>
-
-            <!-- Confirm Password Field -->
-            <VBox alignment="TOP_LEFT" spacing="5" style="-fx-pref-width: 100%;">
-                <Label style="-fx-font-size: 13px; -fx-font-family: 'Arial'; -fx-text-fill: #222;" text="Confirm Password" />
-                <PasswordField fx:id="signupConfirmPassword" promptText="Confirm your password" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: #f5f7fa; -fx-border-color: transparent; -fx-padding: 10; -fx-font-size: 14px;" />
-            </VBox>
-
-            <!-- Sign Up Button -->
-            <Button maxWidth="Infinity" onAction="#handleSignup" style="-fx-background-color: #fcd3e1; -fx-text-fill: white; -fx-font-size: 24px; -fx-font-family: 'Comic Sans MS', 'Arial Black', cursive; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 0 10 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 10, 0, 0, 0);" text="Create Account" />
-
-            <!-- Login Link -->
-            <HBox alignment="CENTER_RIGHT" spacing="5">
-                <Label style="-fx-font-size: 14px; -fx-font-family: 'Arial'; -fx-text-fill: #222;" text="Already have an account?" />
-                <Hyperlink fx:id="toggleLinkSignup" onAction="#toggleForms" style="-fx-font-size: 14px; -fx-text-fill: #fcd3e1; -fx-font-weight: bold;" text="Login" />
-            </HBox>
-        </VBox>
+    <AnchorPane styleClass="form-card" HBox.hgrow="ALWAYS">
+        <!-- Tab Container -->
+        <TabPane fx:id="authTabPane" tabClosingPolicy="UNAVAILABLE" styleClass="auth-tab-pane" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+            <!-- Login Tab -->
+            <Tab text="Login">
+                <VBox styleClass="form-section, form-content">
+                    <VBox spacing="5">
+                        <Label styleClass="title-label" text="Welcome Back" />
+                        <Label styleClass="subtitle-label" text="Please log in to your account" />
+                    </VBox>
+                    
+                    <Region styleClass="spacer-medium" />
+                    
+                    <!-- Email Field -->
+                    <VBox styleClass="field-group">
+                        <Label styleClass="field-label" text="Email Address" />
+                        <HBox alignment="CENTER_LEFT" styleClass="input-container">
+                            <SVGPath content="M2 6a2 2 0 012-2h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm18 0H4v12h16V6zM3 8.5h18M8 4v4m8-4v4" fill="transparent" stroke="#666666" strokeWidth="1.5" />
+                            <TextField fx:id="loginEmail" promptText="Enter your email" styleClass="text-field-transparent" HBox.hgrow="ALWAYS" />
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Password Field -->
+                    <VBox styleClass="field-group">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="field-label" text="Password" HBox.hgrow="ALWAYS" />
+                            <Hyperlink styleClass="forgot-password-link" text="Forgot password?" />
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" styleClass="input-container">
+                            <SVGPath content="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" fill="transparent" stroke="#666666" strokeWidth="1.5" />
+                            <PasswordField fx:id="loginPassword" promptText="Enter your password" styleClass="text-field-transparent" HBox.hgrow="ALWAYS" />
+                            <Button fx:id="toggleLoginPasswordVisibility" styleClass="icon-button">
+                                <graphic>
+                                    <SVGPath content="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 9a3 3 0 100 6 3 3 0 000-6z" fill="transparent" stroke="#666666" strokeWidth="1.5" />
+                                </graphic>
+                            </Button>
+                        </HBox>
+                    </VBox>
+                    
+                    <Region styleClass="spacer-medium" />
+                    
+                    <!-- Login Button -->
+                    <Button fx:id="loginButton" onAction="#handleLogin" styleClass="primary-button" text="Login" maxWidth="Infinity" />
+                    
+                    <!-- Sign Up Link -->
+                    <HBox styleClass="form-row">
+                        <Label styleClass="helper-text" text="Don't have an account?" />
+                        <Hyperlink fx:id="switchToSignupLink" onAction="#switchToSignup" styleClass="auth-hyperlink" text="Sign Up" />
+                    </HBox>
+                </VBox>
+            </Tab>
+            
+            <!-- Sign Up Tab -->
+            <Tab text="Sign Up">
+                <VBox styleClass="form-section, form-content">
+                    <VBox spacing="5">
+                        <Label styleClass="title-label" text="Create Account" />
+                        <Label styleClass="subtitle-label" text="Please fill in your details" />
+                    </VBox>
+                    
+                    <Region styleClass="spacer-small" />
+                    
+                    <!-- Full Name Field -->
+                    <VBox styleClass="field-group">
+                        <Label styleClass="field-label" text="Full Name" />
+                        <HBox alignment="CENTER_LEFT" styleClass="input-container">
+                            <SVGPath content="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" fill="transparent" stroke="#666666" strokeWidth="1.5" />
+                            <TextField fx:id="signupName" promptText="Enter your full name" styleClass="text-field-transparent" HBox.hgrow="ALWAYS" />
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Email Field -->
+                    <VBox styleClass="field-group">
+                        <Label styleClass="field-label" text="Email Address" />
+                        <HBox alignment="CENTER_LEFT" styleClass="input-container">
+                            <SVGPath content="M2 6a2 2 0 012-2h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm18 0H4v12h16V6zM3 8.5h18M8 4v4m8-4v4" fill="transparent" stroke="#666666" strokeWidth="1.5" />
+                            <TextField fx:id="signupEmail" promptText="Enter your email" styleClass="text-field-transparent" HBox.hgrow="ALWAYS" />
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Password Field -->
+                    <VBox styleClass="field-group">
+                        <Label styleClass="field-label" text="Password" />
+                        <HBox alignment="CENTER_LEFT" styleClass="input-container">
+                            <SVGPath content="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" fill="transparent" stroke="#666666" strokeWidth="1.5" />
+                            <PasswordField fx:id="signupPassword" promptText="Create a password" styleClass="text-field-transparent" HBox.hgrow="ALWAYS" />
+                            <Button fx:id="toggleSignupPasswordVisibility" styleClass="icon-button">
+                                <graphic>
+                                    <SVGPath content="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 9a3 3 0 100 6 3 3 0 000-6z" fill="transparent" stroke="#666666" strokeWidth="1.5" />
+                                </graphic>
+                            </Button>
+                        </HBox>
+                    </VBox>
+                    
+                    <!-- Confirm Password Field -->
+                    <VBox styleClass="field-group">
+                        <Label styleClass="field-label" text="Confirm Password" />
+                        <HBox alignment="CENTER_LEFT" styleClass="input-container">
+                            <SVGPath content="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" fill="transparent" stroke="#666666" strokeWidth="1.5" />
+                            <PasswordField fx:id="signupConfirmPassword" promptText="Confirm your password" styleClass="text-field-transparent" HBox.hgrow="ALWAYS" />
+                            <Button fx:id="toggleConfirmPasswordVisibility" styleClass="icon-button">
+                                <graphic>
+                                    <SVGPath content="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z M12 9a3 3 0 100 6 3 3 0 000-6z" fill="transparent" stroke="#666666" strokeWidth="1.5" />
+                                </graphic>
+                            </Button>
+                        </HBox>
+                    </VBox>
+                    
+                    <Region styleClass="spacer-small" />
+                    
+                    <!-- Sign Up Button -->
+                    <Button fx:id="signupButton" onAction="#handleSignup" styleClass="primary-button" text="Create Account" maxWidth="Infinity" />
+                    
+                    <!-- Login Link -->
+                    <HBox styleClass="form-row">
+                        <Label styleClass="helper-text" text="Already have an account?" />
+                        <Hyperlink fx:id="switchToLoginLink" onAction="#switchToLogin" styleClass="auth-hyperlink" text="Login" />
+                    </HBox>
+                </VBox>
+            </Tab>
+        </TabPane>
     </AnchorPane>
 </HBox>

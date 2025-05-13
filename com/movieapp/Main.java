@@ -16,14 +16,14 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         System.out.println("OpenCV library loaded successfully!");
         StageManager.getInstance().setPrimaryStage(stage);
-        showHostOrViewerChoice();
+        showLoginScreen();
     }
 
-    private void showHostOrViewerChoice() throws Exception {
+    private void showLoginScreen() throws Exception {
         StageManager.getInstance().loadScene(
-            "/com/movieapp/view/MovieAppScreen.fxml",
+            "/com/movieapp/view/login_scene.fxml",
             "/com/movieapp/styles/movieApp.css",
-            "Movie Night"
+            "Movie Night - Login"
         );
     }
 
@@ -72,7 +72,6 @@ public class Main extends Application {
     
     public static void main(String[] args) {
         //  System.load("D:\\Study\\ENGINEERING\\25\\Second Term\\Advanced Programming\\Java Projects\\MovieNight\\lib\\opencv_java4110.dll"); 
-
         launch(args);
     }
 }

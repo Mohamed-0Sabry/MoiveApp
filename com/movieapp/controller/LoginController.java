@@ -26,9 +26,7 @@ public class LoginController {
     private static final String SUCCESS_TITLE = "Success";
     private static final double FADE_DURATION = 0.4;
     
-    @FXML private AnchorPane loginPanel;
-    @FXML private VBox loginForm;
-    @FXML private VBox signupForm;
+    @FXML private TabPane authTabPane;
     @FXML private TextField loginEmail;
     @FXML private PasswordField loginPassword;
     @FXML private TextField signupName;
@@ -36,6 +34,9 @@ public class LoginController {
     @FXML private PasswordField signupPassword;
     @FXML private PasswordField signupConfirmPassword;
     @FXML private ImageView illustrationImage;
+    @FXML private Button toggleLoginPasswordVisibility;
+    @FXML private Button toggleSignupPasswordVisibility;
+    @FXML private Button toggleConfirmPasswordVisibility;
     
     private JSONArray users;
     private boolean isTransitioning = false;
@@ -44,18 +45,27 @@ public class LoginController {
     public void initialize() {
         try {
             loadUsers();
-            setupInitialStates();
+            setupPasswordVisibilityToggles();
         } catch (Exception e) {
             showError("Error initializing application: " + e.getMessage());
         }
     }
 
-    private void setupInitialStates() {
-        if (loginForm != null && signupForm != null) {
-            loginForm.setOpacity(1.0);
-            signupForm.setOpacity(0.0);
-            signupForm.setVisible(false);
+    private void setupPasswordVisibilityToggles() {
+        if (toggleLoginPasswordVisibility != null) {
+            toggleLoginPasswordVisibility.setOnAction(e -> togglePasswordVisibility(loginPassword));
         }
+        if (toggleSignupPasswordVisibility != null) {
+            toggleSignupPasswordVisibility.setOnAction(e -> togglePasswordVisibility(signupPassword));
+        }
+        if (toggleConfirmPasswordVisibility != null) {
+            toggleConfirmPasswordVisibility.setOnAction(e -> togglePasswordVisibility(signupConfirmPassword));
+        }
+    }
+
+    private void togglePasswordVisibility(PasswordField passwordField) {
+        // TODO: Implement password visibility toggle
+        // This would require converting PasswordField to TextField and back
     }
 
     @FXML
@@ -73,11 +83,15 @@ public class LoginController {
         if (authenticateUser(email, password)) {
             showSuccess("Login successful!");
             clearLoginFields();
+            try {
+                com.movieapp.Main.switchToMainScreen();
+            } catch (Exception e) {
+                showError("Failed to navigate to main screen: " + e.getMessage());
+            }
         } else {
             showError("Invalid email or password");
         }
     }
-
     @FXML
     public void handleSignup(ActionEvent event) {
         if (signupName == null || signupEmail == null || 
@@ -106,56 +120,21 @@ public class LoginController {
         registerNewUser(name, email, password);
         showSuccess("Account created successfully!");
         clearSignupFields();
-        toggleForms(event);
+        switchToLogin(event);
     }
 
     @FXML
-    public void toggleForms(ActionEvent event) {
-        if (isTransitioning || loginForm == null || signupForm == null) return;
-        
-        isTransitioning = true;
-        
-        // Create parallel animations for both forms
-        ParallelTransition transition = new ParallelTransition();
-        
-        // Fade out current form
-        FadeTransition fadeOut = new FadeTransition(Duration.seconds(FADE_DURATION), 
-            loginForm.isVisible() ? loginForm : signupForm);
-        fadeOut.setFromValue(1.0);
-        fadeOut.setToValue(0.0);
-        fadeOut.setInterpolator(Interpolator.EASE_OUT);
-        fadeOut.setOnFinished(e -> {
-            loginForm.setVisible(!loginForm.isVisible());
-            signupForm.setVisible(!signupForm.isVisible());
-        });
-        
-        // Fade in next form
-        FadeTransition fadeIn = new FadeTransition(Duration.seconds(FADE_DURATION), 
-            loginForm.isVisible() ? signupForm : loginForm);
-        fadeIn.setFromValue(0.0);
-        fadeIn.setToValue(1.0);
-        fadeIn.setInterpolator(Interpolator.EASE_IN);
-        
-        // Add both animations to parallel transition
-        transition.getChildren().addAll(fadeOut, fadeIn);
-        
-        // Reset transition flag when animation completes
-        transition.setOnFinished(e -> isTransitioning = false);
-        
-        // Play the transition
-        transition.play();
+    public void switchToSignup(ActionEvent event) {
+        if (authTabPane != null) {
+            authTabPane.getSelectionModel().select(1); // Switch to Sign Up tab
+        }
     }
 
     @FXML
-    public void handleButtonHover(MouseEvent event) {
-        Button button = (Button) event.getSource();
-        button.setStyle("-fx-background-color: #ffb6c1;");
-    }
-    
-    @FXML
-    public void handleButtonExit(MouseEvent event) {
-        Button button = (Button) event.getSource();
-        button.setStyle("-fx-background-color: #fcd3e1;");
+    public void switchToLogin(ActionEvent event) {
+        if (authTabPane != null) {
+            authTabPane.getSelectionModel().select(0); // Switch to Login tab
+        }
     }
 
     private void clearLoginFields() {
