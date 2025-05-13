@@ -191,7 +191,7 @@ public class ViewerScreenController {
             });
 
             try {
-                client.connectToHost("localhost", 5555);
+                client.connectToHost(Client.findHost(8888, 2000), 5555);
                 System.out.println("Successfully connected to chat server");
             } catch (Exception e) {
                 System.err.println("Error connecting to chat server: " + e.getMessage());

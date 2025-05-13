@@ -81,6 +81,10 @@ public class LoginController {
         }
         
         if (authenticateUser(email, password)) {
+            // Store user information in session
+            String username = getUserName(email);
+            com.movieapp.model.UserSession.getInstance().setUser(username, email);
+            
             showSuccess("Login successful!");
             clearLoginFields();
             try {
@@ -226,5 +230,15 @@ public class LoginController {
         newUser.put("password", password);
         users.add(newUser);
         saveUsers();
+    }
+
+    private String getUserName(String email) {
+        for (Object userObj : users) {
+            JSONObject user = (JSONObject) userObj;
+            if (user.get("email").equals(email)) {
+                return (String) user.get("name");
+            }
+        }
+        return null;
     }
 }

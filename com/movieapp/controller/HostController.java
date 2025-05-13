@@ -147,7 +147,7 @@ public class HostController {
         });
 
         try {
-            client.connectToHost("localhost", DEFAULT_PORT);
+            client.connectToHost(Client.findHost(8888, 2000), DEFAULT_PORT);
         } catch (IOException e) {
             System.err.println("Error connecting to server: " + e.getMessage());
         }
@@ -189,7 +189,6 @@ public class HostController {
         captureTimer.start();
     }
     
-  // In HostController.java, modify the captureAndDisplayScreen method
 private void captureAndDisplayScreen() {
     try {
         Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());

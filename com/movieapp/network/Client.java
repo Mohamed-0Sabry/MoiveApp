@@ -10,6 +10,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -27,6 +28,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.util.Base64;
 import java.util.Optional;
+import java.net.NetworkInterface;
+import java.net.Inet4Address;
+import java.util.Enumeration;
 
 public class Client {
 private Socket socket;
@@ -61,6 +65,45 @@ public String getUsername() {
 }
 
 
+/**
+ * Broadcasts a discovery packet and waits for the server to respond.
+ *
+ * @param discoveryPort the UDP port on which the server is listening for discovery requests
+ * @param timeoutMs how long (in ms) to wait for a response before giving up
+ * @return the first responding server IP, or null if none found
+ */
+
+ 
+public static String findHost(int discoveryPort, int timeoutMs) {
+    try (DatagramSocket socket = new DatagramSocket()) {
+        socket.setBroadcast(true);
+        // 1) Send discovery request
+        byte[] requestData = "DISCOVER_MOVIEAPP_SERVER".getBytes(StandardCharsets.UTF_8);
+        DatagramPacket request = new DatagramPacket(
+            requestData, 
+            requestData.length,
+            InetAddress.getByName("255.255.255.255"), 
+            discoveryPort
+        );
+        socket.send(request);
+
+        // 2) Wait for the first reply
+        socket.setSoTimeout(timeoutMs);
+        byte[] buf = new byte[256];
+        DatagramPacket response = new DatagramPacket(buf, buf.length);
+        socket.receive(response);
+
+        String msg = new String(response.getData(), 0, response.getLength(), StandardCharsets.UTF_8);
+        if ("MOVIEAPP_SERVER_HERE".equals(msg)) {
+            return response.getAddress().getHostAddress();
+        }
+    } catch (IOException e) {
+        System.err.println("[Client][findHost] " + e.getMessage());
+    }
+    return null;
+}
+
+
 public void startScreenSharing(int fps) {
     ScreenCaptureUtils.startScreenCapture(frame -> {
         String base64 = Base64.getEncoder().encodeToString(frame);
@@ -84,18 +127,26 @@ public void connectToHost(String ip, int port) throws IOException {
     sendMessage("AUDIO_PORT:" + localAudioPort);
     startAudioReceiveLoop();
 
-    Platform.runLater(() -> {
-        TextInputDialog dialog = new TextInputDialog("User");
-        dialog.setTitle("Enter your name");
-        dialog.setHeaderText("Welcome to MovieApp Chat");
-        dialog.setContentText("Please enter your username:");
-        
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(name -> {
-            clientUsername = name;
-            sendMessage("SET_NAME:" + name);
+    // Get username from UserSession
+    String username = com.movieapp.model.UserSession.getInstance().getUsername();
+    if (username != null) {
+        clientUsername = username;
+        sendMessage("SET_NAME:" + username);
+    } else {
+        // Fallback to asking for username if not logged in
+        Platform.runLater(() -> {
+            TextInputDialog dialog = new TextInputDialog("User");
+            dialog.setTitle("Enter your name");
+            dialog.setHeaderText("Welcome to MovieApp Chat");
+            dialog.setContentText("Please enter your username:");
+            
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(name -> {
+                clientUsername = name;
+                sendMessage("SET_NAME:" + name);
+            });
         });
-    });        
+    }
 
     startListening();
 }

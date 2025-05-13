@@ -127,7 +127,7 @@ public class TestingAudioStreaming extends Application {
         });
 
         try {
-            client.connectToHost("localhost", 5555);
+            client.connectToHost(Client.findHost(8888, 2000), 5555);
             Platform.runLater(() -> {
                 testButton.setDisable(false);
                 micSelector.setDisable(false);
