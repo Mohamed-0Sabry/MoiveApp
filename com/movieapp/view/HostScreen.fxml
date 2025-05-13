@@ -9,206 +9,206 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="hostScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="916.0" stylesheets="@../styles/host.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.HostController">
-   <children>
-      <BorderPane prefHeight="620.0" prefWidth="917.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <HBox fx:id="topBar" alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="916.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Region layoutX="370.0" layoutY="10.0" prefHeight="69.0" prefWidth="32.0" />
-                  <VBox alignment="CENTER" prefHeight="69.0" prefWidth="453.0">
-                     <children>
-                        <Region prefHeight="52.0" prefWidth="360.0" />
-                        <HBox alignment="BOTTOM_LEFT" prefHeight="4.0" prefWidth="360.0">
-                           <children>
-                              <HBox prefHeight="35.0" prefWidth="21.0">
-                                 <children>
-                                    <Button mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="35.0" prefWidth="25.0" styleClass="backbutton">
-                                       <graphic>
-                                          <ImageView fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@image/arrow.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                              <Region prefHeight="38.0" prefWidth="5.0" />
-                              <Label prefHeight="16.0" prefWidth="185.0" style="-fx-font-weight: bold;" text="HOST">
-                                 <font>
-                                    <Font name="Antipasto Pro ExtraBold" size="36.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <Region prefHeight="50.0" prefWidth="267.0" />
-                  <VBox alignment="TOP_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="213.0" />
-               </children>
-            </HBox>
-         </top>
-         <center>
-            <HBox alignment="CENTER" prefHeight="496.0" prefWidth="916.0" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox alignment="CENTER" prefHeight="520.0" prefWidth="916.0">
-                     <children>
-                        <VBox alignment="CENTER" prefHeight="431.0" prefWidth="916.0">
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="417.0" prefWidth="916.0">
-                                 <children>
-                                    <StackPane fx:id="showScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="828.0" style="-fx-background-color: black; -fx-background-radius: 15; -fx-border-color: green; -fx-border-width: 2; -fx-border-radius: 15;" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox alignment="TOP_CENTER" prefHeight="104.0" prefWidth="916.0">
-                           <children>
-                              <HBox alignment="TOP_CENTER" prefHeight="45.0" prefWidth="916.0">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="588.0">
-                                       <children>
-                                          <Region layoutX="403.0" layoutY="10.0" prefHeight="68.0" prefWidth="19.0" />
-                                          <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="393.0">
-                                             <children>
-                                                
-                                                        
-                                                <Button fx:id="chatButton" mnemonicParsing="false" onAction="#openChat" prefHeight="47.0" prefWidth="62.0" styleClass="custom-button">
-                                                   <graphic>
-                                                      <ImageView fitHeight="36.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/chat.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                   <tooltip>
-                                                      <Tooltip text="Click to Chat" />
-                                                   </tooltip>
-                                                </Button>
-                                                <Region layoutX="10.0" layoutY="10.0" prefHeight="74.0" prefWidth="15.0" />
-                                                
-                                                            <Button fx:id="fullScreenButton" mnemonicParsing="false" onAction="#fullScreenClicked" prefHeight="48.0" prefWidth="58.0" styleClass="custom-button">
-                                                   <graphic>
-                                                      <ImageView fitHeight="37.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/fullscreen.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                   <tooltip>
-                                                      <Tooltip text="Fullscreen mode" />
-                                                   </tooltip>
-                                                </Button>
-                                                <Region layoutX="103.0" layoutY="10.0" prefHeight="74.0" prefWidth="15.0" />
-                                                <Button layoutX="25.0" layoutY="10.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="61.0" styleClass="custom-button">
-                                                   <graphic>
-                                                      <ImageView fitHeight="37.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
-                                                         <image>
-                                                            <Image url="@image/record.png" />
-                                                         </image>
-                                                      </ImageView>
-                                                   </graphic>
-                                                   <tooltip>
-                                                      <Tooltip text="Click to Record" />
-                                                   </tooltip>
-                                                </Button>
-                                                <Region layoutX="193.0" layoutY="10.0" prefHeight="74.0" prefWidth="15.0" />
-                                                <HBox alignment="CENTER" prefHeight="47.0" prefWidth="167.0" spacing="5">
-                                                   <children>
-                                                      <Button fx:id="muteButton" alignment="CENTER" graphicTextGap="7.0" prefHeight="47.0" prefWidth="59.0" styleClass="custom-button">
-                                                         <graphic>
-                                                            <StackPane prefHeight="29.0" prefWidth="39.0">
-                                                               <children>
-                                                                  <ImageView fx:id="volumeOnIcon" fitHeight="30.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" visible="true">
-                                                                     <image>
-                                                                        <Image url="@image/volume-up-4-32.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                                  <ImageView fx:id="volumeMuteIcon" fitHeight="31.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                                                                     <image>
-                                                                        <Image url="@image/mute-2-32.png" />
-                                                                     </image>
-                                                                  </ImageView>
-                                                               </children>
-                                                            </StackPane>
-                                                         </graphic>
-                                                         <tooltip>
-                                                            <Tooltip text="Mute/Unmute" />
-                                                         </tooltip>
-                                                      </Button>
-                                                      <Slider fx:id="volumeSlider" max="100" min="0" prefWidth="100" styleClass="volume-slider" value="100" />
-                                                   </children>
+<StackPane fx:id="rootPane" prefHeight="613.0" prefWidth="964.0" stylesheets="@../styles/viewer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.HostController">
+    <children>
+        <BorderPane fx:id="mainPane" prefHeight="551.0" prefWidth="893.0">
+            <center>
+                <HBox alignment="CENTER" prefHeight="433.0" prefWidth="752.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox alignment="CENTER" prefHeight="544.0" prefWidth="984.0">
+                            <children>
+                                <!-- Video or Stream Window (Centered) -->
+                                <VBox alignment="CENTER" prefHeight="428.0" prefWidth="964.0">
+                                    <children>
+                                        <HBox alignment="CENTER" prefHeight="424.0" prefWidth="964.0">
+                                            <children>
+                                                <HBox fx:id="mediaContainer" alignment="CENTER" prefHeight="332.0" prefWidth="885.0" style="-fx-background-color: black; ">
+                                                    <children>
+                                                        <ImageView fx:id="screenImageView" fitHeight="200.0" fitWidth="200.0" preserveRatio="true" styleClass="mediaView" />
+                                                    </children>
                                                 </HBox>
-                                             </children>
-                                          </HBox>
-                                          <Region prefHeight="68.0" prefWidth="177.0" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" prefHeight="71.0" prefWidth="198.0">
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                                <VBox fx:id="controlsPane" alignment="CENTER" prefHeight="0.0" prefWidth="643.0">
+                                    <children>
+                                        <!-- Button Bar at the Bottom -->
+                                        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="643.0" spacing="15">
+                                            <children>
+                                    <Region prefHeight="71.0" prefWidth="41.0" />
+                                                <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="664.0">
+                                                    <children>
+                                                        <Region layoutX="76.0" layoutY="10.0" prefHeight="74.0" prefWidth="15.0" />
+                                                        <Button alignment="CENTER" graphicTextGap="7.0" onAction="#onChatButtonClicked" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
+                                                            <graphic>
+                                                                <ImageView fitHeight="25.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@image/chat.png" />
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                            <tooltip>
+                                                                <Tooltip text="Click to Chat" />
+                                                            </tooltip>
+                                                        </Button>
+                                                        <Region layoutX="316.0" layoutY="10.0" prefHeight="74.0" prefWidth="13.0" />
+                                                        <ToggleButton fx:id="recordButton" alignment="CENTER" graphicTextGap="7.0" onAction="#onRecordButtonClicked" prefHeight="41.0" prefWidth="57.0" styleClass="custom-button">
+                                                            <graphic>
+                                                                <StackPane>
+                                                                    <ImageView fx:id="recordIcon" fitHeight="32.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                                                                        <image>
+                                                                            <Image url="@image/record.png" />
+                                                                        </image>
+                                                                    </ImageView>
+                                                                    <ImageView fx:id="stopIcon" fitHeight="32.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                                        <image>
+                                                                            <Image url="@image/Camera%20Recording%20Sticker.gif" />
+                                                                        </image>
+                                                                    </ImageView>
+                                                                </StackPane>
+                                                            </graphic>
+                                                            <tooltip>
+                                                                <Tooltip text="Click to Record" />
+                                                            </tooltip>
+                                                        </ToggleButton>
+                                                        <Region prefHeight="74.0" prefWidth="15.0" />
+                                                        <HBox alignment="CENTER" spacing="5">
+                                                            <Button fx:id="muteButton" alignment="CENTER" graphicTextGap="7.0" prefHeight="42.0" prefWidth="63.0" styleClass="custom-button">
+                                                                <graphic>
+                                                                    <StackPane>
+                                                                        <ImageView fx:id="volumeOnIcon" fitHeight="30.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" visible="true">
+                                                                            <image>
+                                                                                <Image url="@image/volume-up-4-32.png" />
+                                                                            </image>
+                                                                        </ImageView>
+                                                                        <ImageView fx:id="volumeMuteIcon" fitHeight="31.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                                                            <image>
+                                                                                <Image url="@image/mute-2-32.png" />
+                                                                            </image>
+                                                                        </ImageView>
+                                                                    </StackPane>
+                                                                </graphic>
+                                                                <tooltip>
+                                                                    <Tooltip text="Mute/Unmute" />
+                                                                </tooltip>
+                                                            </Button>
+                                                            <Slider fx:id="volumeSlider" max="100" min="0" prefWidth="100" styleClass="volume-slider" value="100" />
+                                                        </HBox>
+                                                        <Region prefHeight="74.0" prefWidth="15.0" />
+                                                    </children>
+                                                </HBox>
+                                    <HBox alignment="CENTER" prefHeight="71.0" prefWidth="211.0">
                                        <children>
-                                          
-                                                      <!-- Audio ToggleButton at top left -->
-                                          <ToggleButton fx:id="audioButton" prefHeight="49.0" prefWidth="57.0" styleClass="control-button">
-                                             <graphic>
-                                                <StackPane>
-                                                   <ImageView fx:id="audioOnIcon" fitHeight="24" fitWidth="24">
-                                                      <image>
-                                                         <Image url="@image/microphone-on.png" />
-                                                      </image>
-                                                   </ImageView>
-                                                   <ImageView fx:id="audioOffIcon" fitHeight="24" fitWidth="24" visible="false">
-                                                      <image>
-                                                         <Image url="@image/microphone-off.png" />
-                                                      </image>
-                                                   </ImageView>
-                                                </StackPane>
-                                             </graphic>
-                                             <tooltip>
-                                                <Tooltip text="Mic on/off" />
-                                             </tooltip>
-                                          </ToggleButton>
-                                          <Region prefHeight="71.0" prefWidth="23.0" />
-                                          <ComboBox fx:id="micSelector" prefHeight="33.0" prefWidth="160.0" promptText="Select Mic" style="-fx-cursor: hand;" />
+                                                         <ToggleButton fx:id="audioButton" prefHeight="44.0" prefWidth="62.0" styleClass="custom-button">
+                                                             <graphic>
+                                                                 <StackPane prefHeight="29.0" prefWidth="51.0">
+                                                                     <ImageView fx:id="audioOnIcon" fitHeight="30.0" fitWidth="33.0">
+                                                                         <image>
+                                                                             <Image url="@image/microphone-on.png" />
+                                                                         </image>    
+                                                                     </ImageView>
+                                                                     <ImageView fx:id="audioOffIcon" fitHeight="29.0" fitWidth="31.0" visible="false">
+                                                                         <image>
+                                                                             <Image url="@image/microphone-off.png" />
+                                                                         </image>
+                                                                     </ImageView>
+                                                                 </StackPane>
+                                                             </graphic>
+                                                             <tooltip>
+                                                                 <Tooltip text="Toggle microphone" />
+                                                             </tooltip>
+                                                         </ToggleButton>
+                                                        <Region prefHeight="71.0" prefWidth="23.0" />
+                                                         <ComboBox fx:id="micSelector" prefHeight="33.0" prefWidth="160.0" promptText="Select Mic" style="-fx-cursor: hand;" />
                                        </children>
                                     </HBox>
-                                    <HBox fx:id="heartButtonContainer" alignment="CENTER" prefHeight="71.0" prefWidth="68.0">
-                                       <children>
-                                          <Button fx:id="heartButton" alignment="CENTER" contentDisplay="TOP" prefHeight="71.0" prefWidth="43.0" style="-fx-background-color: transparent; -fx-border-radius: 50%; -fx-border: 2px solid #cccccc; -fx-cursor: hand; -fx-font-weight: bold;">
-                                             <graphic>
-                                                <ImageView fx:id="heartIcon" fitHeight="40.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@image/heartt.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                             <tooltip>
-                                                <Tooltip text="React Love" />
-                                             </tooltip>
-                                             <styleClass>
-                                                <String fx:value="custom-button" />
-                                                <String fx:value="heart-icon" />
-                                             </styleClass>
-                                          </Button>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </HBox>
-                           </children>
+                                                <HBox fx:id="heartButtonContainer" alignment="CENTER" prefHeight="71.0" prefWidth="68.0">
+                                                    <children>
+                                                        <Button fx:id="heartButton" alignment="CENTER" contentDisplay="TOP" prefHeight="71.0" prefWidth="43.0" style="-fx-background-color: transparent; -fx-border-radius: 50%; -fx-border: 2px solid #cccccc; -fx-cursor: hand; -fx-font-weight: bold;">
+                                                            <graphic>
+                                                                <ImageView fx:id="heartIcon" fitHeight="40.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
+                                                                    <image>
+                                                                        <Image url="@image/heartt.png" />
+                                                                    </image>
+                                                                </ImageView>
+                                                            </graphic>
+                                                            <tooltip>
+                                                                <Tooltip text="React Love" />
+                                                            </tooltip>
+                                                            <styleClass>
+                                                                <String fx:value="custom-button" />
+                                                                <String fx:value="heart-icon" />
+                                                            </styleClass>
+                                                        </Button>
+                                                    </children>
+                                                </HBox>
+                                    <Region prefHeight="71.0" prefWidth="42.0" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
                         </VBox>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-         </center>
-      </BorderPane>
-   </children>
-</AnchorPane>
+                    </children>
+                </HBox>
+            </center>
+            <top>
+                <!-- Title Bar -->
+                <HBox fx:id="topBar" prefHeight="69.0" prefWidth="752.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Region layoutX="370.0" layoutY="10.0" prefHeight="69.0" prefWidth="32.0" />
+                        <VBox prefHeight="69.0" prefWidth="453.0">
+                            <children>
+                                <Region prefHeight="52.0" prefWidth="360.0" />
+                                <HBox alignment="BOTTOM_LEFT" prefHeight="4.0" prefWidth="360.0">
+                                    <children>
+                                        <HBox prefHeight="35.0" prefWidth="21.0">
+                                            <children>
+                                                <Button mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="35.0" prefWidth="25.0" styleClass="backbutton">
+                                                    <graphic>
+                                                        <ImageView fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@image/arrow.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                    </graphic>
+                                                </Button>
+                                            </children>
+                                        </HBox>
+                                        <Region prefHeight="38.0" prefWidth="5.0" />
+                                        <Label prefHeight="16.0" prefWidth="185.0" style="-fx-font-weight: bold;" text="Host">
+                                            <font>
+                                                <Font name="Antipasto Pro ExtraBold" size="36.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <Region prefHeight="50.0" prefWidth="267.0" />
+                        <VBox alignment="TOP_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="213.0" />
+                    </children>
+                </HBox>
+            </top>
+        </BorderPane>
+        <Pane fx:id="effectsPane" pickOnBounds="false" style="-fx-background-color: transparent;" />
+        
+        <!-- Chat Panel -->
+        <StackPane fx:id="chatPanel" style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);" visible="false">
+            <translateX>400</translateX>
+            <maxWidth>400</maxWidth>
+            <prefWidth>400</prefWidth>
+            <StackPane.alignment>CENTER_RIGHT</StackPane.alignment>
+        </StackPane>
+    </children>
+</StackPane>

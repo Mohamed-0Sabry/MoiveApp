@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackPane" prefHeight="533.0" prefWidth="1152.0" styleClass="stack-pane" stylesheets="@../styles/movieApp.css, @../styles/movie-app-homepage-styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.HomePageScreenController">
+<StackPane fx:id="stackPane" prefHeight="533.0" prefWidth="1152.0" styleClass="stack-pane" stylesheets="@../styles/movieApp.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.movieapp.controller.HomePageScreenController">
    <BorderPane prefHeight="455.0" prefWidth="1001.0">
       <bottom>
       <VBox alignment="BOTTOM_LEFT" prefHeight="24.0" prefWidth="1039.0" styleClass="footer-container" BorderPane.alignment="CENTER">

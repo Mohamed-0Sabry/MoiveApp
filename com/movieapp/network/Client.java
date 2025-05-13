@@ -274,9 +274,11 @@ private void startListening() {
                     handleAudioTransfer();
                 } else if (message.startsWith("FRAME:")) {
                     handleFrameReceived(message);
+                } else if (message.startsWith("HEART_ANIMATION:")) {
+                    handleHeartAnimation(message);
                 } else {
                     messageListener.onMessageReceived(message);
-                }                                    
+                }                                                                  
             }
         } catch (IOException e) {
             System.err.println("Error reading from server: " + e.getMessage());
@@ -290,6 +292,11 @@ private void startListening() {
 private void handleFrameReceived(String message) {
     try {
         String base64 = message.substring(6); // Remove "FRAME:" prefix
+        // Validate base64 string
+        if (!base64.matches("^[A-Za-z0-9+/]*={0,2}$")) {
+            System.err.println("Invalid base64 string received");
+            return;
+        }
         byte[] imageData = Base64.getDecoder().decode(base64);
         
         ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
@@ -303,6 +310,8 @@ private void handleFrameReceived(String message) {
                 }
             });
         }
+    } catch (IllegalArgumentException e) {
+        System.err.println("Error decoding base64 frame: " + e.getMessage());
     } catch (Exception e) {
         System.err.println("Error processing received frame: " + e.getMessage());
         e.printStackTrace();

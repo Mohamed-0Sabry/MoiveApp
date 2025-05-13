@@ -24,9 +24,15 @@ public class HeartEffectsController {
         
         if (heartButton != null) {
             heartButton.setOnAction(event -> {
+                isLiked = !isLiked;
                 animateHeart();
                 showHeartBurst();      // Local burst effect
                 showFloatingHeart();   // Local floating heart effect
+                
+                // Send message to other users
+                if (client != null) {
+                    client.sendMessage("HEART_ANIMATION:" + (isLiked ? "1" : "0"));
+                }
             });
         }
     }
@@ -48,14 +54,8 @@ public class HeartEffectsController {
             )
         );
         
-        isLiked = !isLiked;
         updateHeartStyles();
         animationTimeline.play();
-
-        // Send message to other users
-        if (client != null) {
-            client.sendMessage("HEART_ANIMATION:" + (isLiked ? "1" : "0"));
-        }
     }
 
     private void updateHeartStyles() {
@@ -160,5 +160,10 @@ public class HeartEffectsController {
         
         floatTimeline.setOnFinished(e -> effectsPane.getChildren().remove(floatingHeart));
         floatTimeline.play();
+    }
+
+    public void setLiked(boolean liked) {
+        this.isLiked = liked;
+        updateHeartStyles();
     }
 } 

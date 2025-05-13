@@ -184,6 +184,7 @@ public class ViewerScreenController {
                     Platform.runLater(() -> {
                         // Only show the floating heart for remote triggers
                         if (heartEffectsController != null) {
+                            heartEffectsController.setLiked(isLiked);
                             heartEffectsController.showFloatingHeart();
                         }
                     });

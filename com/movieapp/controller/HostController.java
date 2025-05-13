@@ -1,98 +1,98 @@
 package com.movieapp.controller;
-import javafx.animation.AnimationTimer;
+
 import javafx.fxml.FXML;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Slider;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.Base64;
+import javax.imageio.ImageIO;
+import com.movieapp.network.Client;
+import com.movieapp.network.Server;
+import com.movieapp.model.FileTransfer;
+import com.movieapp.utils.AudioStreamUtils;
+import com.movieapp.utils.StageManager;
 import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Base64;
-import java.awt.image.DataBufferInt;
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.awt.image.PixelGrabber;
-import com.movieapp.network.Client;
-import com.movieapp.network.Server;
-import com.movieapp.model.FileTransfer;
-import com.movieapp.utils.StageManager;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import javafx.scene.control.ToggleButton;
+import com.movieapp.utils.RecordEverythingController;
 import com.movieapp.controller.effects.HeartEffectsController;
+import com.movieapp.controller.audio.AudioController;
 
+/**
+ * Controller for the Host Screen. Handles screen capture, chat, audio, and recording.
+ */
 public class HostController {
-    @FXML private StackPane showScreen;
-    @FXML private Button chatButton;
-    @FXML private Button fullScreenButton;
+    // FXML-injected fields
+    @FXML private ImageView screenImageView;
+    @FXML private HBox mediaContainer;
+    @FXML private StackPane rootPane;
+    @FXML private VBox controlsPane;
+    @FXML private HBox topBar;
+    @FXML private HBox heartButtonContainer;
+    @FXML private Button heartButton;
+    @FXML private ImageView heartIcon;
+    @FXML private Button muteButton;
+    @FXML private ImageView volumeOnIcon;
+    @FXML private ImageView volumeMuteIcon;
+    @FXML private Slider volumeSlider;
+    @FXML private Pane effectsPane;
+    @FXML private StackPane chatPanel;
     @FXML private ToggleButton audioButton;
     @FXML private ImageView audioOnIcon;
     @FXML private ImageView audioOffIcon;
-    @FXML private Button heartButton;
-    @FXML private ImageView heartIcon;
-    @FXML private Pane effectsPane;
-    
+    @FXML private ComboBox<String> micSelector;
+    @FXML private ToggleButton recordButton;
+    @FXML private ImageView recordIcon;
+    @FXML private ImageView stopIcon;
+
+    // Controllers
+    private HeartEffectsController heartEffectsController;
+    private AudioController audioController;
+    private RecordEverythingController recorder = new RecordEverythingController();
+
+    // State fields
     private AnimationTimer captureTimer;
-    private Robot robot;
     private boolean capturing = false;
-    private ImageView imageView;
-    private boolean isFullScreen = false;
-    private Double[] originalConstraints = new Double[4];
-    private String originalButtonText;
+    private Robot robot;
+    private Stage primaryStage;
     private Client client;
     private Server server;
-    private boolean isAudioStreaming = false;
     private static final int DEFAULT_PORT = 5555;
-    private HeartEffectsController heartEffectsController;
+    private ChatController chatController;
+    private boolean isChatOpen = false;
+    private String currentRecordingPath = null;
+    private boolean isAudioStreaming = false;
 
+    /**
+     * Initialize controller and set up primary stage reference.
+     */
     @FXML
-    public void initialize() {
-        // Verify FXML injection worked
-        if (showScreen == null) {
-            System.err.println("Error: showScreen was not injected properly from FXML");
-            return;
-        }
-
-        // Initialize heart effects controller
-        heartEffectsController = new HeartEffectsController(heartButton, heartIcon, effectsPane, client);
-
-        try {
-            System.setProperty("java.awt.headless", "false");
-            robot = new Robot();
-            
-            imageView = new ImageView();
-            imageView.setPreserveRatio(true);
-            
-            // Add safety checks for binding
-            if (showScreen.widthProperty() != null && showScreen.heightProperty() != null) {
-                imageView.fitWidthProperty().bind(showScreen.widthProperty());
-                imageView.fitHeightProperty().bind(showScreen.heightProperty());
+    private void initialize() {
+        // Get stage reference when scene is available
+        rootPane.sceneProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                primaryStage = (Stage) newValue.getWindow();
             }
-            
-            showScreen.getChildren().add(imageView);
-            startScreenCapture();
-            
-        } catch (AWTException e) {
-            e.printStackTrace();
-            if (chatButton != null) {
-                chatButton.setDisable(true);
-            }
-        }
+        });
 
-        // Initialize audio controls
-        if (audioButton != null) {
-            audioButton.setOnAction(event -> toggleAudioStreaming());
-            updateAudioButtonState();
-        }
-
-        // Start the server
+        // Start server first
         try {
             server = new Server();
             server.start(DEFAULT_PORT);
@@ -102,44 +102,112 @@ public class HostController {
             e.printStackTrace();
         }
 
-        // Initialize client with audio support
+        // Initialize chat panel and client
+        initializeClient();
+        initializeChatPanel();
+
+        // Setup screen capture
+        try {
+            System.setProperty("java.awt.headless", "false");
+            robot = new Robot();
+            
+            if (screenImageView != null) {
+                screenImageView.setPreserveRatio(true);
+                screenImageView.fitWidthProperty().bind(mediaContainer.widthProperty());
+                screenImageView.fitHeightProperty().bind(mediaContainer.heightProperty());
+            }
+            
+            startScreenCapture();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+
+        // Initialize controllers
+        heartEffectsController = new HeartEffectsController(heartButton, heartIcon, effectsPane, client);
+        
+        // Setup recorder state listener
+        recorder.setStateListener((isRecording, filePath) -> {
+            Platform.runLater(() -> {
+                if (isRecording) {
+                    currentRecordingPath = filePath;
+                    recordButton.setSelected(true);
+                    if (stopIcon != null && recordIcon != null) {
+                        recordIcon.setVisible(false);
+                        stopIcon.setVisible(true);
+                    }
+                } else {
+                    currentRecordingPath = null;
+                    recordButton.setSelected(false);
+                    if (stopIcon != null && recordIcon != null) {
+                        recordIcon.setVisible(true);
+                        stopIcon.setVisible(false);
+                    }
+                }
+            });
+        });
+        
+        // Initialize volume controls
+        setupVolumeControls();
+        
+        // Make effectsPane mouse transparent so it doesn't block button clicks
+        if (effectsPane != null) {
+            effectsPane.setMouseTransparent(true);
+        }
+    }
+
+    private void initializeClient() {
         client = new Client(new Client.MessageListener() {
             @Override
-            public void onMessageReceived(String message) {
-                // Handle chat messages if needed
+            public void onMessageReceived(String msg) {
+                if (chatController != null) {
+                    chatController.displayMessage(msg);
+                }
             }
-
+            
             @Override
             public void onFileReceived(FileTransfer fileTransfer) {
-                // Handle file transfers if needed
+                // Handle file transfer if needed
             }
-
+            
             @Override
             public void onConnectionClosed() {
                 Platform.runLater(() -> {
+                    System.out.println("Connection to server closed");
                     if (isAudioStreaming) {
                         stopAudioStreaming();
                     }
                 });
             }
-
+            
             @Override
             public void onImageReceived(Image image, String name) {
-                // Handle received images if needed
+                Platform.runLater(() -> {
+                    if (name.equals("screen")) {
+                        // This is a screen share frame
+                        if (screenImageView != null) {
+                            screenImageView.setImage(image);
+                        }
+                    } else if (chatController != null) {
+                        // This is a chat image
+                        chatController.onImageReceived(image, name);
+                    }
+                });
             }
-
+            
             @Override
             public void onAudioReceived(byte[] audioData, String senderId) {
-                // Audio is automatically played by the Client class
-                System.out.println("Received audio from: " + senderId);
+                AudioStreamUtils.playAudioStream(audioData);
+                if (audioController != null) {
+                    audioController.updateVolumeMeter(audioData);
+                }
             }
-
+            
             @Override
             public void onHeartAnimation(String username, boolean isLiked) {
                 Platform.runLater(() -> {
-                    // Find the heart controller for this user and show animation
+                    // Only show the floating heart for remote triggers
                     if (heartEffectsController != null) {
-                        heartEffectsController.showHeartBurst();
+                        heartEffectsController.setLiked(isLiked);
                         heartEffectsController.showFloatingHeart();
                     }
                 });
@@ -148,34 +216,70 @@ public class HostController {
 
         try {
             client.connectToHost(Client.findHost(8888, 2000), DEFAULT_PORT);
-        } catch (IOException e) {
-            System.err.println("Error connecting to server: " + e.getMessage());
+            System.out.println("Successfully connected to chat server");
+        } catch (Exception e) {
+            System.err.println("Error connecting to chat server: " + e.getMessage());
         }
-
-        // Set up ESC key handler for full screen
-        showScreen.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE && isFullScreen) {
-                fullScreenClicked();
-            }
-        });
-        
-        originalButtonText = fullScreenButton.getText();
     }
 
-    @FXML
-    private void openChat() {
+    private void setupVolumeControls() {
+        if (volumeSlider != null) {
+            volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+                if (volumeOnIcon != null && volumeMuteIcon != null) {
+                    boolean isMuted = newVal.doubleValue() == 0;
+                    volumeOnIcon.setVisible(!isMuted);
+                    volumeMuteIcon.setVisible(isMuted);
+                }
+            });
+        }
+        
+        if (muteButton != null) {
+            muteButton.setOnAction(event -> toggleMute());
+        }
+    }
+
+    private void toggleMute() {
+        volumeSlider.setValue(volumeSlider.getValue() == 0 ? 100 : 0);
+    }
+
+    private void initializeChatPanel() {
         try {
-            StageManager.getInstance().loadNewStage(
-                "/com/movieapp/view/DemoThemeServer.fxml",
-                "/com/movieapp/styles/demoTheme.css",
-                "Chat"
-            );
+            // Initialize audio controller after client is ready
+            audioController = new AudioController(audioButton, audioOnIcon, audioOffIcon, null, micSelector, client);
+            
+            // Load the sliding chat panel
+            StageManager.getInstance().loadSlidingPanel(rootPane, "/com/movieapp/view/DemoThemeServer.fxml", "/com/movieapp/styles/css-stylesheet.css");
+            
+            // Get reference to the chat panel
+            chatPanel = (StackPane) rootPane.getChildren().get(rootPane.getChildren().size() - 1);
+            
+            // Get the chat controller
+            chatController = (ChatController) chatPanel.getUserData();
+            if (chatController != null) {
+                chatController.setClient(client);
+            } else {
+                System.err.println("Failed to get chat controller!");
+            }
+            
+            // Make sure chat panel is initially hidden but in front when needed
+            chatPanel.setVisible(false);
+            chatPanel.toFront();
         } catch (Exception e) {
-            System.err.println("Failed to load chat window: " + e.getMessage());
+            System.err.println("Error initializing chat panel: " + e.getMessage());
             e.printStackTrace();
         }
     }
-    
+
+    @FXML
+    private void onBackButtonClicked() {
+        try {
+            stop(); // Make sure to clean up resources
+            com.movieapp.Main.switchToMainScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void startScreenCapture() {
         if (capturing || robot == null) return;
         
@@ -188,46 +292,48 @@ public class HostController {
         };
         captureTimer.start();
     }
-    
-private void captureAndDisplayScreen() {
-    try {
-        Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-        BufferedImage awtImage = robot.createScreenCapture(screenRect);
-        
-        // Send to clients
-        if (client != null) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(awtImage, "jpg", baos);
-            String base64 = Base64.getEncoder().encodeToString(baos.toByteArray());
-            client.sendMessage("FRAME:" + base64);
-        }
-        
-        // Display locally
-        WritableImage fxImage = new WritableImage(awtImage.getWidth(), awtImage.getHeight());
-        PixelGrabber pg = new PixelGrabber(
-            awtImage, 0, 0, awtImage.getWidth(), awtImage.getHeight(),
-            ((DataBufferInt) awtImage.getRaster().getDataBuffer()).getData(), 0, awtImage.getWidth()
-        );
-        
-        pg.grabPixels();
-        
-        fxImage.getPixelWriter().setPixels(0, 0, awtImage.getWidth(), awtImage.getHeight(),
-            javafx.scene.image.PixelFormat.getIntArgbInstance(),
-            ((DataBufferInt) awtImage.getRaster().getDataBuffer()).getData(),
-            0, awtImage.getWidth()
-        );
-        
-        javafx.application.Platform.runLater(() -> {
-            if (imageView != null) {
-                imageView.setImage(fxImage);
+
+    private void captureAndDisplayScreen() {
+        try {
+            Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+            BufferedImage awtImage = robot.createScreenCapture(screenRect);
+            
+            // Send to clients
+            if (client != null) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(awtImage, "jpg", baos);
+                byte[] imageBytes = baos.toByteArray();
+                // Ensure proper base64 encoding
+                String base64 = Base64.getEncoder().withoutPadding().encodeToString(imageBytes);
+                client.sendMessage("FRAME:" + base64);
             }
-        });
-        
-    } catch (Exception e) {
-        e.printStackTrace();
+            
+            // Display locally
+            WritableImage fxImage = new WritableImage(awtImage.getWidth(), awtImage.getHeight());
+            PixelGrabber pg = new PixelGrabber(
+                awtImage, 0, 0, awtImage.getWidth(), awtImage.getHeight(),
+                ((DataBufferInt) awtImage.getRaster().getDataBuffer()).getData(), 0, awtImage.getWidth()
+            );
+            
+            pg.grabPixels();
+            
+            fxImage.getPixelWriter().setPixels(0, 0, awtImage.getWidth(), awtImage.getHeight(),
+                javafx.scene.image.PixelFormat.getIntArgbInstance(),
+                ((DataBufferInt) awtImage.getRaster().getDataBuffer()).getData(),
+                0, awtImage.getWidth()
+            );
+            
+            Platform.runLater(() -> {
+                if (screenImageView != null) {
+                    screenImageView.setImage(fxImage);
+                }
+            });
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
-    
+
     public void stopScreenCapture() {
         if (!capturing) return;
         
@@ -237,67 +343,50 @@ private void captureAndDisplayScreen() {
         }
     }
 
-    @FXML 
-    private void fullScreenClicked() {
-        isFullScreen = !isFullScreen;
+    @FXML
+    private void onChatButtonClicked() {
+        isChatOpen = !isChatOpen;
+        chatPanel.setVisible(true);
+        StageManager.getInstance().showSlidingPanel(chatPanel, isChatOpen);
         
-        if (isFullScreen) {
-            // Store original constraints
-            originalConstraints[0] = AnchorPane.getTopAnchor(showScreen);
-            originalConstraints[1] = AnchorPane.getBottomAnchor(showScreen);
-            originalConstraints[2] = AnchorPane.getLeftAnchor(showScreen);
-            originalConstraints[3] = AnchorPane.getRightAnchor(showScreen);
-            
-            // Set fullscreen constraints
-            AnchorPane.clearConstraints(showScreen);
-            AnchorPane.setTopAnchor(showScreen, 0.0);
-            AnchorPane.setBottomAnchor(showScreen, 0.0);
-            AnchorPane.setLeftAnchor(showScreen, 0.0);
-            AnchorPane.setRightAnchor(showScreen, 0.0);
-            
-            // Hide all buttons
-            setButtonsVisible(false);
-            
-            // Request focus for key events
-            showScreen.requestFocus();
-        } else {
-            // Restore original constraints
-            AnchorPane.setTopAnchor(showScreen, originalConstraints[0]);
-            AnchorPane.setBottomAnchor(showScreen, originalConstraints[1]);
-            AnchorPane.setLeftAnchor(showScreen, originalConstraints[2]);
-            AnchorPane.setRightAnchor(showScreen, originalConstraints[3]);
-            
-            // Show all buttons
-            setButtonsVisible(true);
-        }
-        
-        // Update button text
-        fullScreenButton.setText(isFullScreen ? "Exit Full Screen" : "Full Screen");
+        if (isChatOpen) {
+            chatPanel.toFront();
+            Platform.runLater(() -> {
+                if (chatController != null) {
+                    chatController.focusMessageField();
+                }
+            });
+        }    
     }
-    
+
+    public boolean getChatState() {
+        return isChatOpen;
+    }
 
     @FXML
-    private void onBackButtonClicked() {
+    private void onRecordButtonClicked() {
         try {
-            com.movieapp.Main.switchToMainScreen();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private void setButtonsVisible(boolean visible) {
-        chatButton.setVisible(visible);
-        fullScreenButton.setVisible(visible);
-        audioButton.setVisible(visible);
-    }
-
-    private void toggleAudioStreaming() {
-        if (client != null) {
-            if (!isAudioStreaming) {
-                startAudioStreaming();
-            } else {
-                stopAudioStreaming();
+            String selectedMic = micSelector != null ? micSelector.getValue() : null;
+            if ((selectedMic == null || selectedMic.isEmpty()) && micSelector != null && !micSelector.getItems().isEmpty()) {
+                selectedMic = micSelector.getItems().get(0);
             }
+            
+            String systemDevice = "Stereo Mix (Realtek(R) Audio)"; // Hardcoded for now, can be made dynamic
+            
+            if (recordButton.isSelected()) {
+                // Starting recording with selected microphone and system audio
+                recorder.toggleRecording(selectedMic, systemDevice);
+            } else {
+                // Stopping recording
+                recorder.toggleRecording(selectedMic, systemDevice);
+                // Show where the file was saved
+                String userHome = System.getProperty("user.home");
+                String recordingsPath = new File(userHome, "Documents/MovieApp Recordings").getAbsolutePath();
+                System.out.println("Recording saved in: " + recordingsPath);
+            }
+        } catch (Exception e) {
+            System.err.println("Recording error: " + e.getMessage());
+            recordButton.setSelected(false);
         }
     }
 
@@ -316,7 +405,7 @@ private void captureAndDisplayScreen() {
             updateAudioButtonState();
         }
     }
-
+    
     private void updateAudioButtonState() {
         if (audioButton != null && audioOnIcon != null && audioOffIcon != null) {
             audioOnIcon.setVisible(isAudioStreaming);
@@ -326,7 +415,12 @@ private void captureAndDisplayScreen() {
 
     public void stop() {
         stopScreenCapture();
-        stopAudioStreaming();
+        if (audioController != null) {
+            audioController.stop();
+        }
+        if (isAudioStreaming) {
+            stopAudioStreaming();
+        }
         if (client != null) {
             client.stop();
         }
